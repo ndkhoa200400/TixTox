@@ -97,7 +97,7 @@ public class RegisterAcitivy extends AppCompatActivity {
                                     if (task.isSuccessful())
                                     {
                                         Toast.makeText(RegisterAcitivy.this, "User has been registered successfully", Toast.LENGTH_LONG).show();
-                                        progressBar.setVisibility(View.VISIBLE);
+                                        progressBar.setVisibility(View.GONE);
                                     }
                                     else{
 
