@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:enabled="true"
+        android:icon="@drawable/icon_home"
+        android:title="Home" />
+    <item
+        android:id="@+id/theater"
+        android:enabled="true"
+        android:icon="@drawable/icon_theater"
+        android:title="Cụm Rạp" />
+    <item
+        android:id="@+id/account"
+        android:enabled="true"
+        android:icon="@drawable/icon_user_white"
+        android:title="Tài Khoản" />
+</menu>
