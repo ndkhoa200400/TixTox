@@ -35,7 +35,7 @@
 
     <GridView
         android:layout_width="match_parent"
-        android:layout_height="0"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout3"
         tools:layout_editor_absoluteX="74dp" />

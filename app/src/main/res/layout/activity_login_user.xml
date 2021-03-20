@@ -90,18 +90,11 @@
         app:layout_constraintStart_toStartOf="parent"
 
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.294" />
+        app:layout_constraintVertical_bias="0.294" /><![CDATA[
 
-    <Button
-        android:id="@+id/btnTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    app:layout_constraintTop_toTopOf="parent" />
 
-        app:layout_constraintTop_toTopOf="parent" />
+    ]]>
 
     <ImageView
         android:id="@+id/imageView2"
@@ -146,31 +139,9 @@
         app:layout_constraintTop_toBottomOf="@+id/editPw" />
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/radius_button"
-        android:paddingLeft="10dp"
-        android:paddingTop="3dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="3dp"
-        android:text="Đăng Nhập Bằng Facebook"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        app:icon="@drawable/icon_facebook"
-        app:iconPadding="10dp"
-        app:iconSize="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
-
-    <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:background="@drawable/radius_button_white"
         android:paddingLeft="10dp"
         android:paddingTop="3dp"
@@ -185,6 +156,15 @@
         app:iconSize="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/login_button" />
 
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="124dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
 </androidx.constraintlayout.widget.ConstraintLayout>
