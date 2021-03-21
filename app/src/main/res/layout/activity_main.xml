@@ -15,7 +15,7 @@
         app:menu="@menu/bottom_navigation_menu" />
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout3"
+        android:id="@+id/tabHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -34,10 +34,17 @@
     </com.google.android.material.tabs.TabLayout>
 
     <GridView
+        android:id="@+id/gridView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="625dp"
+        android:columnWidth="@android:dimen/thumbnail_width"
+        android:numColumns="2"
+        android:layout_margin="10dp"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout3"
-        tools:layout_editor_absoluteX="74dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabHome" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
