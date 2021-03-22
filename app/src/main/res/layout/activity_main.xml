@@ -36,15 +36,19 @@
     <GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
-        android:layout_height="625dp"
-        android:columnWidth="@android:dimen/thumbnail_width"
-        android:numColumns="2"
+        android:layout_height="0dp"
         android:layout_margin="10dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:columnWidth="@android:dimen/thumbnail_width"
         android:horizontalSpacing="10dp"
+        android:numColumns="1"
         android:verticalSpacing="10dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.842"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabHome" />
+        app:layout_constraintTop_toBottomOf="@+id/tabHome"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

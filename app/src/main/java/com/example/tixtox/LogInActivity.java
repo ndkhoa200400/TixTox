@@ -4,8 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Base64;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +32,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import com.google.firebase.auth.FirebaseUser;
@@ -64,7 +71,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
 
 
-        modelPhim = new ModelPhim(handler);
+        modelPhim = new ModelPhim();
         FacebookSdk.sdkInitialize(LogInActivity.this);
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
@@ -83,7 +90,19 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onError(FacebookException error) {
-
+                error.printStackTrace();
+                try {
+                    PackageInfo info = getPackageManager().getPackageInfo("com.example.tixtox", PackageManager.GET_SIGNATURES);
+                    for (Signature signature : info.signatures) {
+                        MessageDigest md = MessageDigest.getInstance("SHA");
+                        md.update(signature.toByteArray());
+                        Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+                    }
+                } catch (PackageManager.NameNotFoundException e) {
+                    Log.e("KeyHash:", e.toString());
+                } catch (NoSuchAlgorithmException e) {
+                    Log.e("KeyHash:", e.toString());
+                }
             }
         });
     }

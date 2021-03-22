@@ -3,14 +3,19 @@ package com.example.tixtox;
 import android.os.Handler;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Observable;
 
 import okhttp3.Call;
@@ -25,18 +30,49 @@ public class ModelPhim extends Observable {
     final String url = "https://movie0706.cybersoft.edu.vn/api/QuanLyPhim/";
     ArrayList result;
 
-    Handler mainHandler;
 
-    ModelPhim(Handler h) {
-        this.mainHandler = h;
+
+    ModelPhim() {
+
     }
+    public void getThongTinPhim(String MaPhim) throws IOException, JSONException {
 
-    public ArrayList<Phim> getPhimTheoNgay(String dateFrom, String dateTo){
+        // Lay thong tin cua mot phim
+        // Tra ve rap, ngay chieu va thong tin phim chi tiet
+        String link = "LayThongTinPhim?MaPhim=" +MaPhim;
+
+        ResponseBody  responseBody= query("https://movie0706.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?MaPhim=5126");
 
 
 
-        ArrayList data =  query(url + "LayDanhSachPhimTheoNgay?maNhom=GP01&soTrang=1&soTrang=10&tuNgay=" + dateFrom + "&denNgay=" + dateTo);;
-        if (data != null) {
+        if (responseBody != null) {
+            Gson gson = new Gson();
+            String str = responseBody.string();
+            JSONObject data = new JSONObject(str);
+            responseBody.close();
+
+            Phim p = new Phim();
+            p.setTenPhim((String)data.get("tenPhim").toString());
+            p.setTrailer((String)data.get("trailer").toString());
+            p.setMoTa((String)data.get("moTa").toString());
+            p.setMaNhom((String)data.get("maNhom").toString());
+            p.setNgayKhoiChieu((String)data.get("ngayKhoiChieu").toString());
+            p.setHinhAnh((String)data.get("hinhAnh").toString());
+            p.setBiDanh((String)data.get("biDanh").toString());
+            p.setMaPhim((String)data.get("maPhim").toString());
+            p.setDanhGia((String)data.get("danhGia").toString());
+            System.out.println(p.getTenPhim());
+        }
+    }
+    public ArrayList<Phim> getPhimTheoNgay(String dateFrom, String dateTo) throws IOException {
+
+
+        ResponseBody  responseBody= query(url + "LayDanhSachPhimTheoNgay?maNhom=GP01&soTrang=1&soTrang=10&tuNgay=" + dateFrom + "&denNgay=" + dateTo);
+
+        if (responseBody != null) {
+            Gson gson = new Gson();
+
+            ArrayList data =  gson.fromJson(responseBody.string(), ArrayList.class);;
             ArrayList<Phim> phims = new ArrayList<>();
             for (Object d : data) {
                 Phim p = new Phim();
@@ -53,7 +89,7 @@ public class ModelPhim extends Observable {
                 phims.add(p);
             }
 
-
+            responseBody.close();
             return phims;
         }
         return null;
@@ -61,17 +97,17 @@ public class ModelPhim extends Observable {
     }
 
 
-    private ArrayList query(String passURL) {
+    private ResponseBody query(String passURL) {
         try {
             result = null;
-            Gson gson = new Gson();
+
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
                     .url(passURL).build();
 
             ResponseBody responseBody = client.newCall(request).execute().body();
 
-            return gson.fromJson(responseBody.string(), ArrayList.class);
+            return responseBody;
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_signin"
     android:paddingLeft="0dp"
-    tools:context=".LogInUserActivity">
+    tools:context=".LogInActivity">
 
     <EditText
         android:id="@+id/editEmal"

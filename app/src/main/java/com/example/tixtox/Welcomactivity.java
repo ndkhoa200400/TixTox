@@ -2,18 +2,20 @@ package com.example.tixtox;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.w3c.dom.Text;
+import org.json.JSONException;
+
+import java.io.IOException;
 
 public class Welcomactivity extends AppCompatActivity {
     ImageView myPhoto;
@@ -49,10 +51,32 @@ public class Welcomactivity extends AppCompatActivity {
         {
             String name = mUser.getDisplayName();
             String email = mUser.getEmail();
-            String photoURL = mUser.getPhotoUrl().toString();
-            Glide.with(this).load(photoURL).into(myPhoto);
+            Uri photoURL = mUser.getPhotoUrl();
+            if (photoURL != null)
+            {
+//                GlideApp.with(this).load(photoURL.toString())
+//
+//                        //.apply(new RequestOptions().transform(new CenterInside(),new RoundedCorners(70)))
+//                        .into(myPhoto);
+            }
+
             txtName.setText(name);
             txtEmail.setText(email);
+            Thread t = new Thread(){
+                    @Override
+                    public void run() {
+                        ModelPhim modelPhim = new ModelPhim();
+                        try {
+                            modelPhim.getThongTinPhim("5126");
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        }
+
+                };
+
+                t.start();
         }
     }
 }
