@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,12 +18,16 @@ import java.util.ArrayList;
 
 public class ImageAdapter extends ArrayAdapter<String> {
     Context context;
-    ArrayList<String> arrayList;
+    ArrayList<String> posters;
+    ArrayList<String> filmNames;
+    ArrayList<String> danhGias;
 
-    public ImageAdapter(Context context, ArrayList<String> arrayList) {
-        super(context, R.layout.image_view, arrayList);
+    public ImageAdapter(Context context, ArrayList<String> posters, ArrayList<String> filmNames, ArrayList<String> danhGias) {
+        super(context, R.layout.image_view, posters);
         this.context = context;
-        this.arrayList = arrayList;
+        this.posters = posters;
+        this.filmNames = filmNames;
+        this.danhGias = danhGias;
     }
 
     @Nullable
@@ -33,7 +38,7 @@ public class ImageAdapter extends ArrayAdapter<String> {
 
     @Override
     public int getCount() {
-        return arrayList.size();
+        return posters.size();
     }
 
 
@@ -48,12 +53,21 @@ public class ImageAdapter extends ArrayAdapter<String> {
             convertView = LayoutInflater.from(context).inflate(R.layout.image_view, parent, false);
         }
 
+        //poster of film
         ImageView imageView;
         imageView = (ImageView) convertView.findViewById(R.id.image);
         Glide.with(imageView.getContext())
-                .load(arrayList.get(position).replace("http", "https"))
+                .load(posters.get(position).replace("http", "https"))
                 .error(R.drawable.icon_home)
                 .into((ImageView) imageView);
+
+        //name of film
+        TextView filmName = convertView.findViewById(R.id.filmName);
+        filmName.setText(filmNames.get(position));
+
+        //danh gia
+        TextView danhGia = convertView.findViewById(R.id.danhGia);
+        danhGia.setText(danhGias.get(position));
 
         return convertView;
     }

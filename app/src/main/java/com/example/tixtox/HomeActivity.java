@@ -51,20 +51,23 @@ public class HomeActivity extends AppCompatActivity {
             public void run() {
                 ModelPhim modelPhim = new ModelPhim();
                 try {
-                    ArrayList<Phim> phims = modelPhim.getPhimTheoNgay("01/03/2021", "23/03/2021");
+                    ArrayList<Phim> phims = modelPhim.getPhimTheoNgay("11/11/2020", "10/03/2021");
 
                     if (phims!= null)
                         {
                             ArrayList<String> posters = new ArrayList<>();
+                            ArrayList<String> filmNames = new ArrayList<>();
+                            ArrayList<String> danhGias = new ArrayList<>();
                             for(Phim p: phims)
                             {
-
+                                filmNames.add(p.getTenPhim());
                                 posters.add(p.getHinhAnh());
+                                danhGias.add(p.getDanhGia());
                             }
                             HomeActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                        loadPoster2(posters);
+                                        loadPoster2(posters, filmNames, danhGias);
                                     System.out.println(phims.get(0).getTenPhim());
                                 }
                             });
@@ -96,10 +99,10 @@ public class HomeActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
-    private void loadPoster2(ArrayList<String> arrayList){
+    private void loadPoster2(ArrayList<String> posters, ArrayList<String> filmNames, ArrayList<String> danhGias){
         gridView = (GridView) findViewById(R.id.gridView);
 
-        ImageAdapter adapter= new ImageAdapter(getApplicationContext(), arrayList);
+        ImageAdapter adapter= new ImageAdapter(getApplicationContext(), posters, filmNames, danhGias);
         gridView.setAdapter(adapter);
         //item click listener
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
