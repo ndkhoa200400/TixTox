@@ -66,17 +66,17 @@ public class MuaVeActivity extends AppCompatActivity {
             R.drawable.icon_ghe,R.drawable.icon_ghe,
             R.drawable.icon_ghe
     };
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        gridview = (GridView) findViewById(R.id.gridviewGhe);
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_muave);
-        gridview = (GridView) findViewById(R.id.gridviewGhe);
-
-
-        gridview.setAdapter(new ImageAdapterGridView(this));
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        gridview = (GridView) findViewById(R.id.gridviewGhe);
+//
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_muave);
+//        gridview = (GridView) findViewById(R.id.gridviewGhe);
+//
+//
+//        gridview.setAdapter(new ImageAdapterGridView(this));
+//    }
     private  class ImageAdapterGridView extends BaseAdapter
     {
         private Context mcontext;
@@ -105,9 +105,11 @@ public class MuaVeActivity extends AppCompatActivity {
             ImageView imageView;
             if(convertView == null) {
                 imageView = new ImageView(mcontext);
-                imageView.setLayoutParams(new GridView.LayoutParams(80,100));
+
+                imageView.setLayoutParams(new GridView.LayoutParams(60,73));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setPadding(16,10,16,10);
+
+                imageView.setPadding(3,3,3,10);
 
             }else
             {

@@ -19,7 +19,7 @@
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="match_parent"
-            android:layout_height="10dp"
+            android:layout_height="13dp"
 
             android:layout_marginLeft="40dp"
 
@@ -28,17 +28,17 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="37dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="40dp"
                 android:gravity="center_horizontal"
                 android:text="Màn Hình"
                 android:textColor="@color/white"
-                android:textSize="25dp" />
+                android:textSize="20dp" />
 
 
         </LinearLayout>
@@ -301,8 +301,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@color/black"
-                        app:srcCompat="@drawable/icon_ghedoi"
-                        />
+                        app:srcCompat="@drawable/icon_ghedoi" />
+
                     <ImageButton
                         android:id="@+id/gheDoi2"
                         android:layout_width="match_parent"

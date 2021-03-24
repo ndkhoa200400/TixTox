@@ -15,8 +15,6 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
     //list poster image
-    private int posterPhimDangChieu[] = {R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_foreground};
-    private int posterPhimSapChieu[] = {R.drawable.icon_facebook, R.drawable.icon_facebook, R.drawable.icon_facebook, R.drawable.icon_facebook, R.drawable.icon_facebook, R.drawable.icon_facebook, R.drawable.icon_facebook, R.drawable.icon_facebook, R.drawable.icon_facebook, R.drawable.icon_facebook, R.drawable.icon_facebook, R.drawable.icon_facebook, R.drawable.icon_facebook, R.drawable.icon_facebook, R.drawable.icon_facebook, R.drawable.icon_facebook};
     private GridView gridView;
     private ArrayList<ImageModel> arrayList;
 
@@ -26,8 +24,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-       // loadPoster(posterPhimDangChieu);
 
         tabHome = (TabLayout) findViewById(R.id.tabHome);
         tabHome.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -55,7 +51,7 @@ public class HomeActivity extends AppCompatActivity {
             public void run() {
                 ModelPhim modelPhim = new ModelPhim();
                 try {
-                    ArrayList<Phim> phims = modelPhim.getPhimTheoNgay("01/03/2021", "20/03/2021");
+                    ArrayList<Phim> phims = modelPhim.getPhimTheoNgay("01/03/2021", "23/03/2021");
 
                     if (phims!= null)
                         {
