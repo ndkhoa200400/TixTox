@@ -62,7 +62,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/cell12"
                     android:layout_width="match_parent"
                     android:layout_height="37dp"
                     android:gravity="center"
