@@ -13,19 +13,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TixTox"
         android:usesCleartextTraffic="true">
-<<<<<<< Updated upstream
-        <activity android:name=".HomeActivity">
-=======
-        <activity android:name=".ThongTinPhimActivity">
->>>>>>> Stashed changes
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name=".MuaVeActivity">
+          
         </activity>
-        <activity android:name=".MuaVeActivity"></activity>
+
         <activity android:name=".HomeActivity">
+
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+
+        <activity android:name=".ThongTinPhimActivity">
+
+
+
 
         </activity>
         <activity android:name=".Welcomactivity" />

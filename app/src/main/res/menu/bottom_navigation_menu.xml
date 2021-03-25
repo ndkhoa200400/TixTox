@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/home"
+        android:id="@+id/navigation_home"
         android:enabled="true"
         android:icon="@drawable/icon_home"
         android:title="Home" />
     <item
-        android:id="@+id/theater"
+        android:id="@+id/navigation_theater"
         android:enabled="true"
         android:icon="@drawable/icon_theater"
         android:title="Cụm Rạp" />
     <item
-        android:id="@+id/account"
+        android:id="@+id/navigation_account"
         android:enabled="true"
         android:icon="@drawable/icon_user_white"
         android:title="Tài Khoản" />

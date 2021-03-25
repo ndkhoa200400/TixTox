@@ -32,7 +32,7 @@ public class ModelPhim extends Observable {
 
 
 
-    ModelPhim() {
+    public ModelPhim() {
 
     }
     public void getThongTinPhim(String MaPhim) throws IOException, JSONException {

@@ -1,115 +1,68 @@
 package com.example.tixtox;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.example.tixtox.FilmDetailsFragment.FilmDetails;
+import com.example.tixtox.HomeFragment.PhimsFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
-    //list poster image
-    private GridView gridView;
+
     private ArrayList<ImageModel> arrayList;
 
     private TabLayout tabHome;
+    PhimsFragment phimsFragment;
+    private BottomNavigationView bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.layout_home);
 
-        tabHome = (TabLayout) findViewById(R.id.tabHome);
-        tabHome.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+
+
+        bottomNavigation = findViewById(R.id.bottom_navigation);
+
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int tabPosition = tabHome.getSelectedTabPosition();
-//                if(tabPosition == 0)
-//                    loadPoster(posterPhimDangChieu);
-//                else loadPoster(posterPhimSapChieu);
-            }
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();;
+                switch (item.getItemId())
+                {
+                    case R.id.navigation_home:
+                        PhimsFragment phimsFragment = PhimsFragment.newInstance();
+                        ft.replace(R.id.fragment_home, phimsFragment);
+                        ft.commit();
+                        break;
+                    case R.id.navigation_theater:
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+                        break;
+                    case R.id.navigation_account:
+                        TaiKhoanFragment taiKhoanFragment = TaiKhoanFragment.newInstance();
 
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        Thread loadingPhimThread = new Thread(){
-            @Override
-            public void run() {
-                ModelPhim modelPhim = new ModelPhim();
-                try {
-                    ArrayList<Phim> phims = modelPhim.getPhimTheoNgay("11/11/2020", "10/03/2021");
-
-                    if (phims!= null)
-                        {
-                            ArrayList<String> posters = new ArrayList<>();
-                            ArrayList<String> filmNames = new ArrayList<>();
-                            ArrayList<String> danhGias = new ArrayList<>();
-                            for(Phim p: phims)
-                            {
-                                filmNames.add(p.getTenPhim());
-                                posters.add(p.getHinhAnh());
-                                danhGias.add(p.getDanhGia());
-                            }
-                            HomeActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                        loadPoster2(posters, filmNames, danhGias);
-                                    System.out.println(phims.get(0).getTenPhim());
-                                }
-                            });
-                        }
-                } catch (IOException e) {
-                    e.printStackTrace();
+                        ft.replace(R.id.fragment_home, taiKhoanFragment);
+                        ft.commit();
+                        break;
                 }
-            }
-        };
-        loadingPhimThread.start();
-    }
-
-//    private void loadPoster(int listImage[]){
-//        gridView = (GridView) findViewById(R.id.gridView);
-//        arrayList = new ArrayList<>();
-//        for (int i = 0; i < listImage.length; i++) {
-//            ImageModel imagemodel = new ImageModel();
-//            imagemodel.setmThumbIds(listImage[i]);
-//            //add in array list
-//            arrayList.add(imagemodel);
-//        }
-//        ImageAdapter adapter= new ImageAdapter(getApplicationContext(), arrayList);
-//        gridView.setAdapter(adapter);
-//        //item click listener
-//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView parent, View view, int position, long id) {
-//                System.out.println(position);
-//            }
-//        });
-//    }
-    private void loadPoster2(ArrayList<String> posters, ArrayList<String> filmNames, ArrayList<String> danhGias){
-        gridView = (GridView) findViewById(R.id.gridView);
-
-        ImageAdapter adapter= new ImageAdapter(getApplicationContext(), posters, filmNames, danhGias);
-        gridView.setAdapter(adapter);
-        //item click listener
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView parent, View view, int position, long id) {
-                System.out.println(position);
+                return true;
             }
         });
+
+
     }
+
 }
