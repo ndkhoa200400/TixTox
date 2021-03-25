@@ -117,7 +117,7 @@
         app:srcCompat="@drawable/icon_password" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnSignUp"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -132,7 +132,7 @@
         android:paddingBottom="0dp"
         android:text="Đăng Kí"
         android:textAllCaps="false"
-        android:textColor="#0066FF"
+        android:textColor="#FFFFFF"
         android:textSize="12sp"
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"

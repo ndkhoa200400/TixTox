@@ -3,6 +3,7 @@ package com.example.tixtox;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -27,6 +28,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -44,10 +46,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     TextView txtRegister;
     private FirebaseAuth firebaseAuth;
     EditText editEmail, editPassword;
-    Button btnSignIn;
+    Button btnSignIn, btnSignUp;
     ProgressBar progressBar;
-    Handler handler;
-    ModelPhim modelPhim;
+
     CallbackManager mCallbackManager;
     LoginButton loginButton;
     @Override
@@ -68,10 +69,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         progressBar = (ProgressBar) findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.GONE);
 
+        btnSignUp = findViewById(R.id.btnSignUp);
+        btnSignUp.setOnClickListener(this);
 
-
-
-        modelPhim = new ModelPhim();
         FacebookSdk.sdkInitialize(LogInActivity.this);
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
@@ -130,8 +130,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private void updateUI(FirebaseUser user) {
         if (user != null)
         {
-           Intent intent = new Intent(LogInActivity.this, Welcomactivity.class);
-           startActivity(intent);
+
+            finish();
         }
         else{
             Toast.makeText(this, "Please sign in to continue",  Toast.LENGTH_LONG).show();
@@ -141,36 +141,13 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.txtRegister:
-                startActivity(new Intent(this, RegisterAcitivy.class));
-                break;
+
             case R.id.btnSignIn:
                 userSignIn();
                 break;
-//            case R.id.btnTest:
-//                Thread t = new Thread(){
-//                    @Override
-//                    public void run() {
-//                        ArrayList<Phim> phims = modelPhim.getPhimTheoNgay("01/03/2021", "20/03/2021");
-//                        if (phims!= null)
-//                        {
-//                            for(Phim p: phims)
-//                            {
-//                                System.out.println(p.getTenPhim());
-//                            }
-//                            LogInActivity.this.runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//
-//                                }
-//                            });
-//                        }
-//                    }
-//                };
-//
-//                t.start();
-                //break;
-
+            case R.id.btnSignUp:
+                startActivity(new Intent(this, RegisterAcitivy.class));
+                break;
 
         }
     }
@@ -227,6 +204,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStart() {
         super.onStart();
+        // Kiem tra xem dang nhap hay chua?
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
         if (currentUser != null)

@@ -4,19 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
 
-import com.example.tixtox.FilmDetailsFragment.FilmDetails;
+import com.example.tixtox.AccountFragment.TaiKhoanFragment;
 import com.example.tixtox.HomeFragment.PhimsFragment;
+import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
@@ -40,10 +41,13 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();;
+
                 switch (item.getItemId())
                 {
                     case R.id.navigation_home:
+                        // Chuyển hướng về trang home
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();;
+
                         PhimsFragment phimsFragment = PhimsFragment.newInstance();
                         ft.replace(R.id.fragment_home, phimsFragment);
                         ft.commit();
@@ -52,10 +56,9 @@ public class HomeActivity extends AppCompatActivity {
 
                         break;
                     case R.id.navigation_account:
-                        TaiKhoanFragment taiKhoanFragment = TaiKhoanFragment.newInstance();
+                        // Chuyển hướng về trang thông tin cá nhân
 
-                        ft.replace(R.id.fragment_home, taiKhoanFragment);
-                        ft.commit();
+                        checkAccount();
                         break;
                 }
                 return true;
@@ -65,4 +68,30 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        PhimsFragment phimsFragment = PhimsFragment.newInstance();
+        ft.replace(R.id.fragment_home, phimsFragment);
+        ft.commit();
+    }
+
+    protected void checkAccount() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();;
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser mUser = mAuth.getCurrentUser();
+        // Kiểm tra nếu người dùng đã đăng nhập thì load fragment đăng nhập
+        if (mUser != null)
+        {
+            TaiKhoanFragment taiKhoanFragment = TaiKhoanFragment.newInstance();
+
+            ft.replace(R.id.fragment_home, taiKhoanFragment);
+            ft.commit();
+        }
+        else{
+            startActivity(new Intent(this, LogInActivity.class));
+        }
+
+    }
 }

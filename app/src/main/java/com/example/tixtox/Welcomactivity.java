@@ -19,7 +19,7 @@ import java.io.IOException;
 
 public class Welcomactivity extends AppCompatActivity {
     ImageView myPhoto;
-    TextView txtEmail, txtName;
+    TextView txtDOB, txtName, txtEmail, txtPhone;
     Button btnSignOut;
     FirebaseAuth mAuth;
     @Override
@@ -62,21 +62,7 @@ public class Welcomactivity extends AppCompatActivity {
 
             txtName.setText(name);
             txtEmail.setText(email);
-            Thread t = new Thread(){
-                    @Override
-                    public void run() {
-                        ModelPhim modelPhim = new ModelPhim();
-                        try {
-                            modelPhim.getThongTinPhim("5126");
-                        } catch (IOException | JSONException e) {
-                            e.printStackTrace();
-                        }
 
-                        }
-
-                };
-
-                t.start();
         }
     }
 }
