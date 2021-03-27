@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.tixtox.AccountFragment.TaiKhoanFragment;
+import com.example.tixtox.HeThongRapFragment.HeThongRapFragment;
 import com.example.tixtox.HomeFragment.PhimsFragment;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,9 +34,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_home);
 
-
-
-
         bottomNavigation = findViewById(R.id.bottom_navigation);
 
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -53,11 +51,18 @@ public class HomeActivity extends AppCompatActivity {
                         ft.commit();
                         break;
                     case R.id.navigation_theater:
+                        try {
+                            ft = getSupportFragmentManager().beginTransaction();
+                            HeThongRapFragment heThongRapFragment = HeThongRapFragment.newInstance();
+                            ft.replace(R.id.fragment_home, heThongRapFragment);
+                            ft.commit();
+                        }catch(Exception e){
+                            e.printStackTrace();
+                        }
 
                         break;
                     case R.id.navigation_account:
                         // Chuyển hướng về trang thông tin cá nhân
-
                         checkAccount();
                         break;
                 }
