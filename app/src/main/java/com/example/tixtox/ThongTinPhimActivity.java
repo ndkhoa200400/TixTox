@@ -1,14 +1,14 @@
 package com.example.tixtox;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
 import com.example.tixtox.FilmDetailsFragment.FilmDetails;
+import com.example.tixtox.Model.Phim;
 
-    public class ThongTinPhimActivity extends FragmentActivity  {
+public class ThongTinPhimActivity extends FragmentActivity  {
     FragmentTransaction ft;
     FilmDetails filmDetails;
     @Override

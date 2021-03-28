@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,8 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 
 import com.example.tixtox.ImageAdapter;
-import com.example.tixtox.ModelPhim;
-import com.example.tixtox.Phim;
+import com.example.tixtox.Model.ModelPhim;
+import com.example.tixtox.Model.Phim;
 import com.example.tixtox.R;
 import com.example.tixtox.ThongTinPhimActivity;
 import com.google.android.material.tabs.TabLayout;

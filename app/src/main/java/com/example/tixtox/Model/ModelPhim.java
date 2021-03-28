@@ -1,29 +1,17 @@
-package com.example.tixtox;
+package com.example.tixtox.Model;
 
-import android.os.Handler;
-
+import com.example.tixtox.Model.Phim;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Observable;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class ModelPhim {

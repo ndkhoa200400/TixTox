@@ -1,10 +1,7 @@
 package com.example.tixtox.Model;
 
-import com.example.tixtox.Phim;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;

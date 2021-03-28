@@ -1,6 +1,5 @@
 package com.example.tixtox.FilmDetailsFragment;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,11 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.tixtox.Phim;
+import com.example.tixtox.Model.Phim;
 import com.example.tixtox.R;
-import com.example.tixtox.ThongTinPhimActivity;
-
-import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -43,28 +43,52 @@ public class HeThongRapFragment extends Fragment {
         listView = view.findViewById(R.id.listView);
 
         // goi API de GET thong tin
-        ModelRap modelRap = new ModelRap();
-        try {
-            ArrayList<Rap> dsRap = modelRap.getThongTinRap();
-            for(Rap i: dsRap){
-                //listRap.get(dsRap.indexOf(i)).setLogo(i.getLogo());
-                listRap.get(dsRap.indexOf(i)).setTenRap(i.getTenHeThongRap());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        listRapAdapter = new ListRapAdapter(getActivity().getApplicationContext(), R.layout.layout_item_rap_phim, listRap);
-
-        listView.setAdapter(listRapAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        getDanhSachRap = new Thread(){
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void run() {
+                super.run();
+                ModelRap modelRap = new ModelRap();
+                try {
+                    ArrayList<Rap> dsRap = modelRap.getThongTinRap();
+//                    listRap = new ArrayList<>();
+//                    for(Rap i: dsRap){
+//                        //listRap.get(dsRap.indexOf(i)).setLogo(i.getLogo());
+//                        listRap.get(dsRap.indexOf(i)).setTenRap(i.getTenHeThongRap());
+//                    }
 
+                    if(getActivity() != null)
+                    {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                listRapAdapter = new ListRapAdapter(getActivity(), R.layout.layout_item_rap_phim, dsRap);
+                                System.out.println(listRapAdapter);
+                                System.out.println("ZO");
+                                System.out.println(dsRap.get(0).getTenHeThongRap());
+                                listView.setAdapter(listRapAdapter);
+                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        });
+        };
+
+
+        getDanhSachRap.start();
+
+
+
         return view;
     }
 }

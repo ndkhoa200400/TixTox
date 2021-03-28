@@ -21,7 +21,7 @@ public class Rap {
     }
 
     public void setLogo(String logo) {
-        this.logo = logo;
+        this.logo = logo.replace("http","https");
     }
 
     public void setBiDanh(String biDanh) {

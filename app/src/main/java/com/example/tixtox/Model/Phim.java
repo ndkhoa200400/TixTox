@@ -1,4 +1,4 @@
-package com.example.tixtox;
+package com.example.tixtox.Model;
 
 import java.io.Serializable;
 

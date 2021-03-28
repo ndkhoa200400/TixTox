@@ -10,18 +10,20 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
+import com.example.tixtox.Model.Rap;
 import com.example.tixtox.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListRapAdapter  extends ArrayAdapter<RapDetail> {
-    private List<RapDetail> listRap;
+public class ListRapAdapter  extends ArrayAdapter<Rap> {
+    private List<Rap> listRap;
     private Context context;
     private int layoutResource;
 
-    public ListRapAdapter(@NonNull Context context, int resource, ArrayList<RapDetail> objects) {
-        super(context, resource);
+    public ListRapAdapter(@NonNull Context context, int resource, ArrayList<Rap> objects) {
+        super(context,  resource, objects);
         this.context = context;
         this.layoutResource = resource;
         this.listRap = objects;
@@ -30,14 +32,18 @@ public class ListRapAdapter  extends ArrayAdapter<RapDetail> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
-        LayoutInflater inflater = LayoutInflater.from(context);
-        convertView = inflater.inflate(layoutResource, null);
+        if (convertView == null)
+        {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            convertView = inflater.inflate(layoutResource, null);
+        }
+
 
         ImageView logo = convertView.findViewById(R.id.logo);
-        logo.setImageResource(listRap.get(position).getLogo());
+        Glide.with(logo.getContext()).load(listRap.get(position).getLogo()).into(logo);
 
         TextView tenRap = convertView.findViewById(R.id.tenRap);
-        tenRap.setText(listRap.get(position).getTenRap());
+        tenRap.setText(listRap.get(position).getTenHeThongRap());
 
         return convertView;
     }

@@ -1,4 +1,4 @@
-package com.example.tixtox;
+package com.example.tixtox.Model;
 
 public class User {
     public String fullname, email;
