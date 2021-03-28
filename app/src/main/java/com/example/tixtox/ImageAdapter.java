@@ -57,7 +57,7 @@ public class ImageAdapter extends ArrayAdapter<String> {
         ImageView imageView;
         imageView = (ImageView) convertView.findViewById(R.id.image);
         Glide.with(imageView.getContext())
-                .load(posters.get(position).replace("http", "https"))
+                .load(posters.get(position))
                 .error(R.drawable.icon_home)
                 .into((ImageView) imageView);
 

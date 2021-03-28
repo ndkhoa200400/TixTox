@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class ModelPhim extends Observable {
+public class ModelPhim {
 
     final String url = "https://movie0706.cybersoft.edu.vn/api/QuanLyPhim/";
     ArrayList result;

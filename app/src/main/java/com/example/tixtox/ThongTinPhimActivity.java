@@ -14,12 +14,17 @@ import com.example.tixtox.FilmDetailsFragment.FilmDetails;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        filmDetails = FilmDetails.newInstance();
-
         setContentView(R.layout.activity_film_details);
+
+        Phim phim = (Phim) getIntent().getSerializableExtra("phim");
+        filmDetails = FilmDetails.newInstance();
+        filmDetails.setPhim(phim);
         ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragmentFilmDetails, filmDetails);
         ft.commit();
+
+
+
 
     }
 }

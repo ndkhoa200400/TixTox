@@ -1,9 +1,11 @@
 package com.example.tixtox.HomeFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import com.example.tixtox.ImageAdapter;
 import com.example.tixtox.ModelPhim;
 import com.example.tixtox.Phim;
 import com.example.tixtox.R;
+import com.example.tixtox.ThongTinPhimActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
@@ -31,7 +34,7 @@ public class PhimsFragment extends Fragment {
     private GridView gridView;
     private ProgressBar progressBar;
     private TabLayout tabLayout;
-
+    private ArrayList<Phim> phims;
     private Thread loadingPhimDangChieu, loadingPhimSapChieu;
     public PhimsFragment() {
         // Required empty public constructor
@@ -168,7 +171,11 @@ public class PhimsFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), ThongTinPhimActivity.class);
 
+
+                intent.putExtra("phim", phims.get(position));
+                startActivity(intent);
             }
         });
     }
@@ -188,10 +195,12 @@ public class PhimsFragment extends Fragment {
                 posters.add(p.getHinhAnh());
                 ratings.add(p.getDanhGia());
             }
+            this.phims = phims;
             if (getActivity() != null)
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
                         progressBar.setVisibility(View.GONE);
                         loadPhim(posters, filmNames, ratings);
 

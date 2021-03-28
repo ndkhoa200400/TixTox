@@ -28,7 +28,7 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/nameFilm"
+            android:id="@+id/txtFilmName"
             android:layout_width="132dp"
             android:layout_height="24dp"
             android:layout_marginStart="10dp"
@@ -45,7 +45,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imgPoster"
-            app:layout_constraintTop_toBottomOf="@+id/nameFilm">
+            app:layout_constraintTop_toBottomOf="@+id/txtFilmName">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                     android:text="Ngay khoi chieu" />
 
                 <TextView
-                    android:id="@+id/releaseDate"
+                    android:id="@+id/txtReleaseDate"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
             </TableRow>
@@ -72,7 +72,7 @@
                     android:text="Danh gia" />
 
                 <TextView
-                    android:id="@+id/rating"
+                    android:id="@+id/txtRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </TableRow>
@@ -89,7 +89,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imgPoster" />
 
         <TextView
-            android:id="@+id/contentFilm"
+            android:id="@+id/txtContent"
             android:layout_width="390dp"
             android:layout_height="342dp"
             android:layout_marginEnd="10dp"

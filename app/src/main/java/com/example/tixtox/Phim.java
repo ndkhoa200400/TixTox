@@ -1,8 +1,9 @@
 package com.example.tixtox;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class Phim {
+
+public class Phim implements Serializable {
     String maPhim, danhGia;
     String tenPhim, biDanh, trailer, hinhAnh, moTa, maNhom;
     String ngayKhoiChieu;
@@ -48,7 +49,7 @@ public class Phim {
     }
 
     public void setTrailer(String trailer) {
-        this.trailer = trailer;
+        this.trailer = trailer.replace("http", "https");
     }
 
     public String getHinhAnh() {
@@ -56,7 +57,7 @@ public class Phim {
     }
 
     public void setHinhAnh(String hinhAnh) {
-        this.hinhAnh = hinhAnh;
+        this.hinhAnh = hinhAnh.replace("http", "https");
     }
 
     public String getMoTa() {

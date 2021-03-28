@@ -8,10 +8,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.tixtox.Phim;
 import com.example.tixtox.R;
 import com.example.tixtox.ThongTinPhimActivity;
+
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,7 +25,8 @@ import com.example.tixtox.ThongTinPhimActivity;
  */
 public class FilmDetails extends Fragment {
     Phim phim;
-
+    ImageView poster;
+    TextView txtFilmName, txtReleaseDate, txtRating, txtContent;
     public FilmDetails() {
         // Required empty public constructor
     }
@@ -42,6 +48,28 @@ public class FilmDetails extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        return inflater.inflate(R.layout.fragment_thong_tin_phim, container, false);
+        View view =  inflater.inflate(R.layout.fragment_thong_tin_phim, container, false);
+
+        poster = view.findViewById(R.id.imgPoster);
+        txtFilmName = view.findViewById(R.id.txtFilmName);
+        txtRating = view.findViewById(R.id.txtRating);
+        txtReleaseDate = view.findViewById(R.id.txtReleaseDate);
+        txtContent = view.findViewById(R.id.txtContent);
+
+        txtFilmName.setText(phim.getTenPhim());
+        txtReleaseDate.setText(phim.getNgayKhoiChieu());
+        txtRating.setText(phim.getDanhGia());
+        txtContent.setText(phim.getMoTa());
+
+        Glide.with(this).load(phim.getHinhAnh().toString())
+                //  .apply(new RequestOptions().transform(new CenterInside(),new RoundedCorners(70)))
+                .into(poster);
+
+        return view;
+    }
+
+    public void setPhim(Phim p)
+    {
+        this.phim = p;
     }
 }
