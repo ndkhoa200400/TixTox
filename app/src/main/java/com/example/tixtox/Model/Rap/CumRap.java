@@ -1,8 +1,10 @@
-package com.example.tixtox.Model;
+package com.example.tixtox.Model.Rap;
 
-public class Rap {
-     private String maHeThongRap, tenHeThongRap, biDanh, logo;
-     public Rap(){}
+public class CumRap {
+    private String maHeThongRap, tenHeThongRap, biDanh, logo;
+
+    public CumRap() {
+    }
 
     public String getMaHeThongRap() {
         return maHeThongRap;
@@ -21,7 +23,7 @@ public class Rap {
     }
 
     public void setLogo(String logo) {
-        this.logo = logo.replace("http","https");
+        this.logo = logo.replace("http", "https");
     }
 
     public void setBiDanh(String biDanh) {

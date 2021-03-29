@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private ArrayList<ImageModel> arrayList;
+
 
     private TabLayout tabHome;
     PhimsFragment phimsFragment;

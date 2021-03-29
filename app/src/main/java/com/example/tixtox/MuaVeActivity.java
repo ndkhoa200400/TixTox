@@ -19,7 +19,7 @@ import java.util.Collections;
 
 public class MuaVeActivity extends AppCompatActivity {
     GridView gridview;
-    private ArrayList<ImageModel> arrayList;
+
 
     Integer[] image = {R.drawable.icon_ghe,R.drawable.icon_ghe,R.drawable.icon_ghe,
             R.drawable.icon_ghe,R.drawable.icon_ghe,
