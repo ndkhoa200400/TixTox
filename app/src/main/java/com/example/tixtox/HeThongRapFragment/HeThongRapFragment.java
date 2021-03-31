@@ -52,20 +52,11 @@ public class HeThongRapFragment extends Fragment {
             @Override
             public void run() {
                 super.run();
-                ModelRap modelRap = new ModelRap();
+
                 try {
-                    listCumRap = modelRap.getThongTinCumRap();
-
-                    heThongRaps = new HashMap<>();
-//                    listRap = new ArrayList<>();
-                    for (CumRap i : listCumRap) {
-                        ArrayList<RapDetail> rapDetails = modelRap.getRapDetail(i.getMaHeThongRap());
-                        heThongRaps.put(i, rapDetails);
-
-                    }
-                    expandableListRapAdapter = new ExpandableListRapAdapter(getContext(), listCumRap, heThongRaps);
-
-
+                    ModelRap modelRap = ModelRap.getInstance();
+                    listCumRap = modelRap.getCumRaps();
+                    expandableListRapAdapter = new ExpandableListRapAdapter(getContext(), modelRap.getCumRaps(), modelRap.getHeThongRaps());
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override

@@ -4,6 +4,8 @@ import android.util.Patterns;
 
 import java.util.ArrayList;
 
+// Thông tin của một rạp chi tiết của một cụm rạp
+// VD: CGV Vạnh Hạnh Mall
 public class RapDetail {
     private String maRap;
     private String tenRap;
@@ -47,6 +49,7 @@ public class RapDetail {
     public String getMaRap(){
         return this.maRap;
     }
+
     public void setMaRap(String maRap)
     {
         this.maRap = maRap;

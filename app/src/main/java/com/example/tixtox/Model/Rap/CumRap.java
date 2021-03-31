@@ -1,5 +1,7 @@
 package com.example.tixtox.Model.Rap;
 
+// Cụm rạp
+// VD: CGV, BHD
 public class CumRap {
     private String maHeThongRap, tenHeThongRap, biDanh, logo;
 

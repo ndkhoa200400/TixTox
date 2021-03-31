@@ -2,11 +2,14 @@ package com.example.tixtox.Model;
 
 import com.example.tixtox.Model.Rap.CumRap;
 import com.example.tixtox.Model.Rap.RapDetail;
+import com.example.tixtox.Model.Rap.RapPhim;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -14,6 +17,10 @@ import okhttp3.ResponseBody;
 
 public class ModelRap {
     final String url = "https://movie0706.cybersoft.edu.vn/api/QuanLyRap";
+    private static ModelRap modelRap;
+    private ArrayList<CumRap> cumRaps;
+
+    private HashMap<CumRap, ArrayList<RapDetail>> heThongRaps;
     private ArrayList result;
 
     public ModelRap() {
@@ -38,7 +45,27 @@ public class ModelRap {
         return null;
     }
 
-    public ArrayList<CumRap> getThongTinCumRap() throws IOException {
+    public static ModelRap getInstance() throws IOException {
+        if (modelRap == null) {
+            modelRap = new ModelRap();
+            modelRap.setCumRaps(modelRap.getThongTinCumRap());
+            HashMap<CumRap, ArrayList<RapDetail>> heThongRaps = new HashMap<>();
+            for (CumRap cumRap : modelRap.getCumRaps()) {
+                ArrayList<RapDetail> rapDetails = modelRap.getRapDetail(cumRap.getMaHeThongRap());
+
+
+                heThongRaps.put(cumRap, rapDetails);
+            }
+
+            modelRap.setHeThongRaps(heThongRaps);
+            modelRap.getThongTinLichChieuHeThongRap("cgv", null);
+        }
+
+        return modelRap;
+
+    }
+
+    private ArrayList<CumRap> getThongTinCumRap() throws IOException {
         ResponseBody responseBody = query(url + "/LayThongTinHeThongRap");
 
         ArrayList<CumRap> dsCumRap = null;
@@ -64,7 +91,7 @@ public class ModelRap {
     }
 
 
-    public ArrayList<RapDetail> getRapDetail(String cumRap) throws IOException {
+    private ArrayList<RapDetail> getRapDetail(String cumRap) throws IOException {
         ResponseBody responseBody = query(url + "/LayThongTinCumRapTheoHeThong?maHeThongRap=" + cumRap);
 
         ArrayList<RapDetail> dsRapDetail = null;
@@ -73,16 +100,75 @@ public class ModelRap {
             ArrayList data = gson.fromJson(responseBody.string(), ArrayList.class);
             dsRapDetail = new ArrayList<>();
             for (Object i : data) {
+
                 RapDetail rapDetail = new RapDetail();
 
-                rapDetail.setMaRap((String) ((LinkedTreeMap) i).get("maCumRap").toString());
-                rapDetail.setTenRap((String) ((LinkedTreeMap) i).get("tenCumRap").toString());
-                rapDetail.setDiaChi((String) ((LinkedTreeMap) i).get("diaChi").toString());
+                rapDetail.setMaRap(((LinkedTreeMap) i).get("maCumRap").toString());
+                rapDetail.setTenRap(((LinkedTreeMap) i).get("tenCumRap").toString());
+                rapDetail.setDiaChi(((LinkedTreeMap) i).get("diaChi").toString());
+
+                // Lấy các rạp (phòng) có bên trong một cinema
+                ArrayList<RapPhim> rapPhims = new ArrayList<>();
+                for (Object rapPhim : (ArrayList) ((LinkedTreeMap) i).get("danhSachRap")) {
+                    RapPhim p = new RapPhim();
+                    // Loại bỏ .0 sau mã rạp
+                    String maRap = ((LinkedTreeMap) rapPhim).get("maRap").toString();
+                    maRap = maRap.substring(maRap.indexOf("."));
+                    p.setMaRap(maRap);
+                    p.setTenRap(((LinkedTreeMap) rapPhim).get("tenRap").toString());
+                }
+                rapDetail.setListRapPhim(rapPhims);
+
 
                 dsRapDetail.add(rapDetail);
             }
         }
 
         return dsRapDetail;
+    }
+
+    public void setCumRaps(ArrayList<CumRap> cumRaps) {
+        this.cumRaps = cumRaps;
+    }
+
+    public ArrayList<CumRap> getCumRaps() {
+        return cumRaps;
+    }
+
+    public void setHeThongRaps(HashMap<CumRap, ArrayList<RapDetail>> heThongRaps) {
+        this.heThongRaps = heThongRaps;
+    }
+
+    public HashMap<CumRap, ArrayList<RapDetail>> getHeThongRaps() {
+        return heThongRaps;
+    }
+
+    public ArrayList<RapDetail> getRapDetails(String CumRap) {
+        return this.heThongRaps.get(CumRap);
+    }
+
+    public void getThongTinLichChieuHeThongRap(String  cumRap, String maRapDetail) throws IOException {
+        ResponseBody responseBody = query(url + "/LayThongTinLichChieuHeThongRap?maHeThongRap="+cumRap);
+       if (responseBody != null)
+       {
+           Gson gson = new Gson();
+           ArrayList data = gson.fromJson(responseBody.string(), ArrayList.class);
+           for(Object i: data)
+           {
+               LinkedTreeMap d = (LinkedTreeMap) i;
+               ArrayList listRaps = (ArrayList) d.get("lstCumRap");
+
+               for (Object r: listRaps)
+               {
+                   LinkedTreeMap rap = (LinkedTreeMap) r;
+                   if (rap.get("maCumRap").equals(maRapDetail))
+                   {
+                       System.out.println(rap.get("danhSachPhim"));
+                       return;
+                   }
+                   System.out.println(rap.get("danhSachPhim"));
+               }
+           }
+       }
     }
 }
