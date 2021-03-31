@@ -11,12 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.example.tixtox.Model.ModelRap;
 import com.example.tixtox.Model.Rap.CumRap;
 import com.example.tixtox.Model.Rap.RapDetail;
 import com.example.tixtox.R;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +70,28 @@ public class ExpandableListRapAdapter extends BaseExpandableListAdapter {
         RapDetail rapDetail = (RapDetail) getChild(groupPosition, childPosition);
 
         txtTenRapDetail.setText(rapDetail.getTenRap());
+        txtTenRapDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                            ModelRap modelRap = ModelRap.getInstance();
+                            modelRap.getThongTinLichChieuHeThongRap(listCumRap.get(groupPosition).getMaHeThongRap(), rapDetail.getMaRap());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    t.start();
+
+
+
+
+            }
+        });
         return convertView;
     }
     @Override

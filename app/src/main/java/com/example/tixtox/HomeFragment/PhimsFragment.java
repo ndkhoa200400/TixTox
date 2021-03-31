@@ -34,13 +34,13 @@ public class PhimsFragment extends Fragment {
     private ProgressBar progressBar;
     private TabLayout tabLayout;
     private ArrayList<Phim> phims;
-    private Thread loadingPhimDangChieu, loadingPhimSapChieu;
+    private ModelPhim modelPhim;
+
     public PhimsFragment() {
         // Required empty public constructor
     }
 
 
-    // TODO: Rename and change types and number of parameters
     public static PhimsFragment newInstance() {
         PhimsFragment fragment = new PhimsFragment();
         Bundle args = new Bundle();
@@ -54,38 +54,22 @@ public class PhimsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Lấy các thông tin phim đang chiếu trong 2 tuần vừa qua
+
         Thread loadingPhimThread = new Thread(){
             @Override
             public void run() {
-
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");
-                LocalDateTime now = LocalDateTime.now();
-                LocalDateTime before = now.minusDays(14);
                 try {
-                    getPhims(dtf.format(before), dtf.format(now));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        // Lấy các thông tin về phim sắp chiếu trong vòng 3 tuần
-        loadingPhimSapChieu = new Thread(){
-            @Override
-            public void run() {
-
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");
-                LocalDateTime now = LocalDateTime.now();
-                LocalDateTime after = now.plusDays(28);
-                try {
-                    getPhims(dtf.format(now), dtf.format(after));
+                    modelPhim = ModelPhim.getInstance();
+                    getPhims(modelPhim.getPhimDangChieu());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
+
             }
         };
+
+
         loadingPhimThread.start();
 
     }
@@ -108,42 +92,20 @@ public class PhimsFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 progressBar.setVisibility(View.VISIBLE);
                 int position = tab.getPosition();
-
                 if (position == 0){
-
-                        loadingPhimDangChieu = new Thread(){
-                            @Override
-                            public void run() {
-
-                                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");
-                                LocalDateTime now = LocalDateTime.now();
-                                LocalDateTime before = now.minusDays(14);
-                                try {
-                                    getPhims(dtf.format(before), dtf.format(now));
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        };
-                    loadingPhimDangChieu.start();
-
+                    try {
+                        getPhims(modelPhim.getPhimDangChieu());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 else{
-                    loadingPhimSapChieu = new Thread(){
-                        @Override
-                        public void run() {
 
-                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");
-                            LocalDateTime now = LocalDateTime.now();
-                            LocalDateTime after = now.plusDays(28);
-                            try {
-                                getPhims(dtf.format(now), dtf.format(after));
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    };
-                    loadingPhimSapChieu.start();
+                    try {
+                        getPhims(modelPhim.getPhimSapChieu());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -179,9 +141,7 @@ public class PhimsFragment extends Fragment {
         });
     }
 
-    private void getPhims(String from, String to) throws IOException {
-        ModelPhim modelPhim = new ModelPhim();
-        ArrayList<Phim> phims = modelPhim.getPhimTheoNgay(from, to);
+    private void getPhims(ArrayList<Phim> phims) throws IOException {
 
         if (phims!= null)
         {
@@ -196,15 +156,18 @@ public class PhimsFragment extends Fragment {
             }
             this.phims = phims;
             if (getActivity() != null)
+            {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         progressBar.setVisibility(View.GONE);
                         loadPhim(posters, filmNames, ratings);
-
                     }
                 });
+
+            }
+
+
         }
     }
 }

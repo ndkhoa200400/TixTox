@@ -16,6 +16,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.example.tixtox.HomeActivity;
 import com.example.tixtox.R;
 import com.facebook.login.LoginManager;
@@ -91,10 +94,15 @@ public class TaiKhoanFragment extends Fragment {
         if (photoURL != null)
         {
             Glide.with(this).load(photoURL.toString())
-                      //  .apply(new RequestOptions().transform(new CenterInside(),new RoundedCorners(70)))
+                    .apply(new RequestOptions()
+                            .fitCenter()
+                            .format(DecodeFormat.PREFER_ARGB_8888)
+                            .override(Target.SIZE_ORIGINAL))
                         .into(myPhoto);
         }
-
+        else{
+            myPhoto.setImageResource(R.drawable.icon_user);
+        }
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

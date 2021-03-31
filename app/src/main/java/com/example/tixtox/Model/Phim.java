@@ -1,6 +1,7 @@
 package com.example.tixtox.Model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 
 public class Phim implements Serializable {
@@ -83,4 +84,7 @@ public class Phim implements Serializable {
     public void setNgayKhoiChieu(String ngayKhoiChieu) {
         this.ngayKhoiChieu = ngayKhoiChieu;
     }
+
+
+
 }

@@ -50,15 +50,14 @@ public class ModelRap {
             modelRap = new ModelRap();
             modelRap.setCumRaps(modelRap.getThongTinCumRap());
             HashMap<CumRap, ArrayList<RapDetail>> heThongRaps = new HashMap<>();
+            // Lấy các chi nhánh của một cụm rạp ra
             for (CumRap cumRap : modelRap.getCumRaps()) {
                 ArrayList<RapDetail> rapDetails = modelRap.getRapDetail(cumRap.getMaHeThongRap());
-
-
                 heThongRaps.put(cumRap, rapDetails);
             }
 
             modelRap.setHeThongRaps(heThongRaps);
-            modelRap.getThongTinLichChieuHeThongRap("cgv", null);
+
         }
 
         return modelRap;
@@ -147,8 +146,9 @@ public class ModelRap {
         return this.heThongRaps.get(CumRap);
     }
 
-    public void getThongTinLichChieuHeThongRap(String  cumRap, String maRapDetail) throws IOException {
-        ResponseBody responseBody = query(url + "/LayThongTinLichChieuHeThongRap?maHeThongRap="+cumRap);
+    public void getThongTinLichChieuHeThongRap(String maCumRap, String maRapDetail) throws IOException {
+        System.out.println(maCumRap);
+        ResponseBody responseBody = query(url + "/LayThongTinLichChieuHeThongRap?maHeThongRap="+maCumRap);
        if (responseBody != null)
        {
            Gson gson = new Gson();
@@ -164,9 +164,26 @@ public class ModelRap {
                    if (rap.get("maCumRap").equals(maRapDetail))
                    {
                        System.out.println(rap.get("danhSachPhim"));
+                       ArrayList danhSachPhim = (ArrayList) rap.get("danhSachPhim");
+
+
+                       ModelPhim modelPhim = ModelPhim.getInstance();
+                       // Kiểm tra các phim nào đang chiếu.
+                       System.out.println("Phim đang chiếu nek");
+                       for(Object p: danhSachPhim)
+                       {
+                           LinkedTreeMap phim = (LinkedTreeMap) p;
+                           for (Phim phimDangChieu: modelPhim.getPhimDangChieu()){
+                                if (phim.get("tenPhim").equals(phimDangChieu.getTenPhim()))
+                                {
+                                    System.out.println(phim.get("tenPhim"));
+                                }
+                           }
+
+                       }
                        return;
                    }
-                   System.out.println(rap.get("danhSachPhim"));
+
                }
            }
        }

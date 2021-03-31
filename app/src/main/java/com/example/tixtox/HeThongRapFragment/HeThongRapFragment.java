@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import androidx.fragment.app.Fragment;
 
@@ -20,10 +20,10 @@ import java.util.HashMap;
 
 public class HeThongRapFragment extends Fragment {
     private ExpandableListView listView;
-    private ArrayList<CumRap> listCumRap;
-    private HashMap<CumRap, ArrayList<RapDetail>> heThongRaps;
+
+    private ProgressBar progressBar;
     ExpandableListRapAdapter expandableListRapAdapter;
-    Thread getDanhSachRap;
+
 
     public HeThongRapFragment() {
     }
@@ -44,23 +44,26 @@ public class HeThongRapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_cum_rap, container, false);
+        View view = inflater.inflate(R.layout.layout_cum_rap, container, false);
         listView = view.findViewById(R.id.expandableListView);
-
+        progressBar = view.findViewById(R.id.progressBar3);
+        progressBar.setVisibility(View.VISIBLE);
         // goi API de GET thong tin
-        getDanhSachRap = new Thread() {
+        Thread getDanhSachRap = new Thread() {
             @Override
             public void run() {
                 super.run();
 
+
                 try {
                     ModelRap modelRap = ModelRap.getInstance();
-                    listCumRap = modelRap.getCumRaps();
+
                     expandableListRapAdapter = new ExpandableListRapAdapter(getContext(), modelRap.getCumRaps(), modelRap.getHeThongRaps());
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                progressBar.setVisibility(View.GONE);
                                 listView.setAdapter(expandableListRapAdapter);
                             }
                         });
