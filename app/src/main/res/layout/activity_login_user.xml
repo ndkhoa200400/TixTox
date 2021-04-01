@@ -138,25 +138,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editPw" />
 
-    <Button
-        android:id="@+id/button3"
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button_google"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/radius_button_white"
-        android:paddingLeft="10dp"
-        android:paddingTop="3dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="3dp"
-        android:text="Đăng Nhập Bằng Gmail      "
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        app:icon="@drawable/common_google_signin_btn_icon_light_normal"
-        app:iconPadding="10dp"
-        app:iconSize="40dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_button" />
+
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"

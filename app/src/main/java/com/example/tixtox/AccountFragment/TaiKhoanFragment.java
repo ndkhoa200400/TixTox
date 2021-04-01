@@ -22,6 +22,8 @@ import com.bumptech.glide.request.target.Target;
 import com.example.tixtox.HomeActivity;
 import com.example.tixtox.R;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -65,14 +67,13 @@ public class TaiKhoanFragment extends Fragment {
         firebaseUser = firebaseAuth.getCurrentUser();
 
 
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_tai_khoan, container, false);
+        View view = inflater.inflate(R.layout.fragment_tai_khoan, container, false);
         progressBar = view.findViewById(R.id.progressBar_Account);
         progressBar.setVisibility(View.VISIBLE);
         txtEmail = view.findViewById(R.id.txtEmail_Account);
@@ -85,22 +86,31 @@ public class TaiKhoanFragment extends Fragment {
         String name = firebaseUser.getDisplayName();
         String email = firebaseUser.getEmail();
         String phone = firebaseUser.getPhoneNumber();
-
-        Uri photoURL = firebaseUser.getPhotoUrl();
+        Uri photouri = firebaseUser.getPhotoUrl();
+        String photoURL = "";
 
         txtName.setText(name);
         txtEmail.setText(email);
         txtPhone.setText(phone);
-        if (photoURL != null)
-        {
-            Glide.with(this).load(photoURL.toString())
+        if (photouri != null) {
+            photoURL = photouri.toString();
+            // Resize lại ảnh để hiển thị tốt
+            for (UserInfo userInfo : firebaseUser.getProviderData()) {
+                if (userInfo.getProviderId().equals("facebook.com")) {
+                    photoURL += "?height=300";
+                } else if (userInfo.getProviderId().equals("google.com")) {
+                    photoURL = photoURL.replace("s96-c", "s400-c");
+
+                }
+            }
+
+            Glide.with(this).load(photoURL)
                     .apply(new RequestOptions()
                             .fitCenter()
                             .format(DecodeFormat.PREFER_ARGB_8888)
                             .override(Target.SIZE_ORIGINAL))
-                        .into(myPhoto);
-        }
-        else{
+                    .into(myPhoto);
+        } else {
             myPhoto.setImageResource(R.drawable.icon_user);
         }
         btnSignOut.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +122,7 @@ public class TaiKhoanFragment extends Fragment {
                     if (userInfo.getProviderId().equals("facebook.com")) {
                         LoginManager.getInstance().logOut();
                     }
+
                 }
 
                 startActivity(new Intent(view.getContext(), HomeActivity.class));
@@ -119,15 +130,13 @@ public class TaiKhoanFragment extends Fragment {
         });
         progressBar.setVisibility(View.GONE);
 
-        if (name.isEmpty())
-        {
+        if (name.isEmpty()) {
             progressBar.setVisibility(View.VISIBLE);
             firebaseDatabase.getReference("Users").child("9BbnfecEY1dgZnyqLSm3TfH2I6t2").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String name2 = snapshot.child("fullname").getValue().toString();
-                    if (!name2.isEmpty())
-                    {
+                    if (!name2.isEmpty()) {
                         txtName.setText(name2);
                         progressBar.setVisibility(View.GONE);
                     }
