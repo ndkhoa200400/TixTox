@@ -56,8 +56,8 @@
             android:id="@+id/danhGia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="280dp"
-            android:layout_marginBottom="340dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/background_danhgia"
             android:paddingLeft="40dp"
             android:paddingTop="17dp"
@@ -66,8 +66,8 @@
             android:text="10.0"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/image"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

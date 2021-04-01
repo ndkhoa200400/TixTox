@@ -26,7 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:background="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -46,11 +45,11 @@
             android:id="@+id/gridView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="10dp"
-            android:layout_marginTop="9dp"
             android:columnWidth="@android:dimen/thumbnail_width"
             android:horizontalSpacing="10dp"
             android:numColumns="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:verticalSpacing="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
