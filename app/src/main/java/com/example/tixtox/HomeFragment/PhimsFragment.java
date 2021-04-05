@@ -20,6 +20,7 @@ import com.example.tixtox.ThongTinPhimActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class PhimsFragment extends Fragment {
                 try {
                     modelPhim = ModelPhim.getInstance();
                     getPhims(modelPhim.getPhimDangChieu());
-                } catch (IOException e) {
+                } catch (IOException | ParseException e) {
                     e.printStackTrace();
                 }
 
@@ -95,7 +96,7 @@ public class PhimsFragment extends Fragment {
                 if (position == 0){
                     try {
                         getPhims(modelPhim.getPhimDangChieu());
-                    } catch (IOException e) {
+                    } catch (IOException | ParseException e) {
                         e.printStackTrace();
                     }
                 }
@@ -103,7 +104,7 @@ public class PhimsFragment extends Fragment {
 
                     try {
                         getPhims(modelPhim.getPhimSapChieu());
-                    } catch (IOException e) {
+                    } catch (IOException | ParseException e) {
                         e.printStackTrace();
                     }
                 }
@@ -161,7 +162,13 @@ public class PhimsFragment extends Fragment {
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.GONE);
-                        loadPhim(posters, filmNames, ratings);
+                        try {
+                            loadPhim(posters, filmNames, ratings);
+                        }catch(Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+
                     }
                 });
 

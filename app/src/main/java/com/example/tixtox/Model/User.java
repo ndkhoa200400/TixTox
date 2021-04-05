@@ -1,12 +1,18 @@
 package com.example.tixtox.Model;
 
 public class User {
-    public String fullname, email;
+    public String fullname, email, phone, dob;
 
 
     public User(String fullname, String email) {
         this.fullname = fullname;
         this.email = email;
+    }
+    public User(String fullname, String email, String phone, String dob) {
+        this.fullname = fullname;
+        this.email = email;
+        this.phone = phone;
+        this.dob = dob;
     }
     public User(){
 
@@ -31,5 +37,21 @@ public class User {
     {
         this.fullname = fullname;
         this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
     }
 }

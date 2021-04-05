@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tixtox.Model.User;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -48,6 +49,12 @@ import com.google.firebase.auth.FirebaseUser;
 
 import com.facebook.FacebookSdk;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
     TextView txtRegister;
@@ -61,6 +68,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     GoogleSignInClient mGoogleSignInClient;
 
     private static final int RC_SIGN_IN = 9001;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +139,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
 
     }
+
     private void handleFacebookAccessToken(AccessToken token) {
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -145,7 +154,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(LogInActivity.this, "Authenciation failed",  Toast.LENGTH_LONG).show();
+                            Toast.makeText(LogInActivity.this, "Authenciation failed", Toast.LENGTH_LONG).show();
                             updateUI(null);
                         }
                     }
@@ -153,13 +162,40 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void updateUI(FirebaseUser user) {
-        if (user != null)
-        {
+        if (user != null) {
+            // Kiểm tra xem ID có trên database chưa
+            FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (!snapshot.exists()) {
+                        System.out.println("OK BAN oi");
+                        User user1 = new User();
+                        user1.set(user.getDisplayName(), user.getEmail());
+                        FirebaseDatabase.getInstance().getReference("Users")
+                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .setValue(user1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
 
+                                } else {
+
+                                }
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            setResult(1234);
             finish();
-        }
-        else{
-            Toast.makeText(this, "Please sign in to continue",  Toast.LENGTH_LONG).show();
+
+        } else {
+            Toast.makeText(this, "Please sign in to continue", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -178,8 +214,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
-    public void signInWithGoogle()
-    {
+
+    public void signInWithGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
 
@@ -244,11 +280,11 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 // Google Sign In failed, update UI appropriately
                 Log.w("FAILED", "Google sign in failed", e);
             }
-        }
-        else {
+        } else {
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
+
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         firebaseAuth.signInWithCredential(credential)
@@ -268,14 +304,15 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                     }
                 });
     }
+
     @Override
     protected void onStart() {
         super.onStart();
         // Kiem tra xem dang nhap hay chua?
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
-        if (currentUser != null)
-        {
+        if (currentUser != null) {
+
             updateUI(currentUser);
         }
     }

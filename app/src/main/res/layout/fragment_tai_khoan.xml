@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="32dp"
                 android:layout_marginBottom="8dp"
                 android:text="Đăng xuất"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -57,7 +57,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView2">
 
                 <ImageView
-                    android:id="@+id/imgAvatar_Account"
+                    android:id="@+id/imgAvatar_EditAccount"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -93,13 +93,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="8dp"
                 android:drawableBottom="#322D39"
                 android:text="Lịch sử đặt vé"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView4" />
+                app:layout_constraintTop_toBottomOf="@+id/btnSubmit" />
 
             <View
                 android:id="@+id/view"
@@ -139,7 +139,7 @@
                         android:textColor="#000000" />
 
                     <TextView
-                        android:id="@+id/txtAccountName_Account"
+                        android:id="@+id/txtName_EditAccount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -171,7 +171,7 @@
                         android:textColor="#000000" />
 
                     <TextView
-                        android:id="@+id/txtDOB_Account"
+                        android:id="@+id/editDOB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -202,7 +202,7 @@
                         android:textColor="#000000" />
 
                     <TextView
-                        android:id="@+id/txtPhone_Account"
+                        android:id="@+id/editPhone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -233,7 +233,7 @@
                         android:textColor="#000000" />
 
                     <TextView
-                        android:id="@+id/txtEmail_Account"
+                        android:id="@+id/txtEmail_EditAccount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -266,6 +266,16 @@
                     android:textSize="18sp" />
 
             </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:text="Chỉnh Sửa"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView4" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

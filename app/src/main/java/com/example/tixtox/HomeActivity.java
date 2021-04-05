@@ -1,6 +1,7 @@
 package com.example.tixtox;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -63,6 +64,7 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     case R.id.navigation_account:
                         // Chuyển hướng về trang thông tin cá nhân
+                        System.out.println("WUT");
                         checkAccount();
                         break;
                 }
@@ -80,6 +82,7 @@ public class HomeActivity extends AppCompatActivity {
         PhimsFragment phimsFragment = PhimsFragment.newInstance();
         ft.replace(R.id.fragment_home, phimsFragment);
         ft.commit();
+
     }
 
     protected void checkAccount() {
@@ -96,7 +99,23 @@ public class HomeActivity extends AppCompatActivity {
         }
         else{
             startActivity(new Intent(this, LogInActivity.class));
+
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1133)
+        {
+            System.out.println("OK ne`");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        bottomNavigation.setSelectedItemId(R.id.navigation_home);
     }
 }

@@ -19,6 +19,7 @@ import com.example.tixtox.R;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,7 +81,7 @@ public class ExpandableListRapAdapter extends BaseExpandableListAdapter {
                             try {
                             ModelRap modelRap = ModelRap.getInstance();
                             modelRap.getThongTinLichChieuHeThongRap(listCumRap.get(groupPosition).getMaHeThongRap(), rapDetail.getMaRap());
-                            } catch (IOException e) {
+                            } catch (IOException | ParseException e) {
                                 e.printStackTrace();
                             }
                         }

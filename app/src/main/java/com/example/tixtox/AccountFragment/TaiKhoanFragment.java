@@ -19,11 +19,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.example.tixtox.ChinhSuaTaiKhoanActivity;
 import com.example.tixtox.HomeActivity;
 import com.example.tixtox.R;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -33,18 +32,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TaiKhoanFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.Map;
+
 public class TaiKhoanFragment extends Fragment {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference();
     ImageView myPhoto;
-    Button btnSignOut;
+    Button btnSignOut, btnEditAccount;
     TextView txtDOB, txtName, txtEmail, txtPhone;
     ProgressBar progressBar;
 
@@ -76,12 +72,13 @@ public class TaiKhoanFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tai_khoan, container, false);
         progressBar = view.findViewById(R.id.progressBar_Account);
         progressBar.setVisibility(View.VISIBLE);
-        txtEmail = view.findViewById(R.id.txtEmail_Account);
-        txtDOB = view.findViewById(R.id.txtDOB_Account);
-        txtName = view.findViewById(R.id.txtAccountName_Account);
-        txtPhone = view.findViewById(R.id.txtPhone_Account);
-        myPhoto = view.findViewById(R.id.imgAvatar_Account);
+        txtEmail = view.findViewById(R.id.txtEmail_EditAccount);
+        txtDOB = view.findViewById(R.id.editDOB);
+        txtName = view.findViewById(R.id.txtName_EditAccount);
+        txtPhone = view.findViewById(R.id.editPhone);
+        myPhoto = view.findViewById(R.id.imgAvatar_EditAccount);
         btnSignOut = view.findViewById(R.id.btnSignOut_Account);
+        btnEditAccount = view.findViewById(R.id.btnSubmit);
 
         String name = firebaseUser.getDisplayName();
         String email = firebaseUser.getEmail();
@@ -128,28 +125,37 @@ public class TaiKhoanFragment extends Fragment {
                 startActivity(new Intent(view.getContext(), HomeActivity.class));
             }
         });
-        progressBar.setVisibility(View.GONE);
 
-        if (name.isEmpty()) {
-            progressBar.setVisibility(View.VISIBLE);
-            firebaseDatabase.getReference("Users").child("9BbnfecEY1dgZnyqLSm3TfH2I6t2").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String name2 = snapshot.child("fullname").getValue().toString();
-                    if (!name2.isEmpty()) {
-                        txtName.setText(name2);
-                        progressBar.setVisibility(View.GONE);
-                    }
+        btnEditAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    startActivity(new Intent(view.getContext(), ChinhSuaTaiKhoanActivity.class));
+            }
+        });
+
+
+        // Láy thông tin trên firebase
+        FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Map<String, String> values = (Map<String, String>) snapshot.getValue();
+                if (values.get("dob") != null)
+                {
+                    txtDOB.setText(values.get("dob"));
                 }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
+                if (values.get("phone") != null)
+                {
+                    txtPhone.setText(values.get("phone"));
                 }
+                progressBar.setVisibility(View.GONE);
+            }
 
-            });
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-        }
+            }
+        });
+
         return view;
     }
 }
