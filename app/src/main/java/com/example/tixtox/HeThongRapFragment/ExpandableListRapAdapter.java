@@ -48,6 +48,7 @@ public class ExpandableListRapAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.layout_item_cum_rap, null);
         }
+        System.out.println("view cum rap");
 
         TextView tenCumRap = convertView.findViewById(R.id.txtTenCumRap);
         CumRap cumRap = (CumRap) this.getGroup(listPosition);
