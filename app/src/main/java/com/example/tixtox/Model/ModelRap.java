@@ -188,4 +188,20 @@ public class ModelRap {
            }
        }
     }
+
+    public void getThongTinLichChieuPhim(String maPhim, String ngayXem) throws IOException {
+        ResponseBody responseBody = query(url + "/LayThongTinLichChieuPhim?MaPhim="+maPhim);
+        if(responseBody != null){
+            Gson gson = new Gson();
+            ArrayList data = gson.fromJson(responseBody.string(), ArrayList.class);
+            for(Object obj1: data){
+                LinkedTreeMap linkedTreeMap1 = (LinkedTreeMap) obj1;
+                ArrayList heThongRapChieu = (ArrayList) linkedTreeMap1.get("heThongRapChieu");
+                for(Object obj2: heThongRapChieu){
+                    LinkedTreeMap linkedTreeMap2 = (LinkedTreeMap) obj2;
+                    ArrayList cumRapChieu = (ArrayList) linkedTreeMap2.get("cumRapChieu");
+                }
+            }
+        }
+    }
 }
