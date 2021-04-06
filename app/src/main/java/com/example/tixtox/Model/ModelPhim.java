@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class ModelPhim {
         return modelPhim;
     }
 
-    private ArrayList<Phim> getPhimsDangChieu() throws IOException {
+    private ArrayList<Phim> getPhimsDangChieu() throws IOException, ParseException {
         // Hàm dùng để gọi API để lấy các phim đang chiếu
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");
         LocalDateTime now = LocalDateTime.now();
@@ -50,7 +51,7 @@ public class ModelPhim {
         return getPhimTheoNgay(dtf.format(before), dtf.format(now));
     }
 
-    private ArrayList<Phim> getPhimsSapChieu() throws IOException {
+    private ArrayList<Phim> getPhimsSapChieu() throws IOException, ParseException {
         // Hàm dùng để gọi API để lấy các phim sắp chiếu
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");
         LocalDateTime now = LocalDateTime.now();
@@ -59,13 +60,13 @@ public class ModelPhim {
     }
 
 
-    public void getThongTinPhim(String MaPhim) throws IOException, JSONException {
+    public void getThongTinPhim(String MaPhim) throws IOException, JSONException, ParseException {
 
         // Lấy thông tin chi tiết của một phim
         // Trả về rạp, ngày chiếu va thông tin phim chi tiết
         String link = "LayThongTinPhim?MaPhim=" + MaPhim;
 
-        ResponseBody responseBody = query("https://movie0706.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?MaPhim=5126");
+        ResponseBody responseBody = query(link);
 
 
         if (responseBody != null) {
@@ -84,11 +85,11 @@ public class ModelPhim {
             p.setBiDanh((String) data.get("biDanh").toString());
             p.setMaPhim((String) data.get("maPhim").toString());
             p.setDanhGia((String) data.get("danhGia").toString());
-            System.out.println(p.getTenPhim());
+
         }
     }
 
-    public ArrayList<Phim> getPhimTheoNgay(String dateFrom, String dateTo) throws IOException {
+    public ArrayList<Phim> getPhimTheoNgay(String dateFrom, String dateTo) throws IOException, ParseException {
 
 
         ResponseBody responseBody = query(url + "LayDanhSachPhimTheoNgay?maNhom=GP01&soTrang=1&soTrang=10&tuNgay=" + dateFrom + "&denNgay=" + dateTo);
@@ -152,12 +153,12 @@ public class ModelPhim {
         this.phimDangChieu = phimDangChieu;
     }
 
-    public ArrayList<Phim> getPhimSapChieu() throws IOException {
+    public ArrayList<Phim> getPhimSapChieu() throws IOException, ParseException {
         if (phimSapChieu == null)   modelPhim.setPhimSapChieu(modelPhim.getPhimsSapChieu());
         return phimSapChieu;
     }
 
-    public ArrayList<Phim> getPhimDangChieu() throws IOException {
+    public ArrayList<Phim> getPhimDangChieu() throws IOException, ParseException {
         if (phimDangChieu == null)  modelPhim.setPhimDangChieu(modelPhim.getPhimsDangChieu());
         return phimDangChieu;
     }

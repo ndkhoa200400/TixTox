@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -146,7 +147,7 @@ public class ModelRap {
         return this.heThongRaps.get(CumRap);
     }
 
-    public void getThongTinLichChieuHeThongRap(String maCumRap, String maRapDetail) throws IOException {
+    public void getThongTinLichChieuHeThongRap(String maCumRap, String maRapDetail) throws IOException, ParseException {
         System.out.println(maCumRap);
         ResponseBody responseBody = query(url + "/LayThongTinLichChieuHeThongRap?maHeThongRap="+maCumRap);
        if (responseBody != null)

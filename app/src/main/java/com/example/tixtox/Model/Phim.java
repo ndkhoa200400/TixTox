@@ -1,6 +1,11 @@
 package com.example.tixtox.Model;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Objects;
 
 
@@ -81,8 +86,13 @@ public class Phim implements Serializable {
         return ngayKhoiChieu;
     }
 
-    public void setNgayKhoiChieu(String ngayKhoiChieu) {
-        this.ngayKhoiChieu = ngayKhoiChieu;
+    public void setNgayKhoiChieu(String ngayKhoiChieu) throws ParseException {
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-YYYY");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        ngayKhoiChieu = ngayKhoiChieu.substring(0, ngayKhoiChieu.indexOf("T"));
+
+        this.ngayKhoiChieu = formatter.format(new SimpleDateFormat("yyyy-MM-dd").parse(ngayKhoiChieu));
     }
 
 

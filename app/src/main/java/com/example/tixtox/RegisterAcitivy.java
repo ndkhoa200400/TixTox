@@ -102,10 +102,13 @@ public class RegisterAcitivy extends AppCompatActivity {
                                     {
                                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                                 .setDisplayName(username).build();
+
                                         FirebaseUser user =  FirebaseAuth.getInstance().getCurrentUser();
                                         user.updateProfile(profileUpdates);
+
                                         Toast.makeText(RegisterAcitivy.this, "User has been registered successfully", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
+                                        setResult(1234);
                                         finish();
                                     }
                                     else{
