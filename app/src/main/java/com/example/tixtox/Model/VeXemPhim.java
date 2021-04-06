@@ -5,6 +5,7 @@ import com.example.tixtox.Model.Rap.RapPhim;
 import java.util.ArrayList;
 
 public class VeXemPhim {
+    String id;
     String Ghe;
     String GiaTien,ThoiGian;
     String phim;

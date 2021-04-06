@@ -47,7 +47,7 @@ dependencies {
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
-
+    implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
     implementation ("com.github.bumptech.glide:glide:4.9.0") {
         exclude group: "com.android.support"
     }
