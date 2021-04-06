@@ -8,19 +8,18 @@
     tools:context=".MuaVeActivity">
 
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        tools:layout_editor_absoluteX="126dp"
+        tools:layout_editor_absoluteY="164dp">
 
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="match_parent"
-            android:layout_height="13dp"
+            android:layout_height="10dp"
 
             android:layout_marginLeft="40dp"
 
@@ -29,17 +28,17 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="37dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="55dp"
                 android:layout_marginLeft="40dp"
                 android:gravity="center_horizontal"
                 android:text="Màn Hình"
                 android:textColor="@color/white"
-                android:textSize="20dp" />
+                android:textSize="25dp" />
 
 
         </LinearLayout>
@@ -63,7 +62,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/cell12"
+                    android:id="@+id/textView7"
                     android:layout_width="match_parent"
                     android:layout_height="37dp"
                     android:gravity="center"
@@ -181,10 +180,10 @@
                         android:id="@+id/Char3"
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:text="3"
+                        android:layout_marginLeft="5dp"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -192,10 +191,10 @@
                         android:id="@+id/Char4"
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:text="4"
+                        android:layout_marginLeft="5dp"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -203,10 +202,10 @@
                         android:id="@+id/Char5"
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:text="5"
+                        android:layout_marginLeft="5dp"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -214,10 +213,10 @@
                         android:id="@+id/Char6"
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:text="6"
+                        android:layout_marginLeft="5dp"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -225,10 +224,10 @@
                         android:id="@+id/Char7"
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:text="7"
+                        android:layout_marginLeft="5dp"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -236,10 +235,10 @@
                         android:id="@+id/Char8"
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:text="8"
+                        android:layout_marginLeft="5dp"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -247,11 +246,11 @@
                         android:id="@+id/Char9"
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:gravity="right"
-
                         android:text="9"
+
+                        android:layout_marginLeft="5dp"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -259,10 +258,10 @@
                         android:id="@+id/Char10"
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:gravity="right"
                         android:text="10"
+                        android:layout_marginLeft="5dp"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -270,9 +269,9 @@
                         android:id="@+id/Char11"
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:gravity="right"
+                        android:layout_marginLeft="5dp"
                         android:text="11"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
@@ -289,53 +288,16 @@
 
                     android:paddingTop="5dp"
                     android:stretchMode="columnWidth" />
-
-                <LinearLayout
+                <GridView
+                    android:id="@+id/gridviewGheDoi"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginHorizontal="15dp"
-                    android:orientation="horizontal">
+                    android:layout_marginRight="10dp"
+                    android:numColumns="5"
+                    android:paddingTop="1dp"
 
-                    <ImageButton
-                        android:id="@+id/gheDoi1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/black"
-                        app:srcCompat="@drawable/icon_ghedoi" />
+                    android:stretchMode="columnWidth" />
 
-                    <ImageButton
-                        android:id="@+id/gheDoi2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/black"
-                        app:srcCompat="@drawable/icon_ghedoi" />
-
-                    <ImageButton
-                        android:id="@+id/gheDoi3"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/black"
-                        app:srcCompat="@drawable/icon_ghedoi" />
-
-                    <ImageButton
-                        android:id="@+id/gheDoi4"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/black"
-                        app:srcCompat="@drawable/icon_ghedoi" />
-
-                    <ImageButton
-                        android:id="@+id/gheDoi5"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/black"
-                        app:srcCompat="@drawable/icon_ghedoi" />
-                </LinearLayout>
 
 
             </LinearLayout>
@@ -362,31 +324,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#FFFFFF"
+            android:background="@drawable/background_muave"
+
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txtTenPhim"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
                 android:text="Bố Già"
-                android:textSize="40sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginLeft="40dp"
+
+                android:textSize="40sp" />
 
             <TextView
                 android:id="@+id/txtTenRap"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
                 android:text="CGV"
+                android:layout_marginLeft="40dp"
                 android:textColor="#F40707"
                 android:textSize="20sp" />
 
             <LinearLayout
+                android:layout_marginLeft="40dp"
                 android:layout_width="match_parent"
                 android:layout_height="49dp"
-                android:layout_marginLeft="40dp"
                 android:orientation="horizontal"
                 android:weightSum="3">
 
@@ -409,17 +373,17 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="13/3/2021"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginLeft="20dp" >
 
                     <TextView
                         android:id="@+id/textView23"
@@ -434,15 +398,15 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="16:30"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textSize="20sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="40dp"
                     android:layout_weight="1"
+                    android:layout_marginLeft="40dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -458,8 +422,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="1"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textSize="20sp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -469,17 +433,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
-                android:text="Số ghế"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:text="Số ghế" />
 
             <TextView
                 android:id="@+id/txtSoGhe"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="40dp"
-                android:text="G7"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20sp" />
 
             <ImageView
                 android:id="@+id/imageView7"
@@ -508,7 +472,7 @@
                     android:layout_marginRight="40dp"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:text="70.000đ"
+                    android:textColor="#050505"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -518,12 +482,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="10dp"
-                android:bottomLeftRadius="50dp"
                 android:bottomRightRadius="50dp"
-                android:gravity="center"
-                android:text="Tiếp tục"
+                android:bottomLeftRadius="50dp"
                 android:topLeftRadius="50dp"
-                android:topRightRadius="50dp" />
+                android:topRightRadius="50dp"
+                android:gravity="center"
+                android:text="Tiếp tục" />
 
         </LinearLayout>
 

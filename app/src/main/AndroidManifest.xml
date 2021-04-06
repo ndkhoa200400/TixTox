@@ -15,7 +15,11 @@
         android:usesCleartextTraffic="true">
 
         <activity android:name=".MuaVeActivity">
-          
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".HomeActivity">
@@ -33,6 +37,7 @@
 
 
         </activity>
+        <activity android:name=".activity_checkout" />
         <activity android:name=".Welcomactivity" />
         <activity android:name=".RegisterAcitivy" />
         <activity android:name=".LogInActivity"></activity>
