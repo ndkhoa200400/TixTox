@@ -11,7 +11,8 @@
     android:paddingTop="0dp"
     android:paddingEnd="0dp"
     android:paddingBottom="0dp"
-    app:cardCornerRadius="10dp">
+    app:cardCornerRadius="20dp"
+    android:elevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutImgView"

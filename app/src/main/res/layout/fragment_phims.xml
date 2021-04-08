@@ -8,7 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_home">
 
         <ProgressBar
             android:id="@+id/processbar_phims"
@@ -45,6 +46,8 @@
             android:id="@+id/gridView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:columnWidth="@android:dimen/thumbnail_width"
             android:horizontalSpacing="10dp"
             android:numColumns="1"
