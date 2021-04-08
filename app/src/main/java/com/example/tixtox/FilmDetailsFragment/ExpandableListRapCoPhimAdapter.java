@@ -1,46 +1,42 @@
-package com.example.tixtox.HeThongRapFragment;
+package com.example.tixtox.FilmDetailsFragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.tixtox.HeThongRapFragment.RapDetailActivity;
 import com.example.tixtox.Model.ModelRap;
 import com.example.tixtox.Model.Rap.CumRap;
 import com.example.tixtox.Model.Rap.RapDetail;
 import com.example.tixtox.R;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.zip.Inflater;
 
-public class ExpandableListRapAdapter extends BaseExpandableListAdapter {
-
+public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
     private Context context;
 
     private List<CumRap> listCumRap;
     private HashMap<CumRap, ArrayList<RapDetail>> listRapDetail;
-    public ExpandableListRapAdapter(@NonNull Context context, List<CumRap> cumRap, HashMap<CumRap, ArrayList<RapDetail>> listRapDetail) {
-
+    public ExpandableListRapCoPhimAdapter(@NonNull Context context, List<CumRap> cumRap, HashMap<CumRap, ArrayList<RapDetail>> listRapDetail) {
         this.context = context;
 
         this.listCumRap = cumRap;
         this.listRapDetail = listRapDetail;
-
     }
 
 
@@ -52,7 +48,6 @@ public class ExpandableListRapAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.layout_item_cum_rap, null);
         }
-        System.out.println("view cum rap");
 
         TextView tenCumRap = convertView.findViewById(R.id.txtTenCumRap);
         CumRap cumRap = (CumRap) this.getGroup(listPosition);
@@ -76,31 +71,36 @@ public class ExpandableListRapAdapter extends BaseExpandableListAdapter {
         RapDetail rapDetail = (RapDetail) getChild(groupPosition, childPosition);
 
         txtTenRapDetail.setText(rapDetail.getTenRap());
-        txtTenRapDetail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                    Thread t = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                            ModelRap modelRap = ModelRap.getInstance();
-                            modelRap.getThongTinLichChieuHeThongRap(listCumRap.get(groupPosition).getMaHeThongRap(), rapDetail.getMaRap());
+        // đổ dữ liệu ở đây //
+        ArrayList<ModelGioChieu> listGioChieu = new ArrayList<>();
 
+        LinearLayout linear = convertView.findViewById(R.id.layoutChonGioChieu);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(linear.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView recyclerView = convertView.findViewById(R.id.recyclerViewGioChieu);
+        recyclerView.setLayoutManager(layoutManager);
+        ListGioChieuAdapter adapter = new ListGioChieuAdapter(context, listGioChieu);
+        recyclerView.setAdapter(adapter);
 
+//        txtTenRapDetail.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Thread t = new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            ModelRap modelRap = ModelRap.getInstance();
+//                            modelRap.getThongTinLichChieuHeThongRap(listCumRap.get(groupPosition).getMaHeThongRap(), rapDetail.getMaRap());
+//                        } catch (IOException | ParseException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+//                t.start();
+//            }
+//        });
 
-                            } catch (IOException | ParseException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                    t.start();
-                Intent intent = new Intent(context, RapDetailActivity.class);
-                intent.putExtra("maCumRap", listCumRap.get(groupPosition).getMaHeThongRap());
-                intent.putExtra("maRapDetail",  rapDetail.getMaRap());
-                context.startActivity(intent);
-            }
-        });
         return convertView;
     }
 
@@ -118,7 +118,7 @@ public class ExpandableListRapAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getGroup(int groupPosition) {
-       return this.listCumRap.get(groupPosition);
+        return this.listCumRap.get(groupPosition);
     }
 
     @Override

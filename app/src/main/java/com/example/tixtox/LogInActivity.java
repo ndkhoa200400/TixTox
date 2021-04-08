@@ -57,7 +57,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
-    TextView txtRegister;
     private FirebaseAuth firebaseAuth;
     EditText editEmail, editPassword;
     Button btnSignIn, btnSignUp;
@@ -78,9 +77,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
         editEmail = (EditText) findViewById(R.id.editEmal);
         editPassword = (EditText) findViewById(R.id.editPw);
-        txtRegister = (TextView) findViewById(R.id.txtRegister);
 
-        txtRegister.setOnClickListener(this);
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
         btnSignIn.setOnClickListener(this);
 
