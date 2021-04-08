@@ -3,6 +3,7 @@ package com.example.tixtox.Model;
 import android.view.View;
 
 import com.example.tixtox.Model.Phim;
+import com.example.tixtox.Model.Rap.CumRap;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
@@ -11,9 +12,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -60,8 +63,15 @@ public class ModelPhim {
         return getPhimTheoNgay(dtf.format(now), dtf.format(after));
     }
 
+    private Date parseGioChieu(String h) throws ParseException {
+        // "2019-01-01T10:10:00" => 2019-01-01 và 10:10:10
+        h = h.replace("T", " ");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public void getThongTinPhim(String MaPhim) throws IOException, JSONException, ParseException {
+        return simpleDateFormat.parse(h);
+
+    }
+    public  HashMap<String, HashMap<String, ArrayList<Date>>> getThongTinPhim(String MaPhim) throws IOException, JSONException, ParseException {
 
         // Lấy thông tin chi tiết của một phim
         // Trả về rạp, ngày chiếu va thông tin phim chi tiết
@@ -86,13 +96,57 @@ public class ModelPhim {
 //            p.setBiDanh((String) data.get("biDanh").toString());
 //            p.setMaPhim((String) data.get("maPhim").toString());
 //            p.setDanhGia((String) data.get("danhGia").toString());
-            
+
             ArrayList<LinkedTreeMap> d = (ArrayList<LinkedTreeMap>) data.get("lichChieu");
-            for (LinkedTreeMap thongTinRap: d)
+
+            // Lưu thông tin lịch chiếu của từng cụm rạp.
+            // Value: cụm rạp - Key: {rạp details : ngày giờ chiếu}
+            HashMap<String, HashMap<String, ArrayList<Date>>> thongTinLichChieu = new HashMap<>();
+
+            // Phần tử trong lịch chiếu gồm có thông tin rạp, mã rạp, mã phim, ngày giờ chiếu, thời lượng.
+            for (LinkedTreeMap lichChieu: d)
             {
+                // Thông tin rạp có mã rạp thuộc hệ thống nào
+                LinkedTreeMap thongtinrap = (LinkedTreeMap) lichChieu.get("thongTinRap");
+                String maCumRap = (String) thongtinrap.get("maHeThongRap");
+                maCumRap = (String) maCumRap.substring(0, maCumRap.indexOf("."));
+
+                String maRapDetail = (String) thongtinrap.get("maRap").toString();
+                maRapDetail = maRapDetail.substring(0, maRapDetail.indexOf("."));
+
+                Date gioChieu = parseGioChieu((String) lichChieu.get("ngayChieuGioChieu"));
+                // Nếu thông tin lịch chiếu đã tồn tại mã cụm rạp
+                if (thongTinLichChieu.containsKey(maCumRap))
+                {
+                    // Thêm thông tin rạp detail vào mã cụm rạp
+                    HashMap<String, ArrayList<Date>> temp = thongTinLichChieu.get(maCumRap);
+                    if (temp.containsKey(maRapDetail))
+                    {
+                       temp.get(maRapDetail).add(gioChieu);
+                    }
+                    // Nếu chưa tồn tại rạp details trong một mã cụm rạp thì tạo mới trong thông tin chi tiết
+                    else
+                    {
+                        ArrayList<Date> dates = new ArrayList<>();
+                        dates.add(gioChieu);
+                        temp.put(maRapDetail, dates);
+                    }
+                }
+                // Nếu thông tin lịch chiếu chưa có mã cụm rạp
+                else{
+                    HashMap<String, ArrayList<Date>> temp = new HashMap<>();
+                    ArrayList<Date> dates = new ArrayList<>();
+                    dates.add(gioChieu);
+                    temp.put(maRapDetail, dates);
+                    thongTinLichChieu.put(maCumRap, temp);
+
+
+                }
 
             }
+            return thongTinLichChieu;
         }
+        return null;
     }
 
     public ArrayList<Phim> getPhimTheoNgay(String dateFrom, String dateTo) throws IOException, ParseException {

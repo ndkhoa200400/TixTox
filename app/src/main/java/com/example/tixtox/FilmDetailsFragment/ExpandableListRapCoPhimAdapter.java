@@ -24,19 +24,20 @@ import com.example.tixtox.R;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
     private Context context;
 
-    private List<CumRap> listCumRap;
-    private HashMap<CumRap, ArrayList<RapDetail>> listRapDetail;
-    public ExpandableListRapCoPhimAdapter(@NonNull Context context, List<CumRap> cumRap, HashMap<CumRap, ArrayList<RapDetail>> listRapDetail) {
+    private ArrayList<String> listCumRap;
+    private HashMap<String, HashMap<String, ArrayList<Date>>> thongTinPhim;
+    public ExpandableListRapCoPhimAdapter(@NonNull Context context, ArrayList<String> cumRap, HashMap<String, HashMap<String, ArrayList<Date>>> thongTinPhim) {
         this.context = context;
 
         this.listCumRap = cumRap;
-        this.listRapDetail = listRapDetail;
+        this.thongTinPhim = thongTinPhim;
     }
 
 
@@ -72,7 +73,6 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
 
         txtTenRapDetail.setText(rapDetail.getTenRap());
 
-        // đổ dữ liệu ở đây //
         ArrayList<ModelGioChieu> listGioChieu = new ArrayList<>();
 
         LinearLayout linear = convertView.findViewById(R.id.layoutChonGioChieu);
@@ -82,24 +82,7 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
         ListGioChieuAdapter adapter = new ListGioChieuAdapter(context, listGioChieu);
         recyclerView.setAdapter(adapter);
 
-//        txtTenRapDetail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Thread t = new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//                            ModelRap modelRap = ModelRap.getInstance();
-//                            modelRap.getThongTinLichChieuHeThongRap(listCumRap.get(groupPosition).getMaHeThongRap(), rapDetail.getMaRap());
-//                        } catch (IOException | ParseException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-//                t.start();
-//            }
-//        });
+
 
         return convertView;
     }
@@ -111,8 +94,8 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        if(listRapDetail != null)
-            return this.listRapDetail.get(this.listCumRap.get(groupPosition)).size();
+        if(thongTinPhim != null)
+            return this.thongTinPhim.get(this.listCumRap.get(groupPosition)).size();
         return 0;
     }
 
@@ -123,7 +106,8 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return this.listRapDetail.get(this.listCumRap.get(groupPosition)).get(childPosition);
+       // return this.listRapDetail.get(this.listCumRap.get(groupPosition)).get(childPosition);
+        return null;
     }
 
     @Override

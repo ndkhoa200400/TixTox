@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tixtox.Model.ModelPhim;
+import com.example.tixtox.Model.ModelRap;
 import com.example.tixtox.Model.Phim;
 import com.example.tixtox.R;
 
@@ -21,6 +22,8 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdapter.ViewHolder> {
     private ArrayList<ModelNgay> listNgay;
@@ -54,7 +57,21 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                         @Override
                         public void run() {
                             try {
-                                modelPhim.getThongTinPhim(phim.getMaPhim());
+                                HashMap<String, HashMap<String, ArrayList<Date>>> thongTinLichChieu = modelPhim.getThongTinPhim(phim.getMaPhim());
+                                String[] cumRaps = new String[thongTinLichChieu.keySet().size()];
+                                int index =0;
+                                for(String str: thongTinLichChieu.keySet())
+                                {
+                                    cumRaps[index++] = str;
+                                }
+                                ModelRap modelRap = ModelRap.getInstance();
+
+                                for (String cumRap: cumRaps) {
+                                    HashMap<String, ArrayList<Date>> rapDetails = thongTinLichChieu.get(cumRap); // Lấy các rạp detail từ một cụm rạp
+
+
+                                    
+                                }
 
                             } catch (IOException e) {
                                 e.printStackTrace();
