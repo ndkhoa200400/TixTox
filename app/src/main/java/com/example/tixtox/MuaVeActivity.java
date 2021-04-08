@@ -55,6 +55,7 @@ public class  MuaVeActivity extends AppCompatActivity {
     Dialog dialog;
     DatabaseReference dtb;
     String V = "";
+
     Integer[] image = {R.drawable.icon_ghe,R.drawable.icon_ghe,R.drawable.icon_ghe,
             R.drawable.icon_ghe,R.drawable.icon_ghe,
             R.drawable.icon_ghe,R.drawable.icon_ghe,

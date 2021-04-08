@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -29,7 +30,7 @@ public class HomeActivity extends AppCompatActivity {
     private TabLayout tabHome;
     PhimsFragment phimsFragment;
     private BottomNavigationView bottomNavigation;
-
+    private static int navigationPosition = R.id.navigation_home;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,18 +46,22 @@ public class HomeActivity extends AppCompatActivity {
                 {
                     case R.id.navigation_home:
                         // Chuyển hướng về trang home
+
                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();;
 
                         PhimsFragment phimsFragment = PhimsFragment.newInstance();
                         ft.replace(R.id.fragment_home, phimsFragment);
                         ft.commit();
+
                         break;
                     case R.id.navigation_theater:
                         try {
+
                             ft = getSupportFragmentManager().beginTransaction();
                             HeThongRapFragment heThongRapFragment = HeThongRapFragment.newInstance();
                             ft.replace(R.id.fragment_home, heThongRapFragment);
                             ft.commit();
+
                         }catch(Exception e){
                             e.printStackTrace();
                         }
@@ -64,24 +69,34 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     case R.id.navigation_account:
                         // Chuyển hướng về trang thông tin cá nhân
-                        System.out.println("WUT");
+
                         checkAccount();
+
                         break;
                 }
+                updateNavigationBarState(item.getItemId());
                 return true;
             }
         });
 
+        bottomNavigation.setSelectedItemId(navigationPosition);
+
+
 
     }
+    private void updateNavigationBarState(long actionId){
+        Menu menu = bottomNavigation.getMenu();
 
+        for (int i = 0, size = menu.size(); i < size; i++) {
+            MenuItem item = menu.getItem(i);
+            item.setChecked(item.getItemId() == actionId);
+        }
+        navigationPosition = (int) actionId;
+    }
     @Override
     protected void onStart() {
         super.onStart();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        PhimsFragment phimsFragment = PhimsFragment.newInstance();
-        ft.replace(R.id.fragment_home, phimsFragment);
-        ft.commit();
+        bottomNavigation.setSelectedItemId(navigationPosition);
 
     }
 
@@ -98,24 +113,11 @@ public class HomeActivity extends AppCompatActivity {
             ft.commit();
         }
         else{
+            navigationPosition = R.id.navigation_home;
             startActivity(new Intent(this, LogInActivity.class));
 
         }
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1133)
-        {
-            System.out.println("OK ne`");
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        bottomNavigation.setSelectedItemId(R.id.navigation_home);
-    }
 }

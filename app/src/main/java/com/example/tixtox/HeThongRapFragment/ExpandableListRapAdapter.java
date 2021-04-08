@@ -33,8 +33,8 @@ public class ExpandableListRapAdapter extends BaseExpandableListAdapter {
     private Context context;
 
     private List<CumRap> listCumRap;
-    private HashMap<CumRap, ArrayList<RapDetail>> listRapDetail;
-    public ExpandableListRapAdapter(@NonNull Context context, List<CumRap> cumRap, HashMap<CumRap, ArrayList<RapDetail>> listRapDetail) {
+    private HashMap<String, ArrayList<RapDetail>> listRapDetail;
+    public ExpandableListRapAdapter(@NonNull Context context, List<CumRap> cumRap, HashMap<String, ArrayList<RapDetail>> listRapDetail) {
 
         this.context = context;
 
@@ -87,8 +87,6 @@ public class ExpandableListRapAdapter extends BaseExpandableListAdapter {
                             ModelRap modelRap = ModelRap.getInstance();
                             modelRap.getThongTinLichChieuHeThongRap(listCumRap.get(groupPosition).getMaHeThongRap(), rapDetail.getMaRap());
 
-
-
                             } catch (IOException | ParseException e) {
                                 e.printStackTrace();
                             }
@@ -112,7 +110,7 @@ public class ExpandableListRapAdapter extends BaseExpandableListAdapter {
     @Override
     public int getChildrenCount(int groupPosition) {
         if(listRapDetail != null)
-            return this.listRapDetail.get(this.listCumRap.get(groupPosition)).size();
+            return this.listRapDetail.get(this.listCumRap.get(groupPosition).getMaHeThongRap()).size();
         return 0;
     }
 
@@ -123,7 +121,7 @@ public class ExpandableListRapAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return this.listRapDetail.get(this.listCumRap.get(groupPosition)).get(childPosition);
+        return this.listRapDetail.get(this.listCumRap.get(groupPosition).getMaHeThongRap()).get(childPosition);
     }
 
     @Override

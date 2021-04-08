@@ -12,17 +12,24 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tixtox.Model.ModelPhim;
+import com.example.tixtox.Model.Phim;
 import com.example.tixtox.R;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdapter.ViewHolder> {
     private ArrayList<ModelNgay> listNgay;
     private Context context;
-    
-    public ListNgayChieuAdapter(Context context, ArrayList<ModelNgay> listNgay){
+    private Phim phim;
+    public ListNgayChieuAdapter(Context context, ArrayList<ModelNgay> listNgay ,Phim phim){
         this.context = context;
         this.listNgay = listNgay;
+        this.phim = phim;
     }
 
     @NonNull
@@ -40,6 +47,28 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
         holder.cardViewItemNgay.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                try {
+                    ModelPhim modelPhim = ModelPhim.getInstance();
+                    new Thread()
+                    {
+                        @Override
+                        public void run() {
+                            try {
+                                modelPhim.getThongTinPhim(phim.getMaPhim());
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }.start();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             }
         });

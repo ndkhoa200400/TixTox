@@ -23,7 +23,7 @@ public class Phim implements Serializable {
     }
 
     public void setMaPhim(String maPhim) {
-        this.maPhim = maPhim;
+        this.maPhim = maPhim.substring(0, maPhim.indexOf("."));
     }
 
     public String getDanhGia() {

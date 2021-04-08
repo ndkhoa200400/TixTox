@@ -62,6 +62,7 @@ public class PhimsFragment extends Fragment {
                 try {
                     modelPhim = ModelPhim.getInstance();
                     getPhims(modelPhim.getPhimDangChieu());
+                    modelPhim.setPhimSapChieu(modelPhim.getPhimSapChieu());
                 } catch (IOException | ParseException e) {
                     e.printStackTrace();
                 }

@@ -102,7 +102,7 @@ public class LichChieuPhim extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(linear.getContext(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = view.findViewById(R.id.listViewChonNgay);
         recyclerView.setLayoutManager(layoutManager);
-        ListNgayChieuAdapter adapter = new ListNgayChieuAdapter(getContext(), listNgay);
+        ListNgayChieuAdapter adapter = new ListNgayChieuAdapter(getContext(), listNgay, phim);
         recyclerView.setAdapter(adapter);
 
         return view;

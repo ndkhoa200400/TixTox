@@ -21,7 +21,7 @@ public class ModelRap {
     private static ModelRap modelRap;
     private ArrayList<CumRap> cumRaps;
 
-    private HashMap<CumRap, ArrayList<RapDetail>> heThongRaps;
+    private HashMap<String, ArrayList<RapDetail>> heThongRaps;
     private ArrayList result;
 
     public ModelRap() {
@@ -50,11 +50,11 @@ public class ModelRap {
         if (modelRap == null) {
             modelRap = new ModelRap();
             modelRap.setCumRaps(modelRap.getThongTinCumRap());
-            HashMap<CumRap, ArrayList<RapDetail>> heThongRaps = new HashMap<>();
+            HashMap<String, ArrayList<RapDetail>> heThongRaps = new HashMap<>();
             // Lấy các chi nhánh của một cụm rạp ra
             for (CumRap cumRap : modelRap.getCumRaps()) {
                 ArrayList<RapDetail> rapDetails = modelRap.getRapDetail(cumRap.getMaHeThongRap());
-                heThongRaps.put(cumRap, rapDetails);
+                heThongRaps.put(cumRap.getMaHeThongRap(), rapDetails);
             }
 
             modelRap.setHeThongRaps(heThongRaps);
@@ -135,11 +135,11 @@ public class ModelRap {
         return cumRaps;
     }
 
-    public void setHeThongRaps(HashMap<CumRap, ArrayList<RapDetail>> heThongRaps) {
+    public void setHeThongRaps(HashMap<String, ArrayList<RapDetail>> heThongRaps) {
         this.heThongRaps = heThongRaps;
     }
 
-    public HashMap<CumRap, ArrayList<RapDetail>> getHeThongRaps() {
+    public HashMap<String, ArrayList<RapDetail>> getHeThongRaps() {
         return heThongRaps;
     }
 
@@ -204,5 +204,20 @@ public class ModelRap {
                 }
             }
         }
+    }
+
+    public RapDetail getMotRapDetail(String maCumRap, String maRapDetail)
+    {
+        ArrayList<RapDetail> rapDetails =  this.heThongRaps.get(maCumRap);
+        if (rapDetails != null)
+        {
+            for (RapDetail rap: rapDetails) {
+                if (rap.getMaRap().equals(maRapDetail))
+                {
+                    return rap;
+                }
+            }
+        }
+        return null;
     }
 }

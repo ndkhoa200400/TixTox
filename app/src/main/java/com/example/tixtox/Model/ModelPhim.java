@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -64,7 +65,7 @@ public class ModelPhim {
 
         // Lấy thông tin chi tiết của một phim
         // Trả về rạp, ngày chiếu va thông tin phim chi tiết
-        String link = "LayThongTinPhim?MaPhim=" + MaPhim;
+        String link = url+"/LayThongTinPhim?MaPhim=" + MaPhim;
 
         ResponseBody responseBody = query(link);
 
@@ -72,20 +73,25 @@ public class ModelPhim {
         if (responseBody != null) {
             Gson gson = new Gson();
             String str = responseBody.string();
-            JSONObject data = new JSONObject(str);
+            LinkedTreeMap data = gson.fromJson(str, LinkedTreeMap.class);
             responseBody.close();
 
-            Phim p = new Phim();
-            p.setTenPhim((String) data.get("tenPhim").toString());
-            p.setTrailer((String) data.get("trailer").toString());
-            p.setMoTa((String) data.get("moTa").toString());
-            p.setMaNhom((String) data.get("maNhom").toString());
-            p.setNgayKhoiChieu((String) data.get("ngayKhoiChieu").toString());
-            p.setHinhAnh((String) data.get("hinhAnh").toString());
-            p.setBiDanh((String) data.get("biDanh").toString());
-            p.setMaPhim((String) data.get("maPhim").toString());
-            p.setDanhGia((String) data.get("danhGia").toString());
+//            Phim p = new Phim();
+//            p.setTenPhim((String) data.get("tenPhim").toString());
+//            p.setTrailer((String) data.get("trailer").toString());
+//            p.setMoTa((String) data.get("moTa").toString());
+//            p.setMaNhom((String) data.get("maNhom").toString());
+//            p.setNgayKhoiChieu((String) data.get("ngayKhoiChieu").toString());
+//            p.setHinhAnh((String) data.get("hinhAnh").toString());
+//            p.setBiDanh((String) data.get("biDanh").toString());
+//            p.setMaPhim((String) data.get("maPhim").toString());
+//            p.setDanhGia((String) data.get("danhGia").toString());
+            
+            ArrayList<LinkedTreeMap> d = (ArrayList<LinkedTreeMap>) data.get("lichChieu");
+            for (LinkedTreeMap thongTinRap: d)
+            {
 
+            }
         }
     }
 

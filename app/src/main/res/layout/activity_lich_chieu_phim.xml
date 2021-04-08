@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="TenPhim"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"

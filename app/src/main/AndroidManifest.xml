@@ -15,7 +15,10 @@
         android:theme="@style/Theme.TixTox"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".MuaVeActivity"/>
+        <activity android:name=".MuaVeActivity">
+
+
+        </activity>
 
         <activity android:name=".HeThongRapFragment.RapDetailActivity"
             tools:ignore="Instantiatable" />
