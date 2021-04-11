@@ -12,13 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tixtox.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ListGioChieuAdapter extends RecyclerView.Adapter<ListGioChieuAdapter.ViewHolder> {
     private ArrayList<ModelGioChieu> listGioChieu;
     private Context context;
 
-    public ListGioChieuAdapter(Context context, ArrayList<ModelGioChieu> listGioChieu){
+    public ListGioChieuAdapter(Context context, ArrayList<ModelGioChieu> listGioChieu) {
         this.context = context;
         this.listGioChieu = listGioChieu;
     }
@@ -41,12 +44,15 @@ public class ListGioChieuAdapter extends RecyclerView.Adapter<ListGioChieuAdapte
         return this.listGioChieu.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView gioBD, gioKT;
+
         public ViewHolder(View itemView) {
             super(itemView);
             gioBD = itemView.findViewById(R.id.gioBD);
             gioKT = itemView.findViewById(R.id.gioKT);
         }
     }
+
+
 }

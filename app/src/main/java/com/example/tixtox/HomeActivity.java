@@ -13,14 +13,17 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.tixtox.AccountFragment.TaiKhoanFragment;
+import com.example.tixtox.HeThongRapFragment.ExpandableListRapAdapter;
 import com.example.tixtox.HeThongRapFragment.HeThongRapFragment;
 import com.example.tixtox.HomeFragment.PhimsFragment;
+import com.example.tixtox.Model.ModelRap;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
@@ -81,7 +84,23 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigation.setSelectedItemId(navigationPosition);
 
+        Thread getDanhSachRap = new Thread() {
+            @Override
+            public void run() {
+                super.run();
 
+
+                try {
+                    ModelRap modelRap = ModelRap.getInstance();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+
+        getDanhSachRap.start();
 
     }
     private void updateNavigationBarState(long actionId){

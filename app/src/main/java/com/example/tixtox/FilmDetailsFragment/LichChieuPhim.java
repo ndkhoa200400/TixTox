@@ -62,7 +62,7 @@ public class LichChieuPhim extends Fragment {
 
         ngay.setNgay(t[0]);
         ngay.setThang(t[1]);
-
+        ngay.setNam(t[2]);
         SimpleDateFormat format1=new SimpleDateFormat("dd-MM-yyyy");
         Date dt1= null;
         try {
@@ -102,7 +102,8 @@ public class LichChieuPhim extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(linear.getContext(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = view.findViewById(R.id.listViewChonNgay);
         recyclerView.setLayoutManager(layoutManager);
-        ListNgayChieuAdapter adapter = new ListNgayChieuAdapter(getContext(), listNgay, phim);
+        ListNgayChieuAdapter adapter = new ListNgayChieuAdapter(getActivity(), listNgay, phim);
+
         recyclerView.setAdapter(adapter);
 
         return view;

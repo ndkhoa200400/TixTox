@@ -22,7 +22,9 @@ import com.example.tixtox.Model.Rap.RapDetail;
 import com.example.tixtox.R;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -33,11 +35,25 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
 
     private ArrayList<String> listCumRap;
     private HashMap<String, HashMap<String, ArrayList<Date>>> thongTinPhim;
+    private ArrayList<ArrayList<String>> rapDetailsCuaMotCumRap;
     public ExpandableListRapCoPhimAdapter(@NonNull Context context, ArrayList<String> cumRap, HashMap<String, HashMap<String, ArrayList<Date>>> thongTinPhim) {
         this.context = context;
 
         this.listCumRap = cumRap;
         this.thongTinPhim = thongTinPhim;
+
+        rapDetailsCuaMotCumRap = new ArrayList<>();
+       for (String heThongRap: cumRap)
+       {
+           ArrayList<String> rapDetails = new ArrayList<>();
+           for (String rap: thongTinPhim.get(heThongRap).keySet())
+           {
+               rapDetails.add(rap);
+           }
+
+           rapDetailsCuaMotCumRap.add(rapDetails);
+
+       }
     }
 
 
@@ -51,10 +67,10 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
         }
 
         TextView tenCumRap = convertView.findViewById(R.id.txtTenCumRap);
-        CumRap cumRap = (CumRap) this.getGroup(listPosition);
-        tenCumRap.setText(cumRap.getTenHeThongRap());
+        String cumRap =  (String) this.getGroup(listPosition);
+        tenCumRap.setText(cumRap);
         ImageView logo = convertView.findViewById(R.id.logo);
-        Glide.with(logo.getContext()).load(cumRap.getLogo()).into(logo);
+        //Glide.with(logo.getContext()).load(cumRap.getLogo()).into(logo);
 
         return convertView;
     }
@@ -69,17 +85,27 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
         }
         TextView txtTenRapDetail = convertView.findViewById(R.id.txtTenRapDetail);
 
-        RapDetail rapDetail = (RapDetail) getChild(groupPosition, childPosition);
 
-        txtTenRapDetail.setText(rapDetail.getTenRap());
 
-        ArrayList<ModelGioChieu> listGioChieu = new ArrayList<>();
+        String rapDetail = (String) getChild(groupPosition, childPosition);
+        ArrayList<Date> listGioChieu =  this.thongTinPhim.get(listCumRap.get(groupPosition)).get(rapDetail);
+
+        ArrayList<ModelGioChieu> modelGioChieuArrayList = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss");
+        for (Date gioChieu: listGioChieu)
+        {
+            ModelGioChieu modelGioChieu = new ModelGioChieu();
+            modelGioChieu.setGioBD(format.format(gioChieu));
+            modelGioChieuArrayList.add(modelGioChieu);
+        }
+
+
 
         LinearLayout linear = convertView.findViewById(R.id.layoutChonGioChieu);
         LinearLayoutManager layoutManager = new LinearLayoutManager(linear.getContext(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = convertView.findViewById(R.id.recyclerViewGioChieu);
         recyclerView.setLayoutManager(layoutManager);
-        ListGioChieuAdapter adapter = new ListGioChieuAdapter(context, listGioChieu);
+        ListGioChieuAdapter adapter = new ListGioChieuAdapter(context, modelGioChieuArrayList);
         recyclerView.setAdapter(adapter);
 
 
@@ -106,8 +132,10 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-       // return this.listRapDetail.get(this.listCumRap.get(groupPosition)).get(childPosition);
-        return null;
+        // Trả về từng cụm rạp với thời gian.
+      return this.rapDetailsCuaMotCumRap.get(groupPosition).get(childPosition);
+
+
     }
 
     @Override

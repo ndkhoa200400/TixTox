@@ -1,5 +1,9 @@
 package com.example.tixtox.FilmDetailsFragment;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ModelNgay {
     private String thu;
     private String ngay;
@@ -47,5 +51,18 @@ public class ModelNgay {
 
     public void setThu(String thu) {
         this.thu = thu;
+    }
+
+    public Date getDate()
+    {
+        SimpleDateFormat format =new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            return format.parse(this.nam + "-" +this.thang+"-"+this.ngay);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 }

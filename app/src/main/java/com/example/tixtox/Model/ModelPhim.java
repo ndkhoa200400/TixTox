@@ -109,7 +109,6 @@ public class ModelPhim {
                 // Thông tin rạp có mã rạp thuộc hệ thống nào
                 LinkedTreeMap thongtinrap = (LinkedTreeMap) lichChieu.get("thongTinRap");
                 String maCumRap = (String) thongtinrap.get("maHeThongRap");
-                maCumRap = (String) maCumRap.substring(0, maCumRap.indexOf("."));
 
                 String maRapDetail = (String) thongtinrap.get("maRap").toString();
                 maRapDetail = maRapDetail.substring(0, maRapDetail.indexOf("."));

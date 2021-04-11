@@ -1,11 +1,13 @@
 package com.example.tixtox.FilmDetailsFragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +23,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,10 +32,14 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
     private ArrayList<ModelNgay> listNgay;
     private Context context;
     private Phim phim;
-    public ListNgayChieuAdapter(Context context, ArrayList<ModelNgay> listNgay ,Phim phim){
+    private HashMap<String, HashMap<String, ArrayList<Date>>> thongTinLichChieu;
+
+    public ListNgayChieuAdapter(Context context, ArrayList<ModelNgay> listNgay, Phim phim) {
         this.context = context;
         this.listNgay = listNgay;
         this.phim = phim;
+
+
     }
 
     @NonNull
@@ -47,31 +54,16 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
         holder.thu.setText(this.listNgay.get(position).getThu());
         holder.ngay.setText(this.listNgay.get(position).getNgay());
         holder.thang.setText(this.listNgay.get(position).getThang());
-        holder.cardViewItemNgay.setOnClickListener(new View.OnClickListener(){
+        holder.cardViewItemNgay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     ModelPhim modelPhim = ModelPhim.getInstance();
-                    new Thread()
-                    {
+                    new Thread() {
                         @Override
                         public void run() {
                             try {
-                                HashMap<String, HashMap<String, ArrayList<Date>>> thongTinLichChieu = modelPhim.getThongTinPhim(phim.getMaPhim());
-                                String[] cumRaps = new String[thongTinLichChieu.keySet().size()];
-                                int index =0;
-                                for(String str: thongTinLichChieu.keySet())
-                                {
-                                    cumRaps[index++] = str;
-                                }
-                                ModelRap modelRap = ModelRap.getInstance();
-
-                                for (String cumRap: cumRaps) {
-                                    HashMap<String, ArrayList<Date>> rapDetails = thongTinLichChieu.get(cumRap); // Lấy các rạp detail từ một cụm rạp
-
-
-                                    
-                                }
+                                thongTinLichChieu = modelPhim.getThongTinPhim(phim.getMaPhim());
 
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -80,6 +72,63 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
+                            ArrayList<String> cumRaps = new ArrayList<>();
+                            HashMap<String, HashMap<String, ArrayList<Date>>> results = new HashMap<>(); // kết quả trả về các thông tin lịch chiếu của ngày được click
+
+                            for (String str : thongTinLichChieu.keySet()) {
+                                cumRaps.add(str);
+                            }
+                            Date selectedDate = listNgay.get(position).getDate();
+                            System.out.println(selectedDate);
+                            SimpleDateFormat format =new SimpleDateFormat("yyyy-MM-dd");
+                            for (String cumRap : cumRaps) {
+                                // cumRap: là một hệ thống rạp - VD: CGV, BHD
+                                HashMap<String, ArrayList<Date>> rapDetails = thongTinLichChieu.get(cumRap); // Lấy các rạp detail từ một cụm rạp
+                                HashMap<String, ArrayList<Date>> thongTinChieuCuaMotRap = new HashMap<>();
+                                for (String maRapDetail : thongTinLichChieu.get(cumRap).keySet()) {
+                                    ArrayList<Date> times = rapDetails.get(maRapDetail);
+
+                                    ArrayList<Date> validDates = new ArrayList<>();
+
+                                    for (Date time : times) {
+
+                                        if (format.format(time).equals(format.format(selectedDate))) {
+                                            validDates.add(time);
+                                            System.out.println(time);
+                                            System.out.println(cumRap);
+                                            System.out.println(maRapDetail);
+                                        }
+                                    }
+                                    if (!validDates.isEmpty())
+                                        thongTinChieuCuaMotRap.put(maRapDetail, validDates);
+
+
+                                }
+                                if (!thongTinChieuCuaMotRap.isEmpty())
+                                    results.put(cumRap, thongTinChieuCuaMotRap);
+
+                            }
+                            System.out.println("DONE");
+                            System.out.println(results);
+                            Activity activity = (Activity) context;
+                            if (activity!= null)
+                            {
+                                activity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ExpandableListView listRap = ((Activity)context).findViewById(R.id.listRapCoSuatChieu);
+                                        ArrayList<String> availableCumRaps = new ArrayList<>();
+                                        for (String result: results.keySet())
+                                        {
+                                            availableCumRaps.add(result);
+                                        }
+                                        ExpandableListRapCoPhimAdapter expandableListRapCoPhimAdapter = new ExpandableListRapCoPhimAdapter(context, availableCumRaps, results);
+                                        listRap.setAdapter(expandableListRapCoPhimAdapter);
+                                    }
+                                });
+                            }
+
+
                         }
                     }.start();
 
@@ -97,9 +146,10 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
         return this.listNgay.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView thu, ngay, thang;
         CardView cardViewItemNgay;
+
         public ViewHolder(View itemView) {
             super(itemView);
             thu = itemView.findViewById(R.id.thu);
@@ -108,4 +158,5 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
             cardViewItemNgay = itemView.findViewById(R.id.cardViewItemNgay);
         }
     }
+
 }
