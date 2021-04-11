@@ -24,7 +24,6 @@ public class FilmDetails extends Fragment {
     ImageView poster;
     TextView txtFilmName, txtReleaseDate, txtRating, txtContent;
     public FilmDetails() {
-        // Required empty public constructor
     }
 
     public static FilmDetails newInstance() {

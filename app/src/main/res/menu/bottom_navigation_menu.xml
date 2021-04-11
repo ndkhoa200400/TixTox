@@ -11,6 +11,11 @@
         android:icon="@drawable/icon_theater"
         android:title="Cụm Rạp" />
     <item
+        android:id="@+id/navigation_forum"
+        android:enabled="true"
+        android:icon="@drawable/icon_theater"
+        android:title="Forum" />
+    <item
         android:id="@+id/navigation_account"
         android:enabled="true"
         android:icon="@drawable/icon_user_white"

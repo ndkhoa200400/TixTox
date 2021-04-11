@@ -14,6 +14,7 @@ public class ThongTinPhimActivity extends FragmentActivity  {
     FragmentTransaction ft;
     FilmDetails filmDetails;
     LichChieuPhim lichChieuPhim;
+//    BinhLuan binhLuan;
     TabLayout tabThongTinPhim;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +41,19 @@ public class ThongTinPhimActivity extends FragmentActivity  {
                     ft.replace(R.id.fragmentFilmDetails, filmDetails);
                     ft.commit();
                 }
-                else{
+                if (tabPos == 1){
                     lichChieuPhim = LichChieuPhim.newInstance();
                     lichChieuPhim.setPhim(phim);
                     ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.fragmentFilmDetails, lichChieuPhim);
                     ft.commit();
+                }
+                else {
+//                    binhLuan = BinhLuan.newInstance();
+//                    binhLuan.setPhim(phim);
+//                    ft = getSupportFragmentManager().beginTransaction();
+//                    ft.replace(R.id.binhLuan, binhLuan);
+//                    ft.commit();
                 }
             }
 

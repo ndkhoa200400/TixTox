@@ -52,6 +52,7 @@ dependencies {
         exclude group: "com.android.support"
     }
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
     annotationProcessor 'androidx.annotation:annotation:1.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation ("com.github.bumptech.glide:glide:4.9.0@aar") {
@@ -62,4 +63,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'org.lucasr.twowayview:twowayview:0.1.4'
+//    implementation 'com.android.support:design:25.3.1'
+    implementation 'com.firebaseui:firebase-ui:0.6.0'
 }
