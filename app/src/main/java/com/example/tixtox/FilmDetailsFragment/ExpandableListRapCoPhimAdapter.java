@@ -84,14 +84,31 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.layout_item_rap_phim, null);
         }
         TextView txtTenRapDetail = convertView.findViewById(R.id.txtTenRapDetail);
+        String maPhongRap = (String) getChild(groupPosition, childPosition);
 
+        try {
+            ModelRap modelRap = ModelRap.getInstance();
+            RapDetail r = modelRap.getMotRapDetailDuaTrenPhongRap(listCumRap.get(groupPosition),maPhongRap);
+            System.out.println(listCumRap.get(groupPosition));
+            System.out.println(maPhongRap);
 
+            if (r != null)
+            {
+                txtTenRapDetail.setText(r.getTenRap());
+                System.out.println(r.getDiaChi());
+            }
+            else{
+                txtTenRapDetail.setText(listCumRap.get(groupPosition));
+            }
 
-        String rapDetail = (String) getChild(groupPosition, childPosition);
-        ArrayList<Date> listGioChieu =  this.thongTinPhim.get(listCumRap.get(groupPosition)).get(rapDetail);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<Date> listGioChieu =  this.thongTinPhim.get(listCumRap.get(groupPosition)).get(maPhongRap);
 
         ArrayList<ModelGioChieu> modelGioChieuArrayList = new ArrayList<>();
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm");
         for (Date gioChieu: listGioChieu)
         {
             ModelGioChieu modelGioChieu = new ModelGioChieu();

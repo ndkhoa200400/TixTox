@@ -13,7 +13,10 @@ public class RapPhim {
         return maRap;
     }
 
-    public void setMaRap(String maRap) {
+    public void setMaRap(String maRap)
+    {
+        if (maRap.indexOf(".")>0)
+            maRap = maRap.substring(0,maRap.indexOf("."));
         this.maRap = maRap;
     }
 

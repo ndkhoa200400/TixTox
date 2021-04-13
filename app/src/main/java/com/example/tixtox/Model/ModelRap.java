@@ -113,9 +113,11 @@ public class ModelRap {
                     RapPhim p = new RapPhim();
                     // Loại bỏ .0 sau mã rạp
                     String maRap = ((LinkedTreeMap) rapPhim).get("maRap").toString();
-                    maRap = maRap.substring(maRap.indexOf("."));
+
                     p.setMaRap(maRap);
                     p.setTenRap(((LinkedTreeMap) rapPhim).get("tenRap").toString());
+
+                    rapPhims.add(p);
                 }
                 rapDetail.setListRapPhim(rapPhims);
 
@@ -170,14 +172,13 @@ public class ModelRap {
 
                        ModelPhim modelPhim = ModelPhim.getInstance();
                        // Kiểm tra các phim nào đang chiếu.
-                       System.out.println("Phim đang chiếu nek");
                        for(Object p: danhSachPhim)
                        {
                            LinkedTreeMap phim = (LinkedTreeMap) p;
                            for (Phim phimDangChieu: modelPhim.getPhimDangChieu()){
                                 if (phim.get("tenPhim").equals(phimDangChieu.getTenPhim()))
                                 {
-                                    System.out.println(phim.get("tenPhim"));
+
                                 }
                            }
 
@@ -218,6 +219,46 @@ public class ModelRap {
                 }
             }
         }
+        return null;
+    }
+
+    public RapDetail getMotRapDetail(String maCumRap, String maRapDetail, String maRap)
+    {
+        ArrayList<RapDetail> rapDetails =  this.heThongRaps.get(maCumRap);
+        if (rapDetails != null)
+        {
+            for (RapDetail rap: rapDetails) {
+                if (rap.getMaRap().equals(maRapDetail))
+                {
+                    for (RapPhim rapPhim: rap.getListRapPhim())
+                    {
+                        if (rapPhim.getMaRap().equals(maRap))
+                            return rap;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public RapDetail getMotRapDetailDuaTrenPhongRap(String maCumRap,  String maRap)
+    {
+        ArrayList<RapDetail> rapDetails =  this.heThongRaps.get(maCumRap);
+
+        if (rapDetails != null)
+        {
+            System.out.println("OKK");
+            for (RapDetail rap: rapDetails) {
+
+                   for (RapPhim rapPhim: rap.getListRapPhim())
+                    {
+                        System.out.println(rapPhim.getMaRap());
+                        if (rapPhim.getMaRap().equals(maRap))
+                            return rap;
+                    }
+                }
+            }
+
         return null;
     }
 }

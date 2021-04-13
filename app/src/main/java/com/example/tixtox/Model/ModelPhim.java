@@ -86,17 +86,6 @@ public class ModelPhim {
             LinkedTreeMap data = gson.fromJson(str, LinkedTreeMap.class);
             responseBody.close();
 
-//            Phim p = new Phim();
-//            p.setTenPhim((String) data.get("tenPhim").toString());
-//            p.setTrailer((String) data.get("trailer").toString());
-//            p.setMoTa((String) data.get("moTa").toString());
-//            p.setMaNhom((String) data.get("maNhom").toString());
-//            p.setNgayKhoiChieu((String) data.get("ngayKhoiChieu").toString());
-//            p.setHinhAnh((String) data.get("hinhAnh").toString());
-//            p.setBiDanh((String) data.get("biDanh").toString());
-//            p.setMaPhim((String) data.get("maPhim").toString());
-//            p.setDanhGia((String) data.get("danhGia").toString());
-
             ArrayList<LinkedTreeMap> d = (ArrayList<LinkedTreeMap>) data.get("lichChieu");
 
             // Lưu thông tin lịch chiếu của từng cụm rạp.

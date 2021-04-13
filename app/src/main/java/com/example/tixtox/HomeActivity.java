@@ -15,12 +15,14 @@ import com.example.tixtox.AccountFragment.TaiKhoanFragment;
 import com.example.tixtox.Forum.Forum;
 import com.example.tixtox.HeThongRapFragment.HeThongRapFragment;
 import com.example.tixtox.HomeFragment.PhimsFragment;
+import com.example.tixtox.Model.ModelRap;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
@@ -80,6 +82,16 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    ModelRap.getInstance();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
 
     }
 

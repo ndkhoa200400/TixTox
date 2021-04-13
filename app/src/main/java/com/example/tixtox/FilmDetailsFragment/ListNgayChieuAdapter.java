@@ -64,7 +64,60 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                         public void run() {
                             try {
                                 thongTinLichChieu = modelPhim.getThongTinPhim(phim.getMaPhim());
+                                ArrayList<String> cumRaps = new ArrayList<>();
+                                HashMap<String, HashMap<String, ArrayList<Date>>> results = new HashMap<>(); // kết quả trả về các thông tin lịch chiếu của ngày được click
 
+                                for (String str : thongTinLichChieu.keySet()) {
+                                    cumRaps.add(str);
+                                }
+                                Date selectedDate = listNgay.get(position).getDate();
+
+                                SimpleDateFormat format =new SimpleDateFormat("yyyy-MM-dd");
+                                for (String cumRap : cumRaps) {
+                                    // cumRap: là một hệ thống rạp - VD: CGV, BHD
+                                    HashMap<String, ArrayList<Date>> rapDetails = thongTinLichChieu.get(cumRap); // Lấy các rạp detail từ một cụm rạp
+                                    HashMap<String, ArrayList<Date>> thongTinChieuCuaMotRap = new HashMap<>();
+                                    for (String maRapDetail : thongTinLichChieu.get(cumRap).keySet()) {
+                                        ArrayList<Date> times = rapDetails.get(maRapDetail);
+
+                                        ArrayList<Date> validDates = new ArrayList<>();
+
+                                        for (Date time : times) {
+
+                                            if (format.format(time).equals(format.format(selectedDate))) {
+                                                validDates.add(time);
+
+                                            }
+                                        }
+                                        if (!validDates.isEmpty())
+                                            thongTinChieuCuaMotRap.put(maRapDetail, validDates);
+
+
+                                    }
+                                    if (!thongTinChieuCuaMotRap.isEmpty())
+                                        results.put(cumRap, thongTinChieuCuaMotRap);
+
+                                }
+                                Activity activity = (Activity) context;
+                                System.out.println("DONE");
+                                System.out.println(results);
+                                System.out.println(thongTinLichChieu);
+                                if (activity!= null)
+                                {
+                                    activity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ExpandableListView listRap = ((Activity)context).findViewById(R.id.listRapCoSuatChieu);
+                                            ArrayList<String> availableCumRaps = new ArrayList<>();
+                                            for (String result: results.keySet())
+                                            {
+                                                availableCumRaps.add(result);
+                                            }
+                                            ExpandableListRapCoPhimAdapter expandableListRapCoPhimAdapter = new ExpandableListRapCoPhimAdapter(context, availableCumRaps, results);
+                                            listRap.setAdapter(expandableListRapCoPhimAdapter);
+                                        }
+                                    });
+                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             } catch (JSONException e) {
@@ -72,61 +125,7 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            ArrayList<String> cumRaps = new ArrayList<>();
-                            HashMap<String, HashMap<String, ArrayList<Date>>> results = new HashMap<>(); // kết quả trả về các thông tin lịch chiếu của ngày được click
 
-                            for (String str : thongTinLichChieu.keySet()) {
-                                cumRaps.add(str);
-                            }
-                            Date selectedDate = listNgay.get(position).getDate();
-                            System.out.println(selectedDate);
-                            SimpleDateFormat format =new SimpleDateFormat("yyyy-MM-dd");
-                            for (String cumRap : cumRaps) {
-                                // cumRap: là một hệ thống rạp - VD: CGV, BHD
-                                HashMap<String, ArrayList<Date>> rapDetails = thongTinLichChieu.get(cumRap); // Lấy các rạp detail từ một cụm rạp
-                                HashMap<String, ArrayList<Date>> thongTinChieuCuaMotRap = new HashMap<>();
-                                for (String maRapDetail : thongTinLichChieu.get(cumRap).keySet()) {
-                                    ArrayList<Date> times = rapDetails.get(maRapDetail);
-
-                                    ArrayList<Date> validDates = new ArrayList<>();
-
-                                    for (Date time : times) {
-
-                                        if (format.format(time).equals(format.format(selectedDate))) {
-                                            validDates.add(time);
-                                            System.out.println(time);
-                                            System.out.println(cumRap);
-                                            System.out.println(maRapDetail);
-                                        }
-                                    }
-                                    if (!validDates.isEmpty())
-                                        thongTinChieuCuaMotRap.put(maRapDetail, validDates);
-
-
-                                }
-                                if (!thongTinChieuCuaMotRap.isEmpty())
-                                    results.put(cumRap, thongTinChieuCuaMotRap);
-
-                            }
-                            System.out.println("DONE");
-                            System.out.println(results);
-                            Activity activity = (Activity) context;
-                            if (activity!= null)
-                            {
-                                activity.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ExpandableListView listRap = ((Activity)context).findViewById(R.id.listRapCoSuatChieu);
-                                        ArrayList<String> availableCumRaps = new ArrayList<>();
-                                        for (String result: results.keySet())
-                                        {
-                                            availableCumRaps.add(result);
-                                        }
-                                        ExpandableListRapCoPhimAdapter expandableListRapCoPhimAdapter = new ExpandableListRapCoPhimAdapter(context, availableCumRaps, results);
-                                        listRap.setAdapter(expandableListRapCoPhimAdapter);
-                                    }
-                                });
-                            }
 
 
                         }

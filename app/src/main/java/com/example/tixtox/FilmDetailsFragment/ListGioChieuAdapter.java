@@ -36,7 +36,7 @@ public class ListGioChieuAdapter extends RecyclerView.Adapter<ListGioChieuAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.gioBD.setText(this.listGioChieu.get(position).getGioBD());
-        holder.gioKT.setText(this.listGioChieu.get(position).getGioKT());
+
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ListGioChieuAdapter extends RecyclerView.Adapter<ListGioChieuAdapte
         public ViewHolder(View itemView) {
             super(itemView);
             gioBD = itemView.findViewById(R.id.gioBD);
-            gioKT = itemView.findViewById(R.id.gioKT);
+
         }
     }
 
