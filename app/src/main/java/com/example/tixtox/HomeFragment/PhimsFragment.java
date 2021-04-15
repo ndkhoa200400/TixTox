@@ -3,6 +3,7 @@ package com.example.tixtox.HomeFragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -10,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 
 import com.example.tixtox.ImageAdapter;
 import com.example.tixtox.Model.ModelPhim;
@@ -36,6 +39,10 @@ public class PhimsFragment extends Fragment {
     private TabLayout tabLayout;
     private ArrayList<Phim> phims;
     private ModelPhim modelPhim;
+    private SearchView searchViewFilm;
+    private CardView searchBarContainer;
+    private ArrayList<String> posters, filmNames, ratings;
+    private int position = 0;
 
     public PhimsFragment() {
         // Required empty public constructor
@@ -86,14 +93,17 @@ public class PhimsFragment extends Fragment {
         progressBar = view.findViewById(R.id.processbar_phims);
         progressBar.setVisibility(View.VISIBLE);
         gridView = (GridView) view.findViewById(R.id.gridView);
-
+        searchViewFilm = view.findViewById(R.id.searchViewFilm);
+        searchViewFilm.setSubmitButtonEnabled(true);
+        searchBarContainer = view.findViewById(R.id.searchBarContainer);
+        
         tabLayout = view.findViewById(R.id.tabPhims);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 progressBar.setVisibility(View.VISIBLE);
-                int position = tab.getPosition();
+                position = tab.getPosition();
                 if (position == 0){
                     try {
                         getPhims(modelPhim.getPhimDangChieu());
@@ -119,6 +129,36 @@ public class PhimsFragment extends Fragment {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+
+        searchViewFilm.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchViewFilm.clearFocus();
+                ArrayList<String> filmsSearchList = new ArrayList<>(), postersSearchList = new ArrayList<>(), ratingsSearchList = new ArrayList<>();
+                for(int i = 0; i < filmNames.size(); i++){
+                    if(filmNames.get(i).toLowerCase().contains(query.toLowerCase())){
+                        filmsSearchList.add(filmNames.get(i));
+                        postersSearchList.add(posters.get(i));
+                        ratingsSearchList.add(ratings.get(i));
+                    }
+                }
+
+                loadPhim(postersSearchList, filmsSearchList, ratingsSearchList);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        searchBarContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchViewFilm.setIconified(false);
             }
         });
         return view;
@@ -147,9 +187,9 @@ public class PhimsFragment extends Fragment {
 
         if (phims!= null)
         {
-            ArrayList<String> posters = new ArrayList<>();
-            ArrayList<String> filmNames = new ArrayList<>();
-            ArrayList<String> ratings = new ArrayList<>();
+            posters = new ArrayList<>();
+            filmNames = new ArrayList<>();
+            ratings = new ArrayList<>();
             for(Phim p: phims)
             {
                 filmNames.add(p.getTenPhim());
