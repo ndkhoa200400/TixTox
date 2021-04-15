@@ -176,7 +176,7 @@
                     android:text="Số ghế"
                     android:textSize="20dp" />
 
-                <TextView
+                 <TextView
                     android:id="@+id/txtSoghe_checkout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

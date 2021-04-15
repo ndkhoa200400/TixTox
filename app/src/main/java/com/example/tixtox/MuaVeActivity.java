@@ -28,6 +28,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tixtox.Model.User;
 import com.example.tixtox.Model.VeXemPhim;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -157,10 +158,15 @@ public class  MuaVeActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(MuaVeActivity.this, activity_checkout.class);
                         VeXemPhim vexem = new VeXemPhim(V, txtTongTien.getText().toString(),
-                                txtNgayChieu.getText().toString() ,
+                                txtNgayChieu.getText().toString() ,txtSuatChieu.getText().toString(),
                                 txtTenPhim.getText().toString(),
-                                txtRap.getText().toString(), txtPhong.getText().toString(),txtSuatChieu.getText().toString());
-                        dtb.child("VeXemPhim").push().setValue(vexem);
+                                txtRap.getText().toString(), txtPhong.getText().toString());
+                        String Key = dtb.child("VeXemPhim").push().getKey();
+                        //dtb.child("VeXemPhim").push().setValue(vexem);
+                        dtb.child("VeXemPhim").child(Key).setValue(vexem);
+
+                        Toast.makeText(getApplicationContext(), Key, Toast.LENGTH_SHORT).show();
+                        intent.putExtra("Key", Key);
                         startActivity(intent);
                         dialog.dismiss();
 
@@ -194,7 +200,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                     vitri.add(a);
                     V = "";
                     for (String s : vitri) {
-                        V += s + "\t";
+                        V += s + " ";
                     }
                     txtSoGhe.setText(V);
                     if (V.isEmpty()) btnNext.setEnabled(false);
@@ -208,7 +214,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                     vitri.remove(a);
                     V = "";
                     for (String s : vitri) {
-                        V += s + "\t";
+                        V += s + " ";
                     }
                     Toast.makeText(getApplicationContext(), V, Toast.LENGTH_SHORT).show();
                     txtSoGhe.setText(V);
@@ -232,7 +238,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                     vitri.add(a);
                     V = "";
                     for (String s : vitri) {
-                        V += s + "\t";
+                        V += s + " ";
                     }
                     txtSoGhe.setText(V);
                     if (V.isEmpty()) btnNext.setEnabled(false);
@@ -246,7 +252,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                     vitri.remove(a);
                     V = "";
                     for (String s : vitri) {
-                        V += s + "\t";
+                        V += s + "  ";
                     }
                     if (V.isEmpty()) btnNext.setEnabled(false);
                     else btnNext.setEnabled(true);
@@ -434,7 +440,7 @@ public class  MuaVeActivity extends AppCompatActivity {
     public ArrayList<Integer> ConverStringtoGhe(String l) {
         ArrayList<String> str = new ArrayList<>();
         ArrayList<Integer> result = new ArrayList<>();
-        String[] words = l.split("\\t");
+        String[] words = l.split(" ");
         for (String i : words) {
             result.add(transfer(i));
         }

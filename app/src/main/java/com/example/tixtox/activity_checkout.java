@@ -46,15 +46,17 @@ public class activity_checkout extends AppCompatActivity {
         txtMaDon = (TextView) findViewById(R.id.txtMadon_checkout);
         txtTenPhim = (TextView) findViewById(R.id.txtTenPhim_checkout) ;
         txtTenRap = (TextView) findViewById(R.id.txtTenRap_checkout) ;
-        txtSuatChieu = (TextView) findViewById(R.id.txtSuatChieu) ;
+        txtSuatChieu = (TextView) findViewById(R.id.txtSuatChieu_checkout) ;
         dtb = FirebaseDatabase.getInstance().getReference();
         imgQR_code=(ImageView) findViewById(R.id.imgQR_code);
-        String abc = "-MYJ8E57RrmrALM7Jr3M";
-        Load(abc);
-        abc.trim();
+        Intent intent = getIntent();
+        String Mave = intent.getStringExtra("Key");
+
+        Load(Mave);
+        Mave.trim();
         MultiFormatWriter write =new MultiFormatWriter();
         try {
-            BitMatrix matrix = write.encode(abc, BarcodeFormat.QR_CODE,
+            BitMatrix matrix = write.encode(Mave, BarcodeFormat.QR_CODE,
                     400,400);
             BarcodeEncoder encoder  = new BarcodeEncoder();
             Bitmap bitmap = encoder.createBitmap(matrix);
@@ -76,53 +78,18 @@ public class activity_checkout extends AppCompatActivity {
     private void Load(String MaVe) {
 
 
-      /*  dtb.child("VeXemPhim").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                VeXemPhim temp = snapshot.getValue(VeXemPhim.class);
-                vexm.add(temp);
-                Toast.makeText(getApplicationContext(), temp.getGhe(), Toast.LENGTH_SHORT).show();
-                ChangeGhe = ConverStringtoGhe(temp.getGhe());
-                for(int j =0;j<ChangeGhe.size();j++){
-                    setImageToX(ChangeGhe.get(j));
-
-                }
-
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
-
         dtb.child("VeXemPhim").child(MaVe).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                VeXemPhim a = snapshot.getValue(VeXemPhim.class);
+                VeXemPhim ve = snapshot.getValue(VeXemPhim.class);
                 txtMaDon.setText(MaVe);
-                txtNgayChieu.setText(a.getThoiGian());
-                txtTenPhim.setText(a.getPhim());
-                txtTenRap.setText(a.getRapphim());
-                txtPhongChieu.setText(a.getPhongChieu());
-                txtSoGhe.setText(a.getGhe());
-//                txtSuatChieu.setText(a.getSuatChieu());
+                txtSuatChieu.setText(snapshot.child("suatChieu").getValue().toString());
+                txtNgayChieu.setText(ve.getThoiGian());
+                txtTenPhim.setText(ve.getPhim());
+                txtTenRap.setText(ve.getRapphim());
+                txtPhongChieu.setText(ve.getPhongChieu());
+                txtSoGhe.setText(ve.getGhe());
+
             }
 
             @Override

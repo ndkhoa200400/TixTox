@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 public class VeXemPhim {
     String id;
+
+
+
     String Ghe;
     String GiaTien,ThoiGian;
-
-
-
     String SuatChieu;
     String phim;
     String rapphim;
@@ -18,7 +18,15 @@ public class VeXemPhim {
     public VeXemPhim(){
 
     }
-
+    public VeXemPhim(String ghe, String giaTien, String thoiGian, String suatChieu, String phim, String rapphim, String phongChieu) {
+        Ghe = ghe;
+        GiaTien = giaTien;
+        ThoiGian = thoiGian;
+        SuatChieu = suatChieu;
+        this.phim = phim;
+        this.rapphim = rapphim;
+        PhongChieu = phongChieu;
+    }
     public String getSuatChieu() {
         return SuatChieu;
     }
@@ -39,15 +47,7 @@ public class VeXemPhim {
         this.rapphim = rapphim;
     }
 
-    public VeXemPhim(String ghe, String giaTien, String thoiGian, String phim, String rapphim, String phongChieu,String suatChieu) {
-        Ghe = ghe;
-        GiaTien = giaTien;
-        ThoiGian = thoiGian;
-        this.phim = phim;
-        this.rapphim = rapphim;
-        PhongChieu = phongChieu;
-        SuatChieu = suatChieu;
-    }
+
 
     public String getGhe() {
         return Ghe;
@@ -73,21 +73,6 @@ public class VeXemPhim {
         ThoiGian = thoiGian;
     }
 
-//    public Phim getPhim() {
-//        return phim;
-//   }
-//
-//    public void setPhim(Phim phim) {
-//        this.phim = phim;
-//    }
-//
-//    public RapPhim getRapphim() {
-//        return rapphim;
-//    }
-//
-//    public void setRapphim(RapPhim rapphim) {
-//        this.rapphim = rapphim;
-//    }
 
     public String getPhongChieu() {
         return PhongChieu;
