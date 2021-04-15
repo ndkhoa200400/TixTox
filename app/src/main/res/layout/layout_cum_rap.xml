@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:text="Hệ Thống Rạp" />
 
+
     </com.google.android.material.tabs.TabLayout>
 
     <ProgressBar

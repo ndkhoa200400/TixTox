@@ -102,19 +102,31 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                                 System.out.println("DONE");
                                 System.out.println(results);
                                 System.out.println(thongTinLichChieu);
+                                // Lấy thông tin lịch chiếu và render lên
                                 if (activity!= null)
                                 {
                                     activity.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             ExpandableListView listRap = ((Activity)context).findViewById(R.id.listRapCoSuatChieu);
+                                            TextView txtKhongCoPhim = ((Activity)context).findViewById(R.id.txtKhongCoPhim);
                                             ArrayList<String> availableCumRaps = new ArrayList<>();
                                             for (String result: results.keySet())
                                             {
                                                 availableCumRaps.add(result);
                                             }
+                                            if (availableCumRaps.size() > 0)
+                                            {
+                                                txtKhongCoPhim.setText("");
+                                            }
+                                            else{
+                                                if(txtKhongCoPhim!=null)
+                                                    txtKhongCoPhim.setText("Hiện không có lịch chiếu!");
+
+                                            }
                                             ExpandableListRapCoPhimAdapter expandableListRapCoPhimAdapter = new ExpandableListRapCoPhimAdapter(context, availableCumRaps, results);
                                             listRap.setAdapter(expandableListRapCoPhimAdapter);
+
                                         }
                                     });
                                 }

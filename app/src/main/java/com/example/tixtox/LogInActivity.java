@@ -106,6 +106,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onError(FacebookException error) {
+
+                Toast.makeText(LogInActivity.this, "Đăng nhập thất bại! Xin vui lòng thử lại!", Toast.LENGTH_LONG).show();
                 error.printStackTrace();
                 try {
                     PackageInfo info = getPackageManager().getPackageInfo("com.example.tixtox", PackageManager.GET_SIGNATURES);
@@ -151,7 +153,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(LogInActivity.this, "Authenciation failed", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LogInActivity.this, "Đăng nhập thất bại", Toast.LENGTH_LONG).show();
+
+
                             updateUI(null);
                         }
                     }
@@ -165,7 +169,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (!snapshot.exists()) {
-                        System.out.println("OK BAN oi");
+
                         User user1 = new User();
                         user1.set(user.getDisplayName(), user.getEmail());
                         FirebaseDatabase.getInstance().getReference("Users")
@@ -192,7 +196,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             finish();
 
         } else {
-            Toast.makeText(this, "Please sign in to continue", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Vui lòng đăng nhập!", Toast.LENGTH_LONG).show();
         }
     }
 

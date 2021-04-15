@@ -3,9 +3,12 @@ package com.example.tixtox;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,14 +21,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 public class ChinhSuaTaiKhoanActivity extends AppCompatActivity {
     TextView txtName, txtEmail;
-    EditText editPhone, editDOB;
-    Button btnSubmit;
+    EditText editPhone;
+    TextView editDOB;
+    Button btnSubmit, btnCancel;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
 
@@ -43,6 +49,13 @@ public class ChinhSuaTaiKhoanActivity extends AppCompatActivity {
         txtName.setText(user.getDisplayName());
 
         btnSubmit = findViewById(R.id.btnSubmit);
+
+        editDOB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectDateTime();
+            }
+        });
 
         // Lấy thông tin hiện lên
         FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -70,8 +83,8 @@ public class ChinhSuaTaiKhoanActivity extends AppCompatActivity {
                 String newPhone = editPhone.getText().toString();
 
                 Pattern pattern = Pattern.compile("^\\d{10}$");
-                if (newPhone.length() < 10 && !pattern.matcher(newPhone).matches()) {
-                    Toast.makeText(getApplicationContext(), "Số điện thoại không hợp lệ", Toast.LENGTH_LONG).show();
+                if (newPhone.length() < 10 || !pattern.matcher(newPhone).matches()) {
+                    editPhone.setError("Số điện thoại không hợp lệ!");
                     return;
                 }
                 Map<String, Object> newInfo = new HashMap<>();
@@ -82,5 +95,33 @@ public class ChinhSuaTaiKhoanActivity extends AppCompatActivity {
 
             }
         });
+
+        btnCancel = findViewById(R.id.btnCancel);
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
+
+
+    public void selectDateTime() {
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                c.set(year, month, day);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                editDOB.setText(simpleDateFormat.format(c.getTime()));
+            }
+        }, year, month, day);
+        datePickerDialog.show();
+
+    }
+
 }

@@ -74,7 +74,6 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     case R.id.navigation_account:
                         // Chuyển hướng về trang thông tin cá nhân
-                        System.out.println("WUT");
                         checkAccount();
                         break;
                 }
@@ -92,16 +91,16 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         }.start();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        PhimsFragment phimsFragment = PhimsFragment.newInstance();
+        ft.replace(R.id.fragment_home, phimsFragment);
+        ft.commit();
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        PhimsFragment phimsFragment = PhimsFragment.newInstance();
-        ft.replace(R.id.fragment_home, phimsFragment);
-        ft.commit();
 
     }
 
@@ -125,9 +124,5 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        bottomNavigation.setSelectedItemId(R.id.navigation_home);
-    }
+
 }
