@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.tixtox.R;
 import com.firebase.ui.database.FirebaseListAdapter;
@@ -62,7 +61,8 @@ public class Forum extends Fragment {
                         .setValue(new Messenger(msg,
                                 FirebaseAuth.getInstance()
                                         .getCurrentUser()
-                                        .getDisplayName())
+                                        .getDisplayName(), FirebaseAuth.getInstance()
+                                .getCurrentUser().getUid())
                         );
                 displayChatMessages();
             }
@@ -74,7 +74,7 @@ public class Forum extends Fragment {
     private void displayChatMessages() {
 
         adapter = new MessageAdapter(getActivity(), Messenger.class,
-                R.layout.messenge, FirebaseDatabase.getInstance().getReference("msg")
+                R.layout.messenge_out, FirebaseDatabase.getInstance().getReference("msg")
         );
 
         listMessenge.setAdapter(adapter);

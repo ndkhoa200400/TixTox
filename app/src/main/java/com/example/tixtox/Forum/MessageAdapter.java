@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.example.tixtox.HomeActivity;
 import com.example.tixtox.R;
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.Query;
 
 public class MessageAdapter extends FirebaseListAdapter<Messenger> {
@@ -34,13 +36,20 @@ public class MessageAdapter extends FirebaseListAdapter<Messenger> {
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
         Messenger messenger = getItem(position);
-//        if (Messenger.getMessageUserId().equals(activity.getLoggedInUserName()))
-//            view = forumActivity.getLayoutInflater().inflate(R.layout.item_out_message, viewGroup, false);
-//        else
-//            view = forumActivity.getLayoutInflater().inflate(R.layout.item_in_message, viewGroup, false);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        System.out.println(messenger.getUserID());
+        if (user!= null) {
+            if (messenger.getUserID().equals(user.getUid()))
+                view = activity.getLayoutInflater().inflate(R.layout.message_in, viewGroup, false);
+            else
+                view = activity.getLayoutInflater().inflate(R.layout.messenge_out, viewGroup, false);
+
+        }
+        else
+            view = activity.getLayoutInflater().inflate(R.layout.messenge_out, viewGroup, false);
 
         //generating view
-        view = activity.getLayoutInflater().inflate(R.layout.messenge, viewGroup, false);
+        //view = activity.getLayoutInflater().inflate(R.layout.messenge, viewGroup, false);
         populateView(view, messenger, position);
 
         return view;
@@ -58,4 +67,6 @@ public class MessageAdapter extends FirebaseListAdapter<Messenger> {
         // return a value between 0 and (getViewTypeCount - 1)
         return position % 2;
     }
+
+
 }
