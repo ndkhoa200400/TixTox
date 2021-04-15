@@ -177,7 +177,7 @@
                     android:textSize="20dp" />
 
                 <TextView
-                    android:id="@+id/txtSpghe_checkout"
+                    android:id="@+id/txtSoghe_checkout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -199,7 +199,7 @@
                     android:text="Suất chiếu" />
 
                 <TextView
-                    android:id="@+id/textView24"
+                    android:id="@+id/txtSuatChieu_checkout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"

@@ -16,8 +16,11 @@
         android:usesCleartextTraffic="true">
 
         <activity android:name=".MuaVeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".HeThongRapFragment.RapDetailActivity"
@@ -36,7 +39,13 @@
         <activity android:name=".ThongTinPhimActivity">
 
         </activity>
-        <activity android:name=".activity_checkout" />
+        <activity android:name=".activity_checkout">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
         <activity android:name=".Welcomactivity" />
         <activity android:name=".RegisterAcitivy" />
         <activity android:name=".LogInActivity"></activity>

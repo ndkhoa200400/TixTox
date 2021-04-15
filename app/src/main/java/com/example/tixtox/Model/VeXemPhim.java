@@ -8,11 +8,19 @@ public class VeXemPhim {
     String id;
     String Ghe;
     String GiaTien,ThoiGian;
+
+
+
+    String SuatChieu;
     String phim;
     String rapphim;
     String PhongChieu;
     public VeXemPhim(){
 
+    }
+
+    public String getSuatChieu() {
+        return SuatChieu;
     }
 
     public String getPhim() {
@@ -31,13 +39,14 @@ public class VeXemPhim {
         this.rapphim = rapphim;
     }
 
-    public VeXemPhim(String ghe, String giaTien, String thoiGian, String phim, String rapphim, String phongChieu) {
+    public VeXemPhim(String ghe, String giaTien, String thoiGian, String phim, String rapphim, String phongChieu,String suatChieu) {
         Ghe = ghe;
         GiaTien = giaTien;
         ThoiGian = thoiGian;
         this.phim = phim;
         this.rapphim = rapphim;
         PhongChieu = phongChieu;
+        SuatChieu = suatChieu;
     }
 
     public String getGhe() {
