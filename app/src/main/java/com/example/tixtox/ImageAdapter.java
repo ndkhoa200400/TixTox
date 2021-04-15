@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 
@@ -68,6 +70,14 @@ public class ImageAdapter extends ArrayAdapter<String> {
         //danh gia
         TextView danhGia = convertView.findViewById(R.id.danhGia);
         danhGia.setText(danhGias.get(position));
+
+        ConstraintLayout layoutItemFilm = convertView.findViewById(R.id.layoutItemFilm);
+        if(filmNames.get(position).equals(filmNames.get(0))){
+            layoutItemFilm.setPadding(0, 240,0,0);
+        }
+        else{
+            layoutItemFilm.setPadding(0, 0, 0,0);
+        }
 
         return convertView;
     }

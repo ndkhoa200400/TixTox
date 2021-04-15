@@ -42,7 +42,7 @@ public class PhimsFragment extends Fragment {
     private SearchView searchViewFilm;
     private CardView searchBarContainer;
     private ArrayList<String> posters, filmNames, ratings;
-    private int position = 0;
+    private int tabPosition = 0;
 
     public PhimsFragment() {
         // Required empty public constructor
@@ -103,8 +103,8 @@ public class PhimsFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 progressBar.setVisibility(View.VISIBLE);
-                position = tab.getPosition();
-                if (position == 0){
+                tabPosition = tab.getPosition();
+                if (tabPosition == 0){
                     try {
                         getPhims(modelPhim.getPhimDangChieu());
                     } catch (IOException | ParseException e) {
@@ -151,6 +151,9 @@ public class PhimsFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if(newText == null || newText.isEmpty()){
+                    loadPhim(posters, filmNames, ratings);
+                }
                 return false;
             }
         });
@@ -175,9 +178,15 @@ public class PhimsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ThongTinPhimActivity.class);
+                int pos = 0;
+                for(int i = 0; i < phims.size(); i++){
+                    if(phims.get(i).getTenPhim().equals(filmNames.get(position))){
+                        pos = i;
+                        break;
+                    }
+                }
 
-
-                intent.putExtra("phim", phims.get(position));
+                intent.putExtra("phim", phims.get(pos));
                 startActivity(intent);
             }
         });
