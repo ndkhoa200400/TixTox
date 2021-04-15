@@ -3,22 +3,46 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity_bill"
     android:layout_width="match_parent"
-    android:background="@color/white"
-    android:backgroundTint="@color/white"
+    android:background="@drawable/bg_home"
+
     android:layout_height="match_parent">
 
+
+    <ImageView
+        android:id="@+id/imageView16"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/imageView18"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/background_muave"
+        app:layout_constraintBottom_toTopOf="@+id/btn_ManHinh_bill"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView16"
+        app:layout_constraintVertical_bias="0.74" />
 
     <TextView
         android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
 
         android:text="HÓA ĐƠN"
         android:textSize="30dp"
         android:textStyle="bold"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,19 +52,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:text="Tài Khoản"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
     <TextView
-        android:id="@+id/textView31"
+        android:id="@+id/txtTaiKhoan_bill"
         android:layout_width="210dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="20dp"
-        android:text="TextView"
+        android:text="txtTaiKhoan"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
@@ -50,6 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
         android:text="Mã giao dịch"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,45 +114,49 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView14" />
 
     <TextView
-        android:id="@+id/textView39"
+        android:id="@+id/txtMagd_bill"
         android:layout_width="210dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:text="TextView"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView31" />
+        app:layout_constraintTop_toBottomOf="@+id/txtTaiKhoan_bill" />
 
     <TextView
-        android:id="@+id/textView40"
+        android:id="@+id/txtSogheDon_bill"
         android:layout_width="70dp"
         android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_marginStart="130dp"
         android:layout_marginTop="10dp"
+        android:textStyle="bold"
         android:text="3"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="@+id/textView35"
         app:layout_constraintTop_toBottomOf="@+id/textView44" />
 
     <TextView
-        android:id="@+id/textView41"
+        android:id="@+id/txtSogheDoi_bill"
         android:layout_width="70dp"
-        android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_marginStart="130dp"
         android:layout_marginTop="20dp"
+        android:gravity="center"
         android:text="4"
         android:textSize="20dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textView37"
-        app:layout_constraintTop_toBottomOf="@+id/textView40" />
+        app:layout_constraintTop_toBottomOf="@+id/txtSogheDon_bill" />
 
     <TextView
-        android:id="@+id/textView42"
+        android:id="@+id/txtGiaGheDon_bill"
         android:layout_width="150dp"
         android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:textStyle="bold"
         android:layout_marginEnd="20dp"
         android:text="210000
 "
@@ -136,17 +165,18 @@
         app:layout_constraintTop_toBottomOf="@+id/textView45" />
 
     <TextView
-        android:id="@+id/textView43"
+        android:id="@+id/txtGiagheDoi_bill"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
+        android:textStyle="bold"
         android:text="560000
 "
         android:gravity="center"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView42" />
+        app:layout_constraintTop_toBottomOf="@+id/txtGiaGheDon_bill" />
 
     <ImageView
         android:id="@+id/imageView13"
@@ -155,7 +185,7 @@
         android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView31"
+        app:layout_constraintTop_toBottomOf="@+id/txtTaiKhoan_bill"
         app:srcCompat="@drawable/icon_chan" />
 
     <TextView
@@ -191,26 +221,29 @@
         app:srcCompat="@drawable/icon_chan" />
 
     <TextView
-        android:id="@+id/textView46"
+        android:id="@+id/txtThanhTien_bill"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:gravity="center|center_horizontal"
         android:text="770000"
+        android:textStyle="bold"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView14" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btn_ManHinh_bill"
         android:layout_width="400dp"
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="30dp"
-        android:text="Button"
+        android:text="Màn hình chính"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
