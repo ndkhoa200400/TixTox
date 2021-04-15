@@ -6,11 +6,12 @@ public class Messenger {
     private String messageText;
     private String messageUser;
     private long messageTime;
+    private String userID;
 
-    public Messenger(String messageText, String messageUser) {
+    public Messenger(String messageText, String messageUser, String userID) {
         this.messageText = messageText;
         this.messageUser = messageUser;
-
+        this.userID = userID;
         messageTime = new Date().getTime();
     }
     public Messenger(){
@@ -19,6 +20,14 @@ public class Messenger {
 
     public String getMessageText() {
         return messageText;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public void setMessageText(String messageText) {

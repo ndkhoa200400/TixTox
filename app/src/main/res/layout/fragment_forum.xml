@@ -5,6 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/trang_nga"
+    android:backgroundTint="#FFFFFF"
     tools:context=".Forum.Forum">
 
 
@@ -24,17 +26,21 @@
 
     <ListView
         android:id="@+id/list_of_messages"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:divider="@android:color/transparent"
-        android:dividerHeight="16dp"
+        android:dividerHeight="8dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="2dp"
+        android:paddingRight="5dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabForum">
+        app:layout_constraintTop_toBottomOf="@+id/tabForum"
+        app:layout_constraintVertical_bias="0.0">
 
 
     </ListView>
@@ -42,28 +48,41 @@
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
+        android:background="@color/white"
         android:orientation="horizontal"
+        android:paddingBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list_of_messages">
 
         <EditText
             android:id="@+id/editMessenge"
-            android:layout_width="349dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_weight="9"
+            android:background="@drawable/edttext_round"
             android:ems="10"
             android:hint="Nhập bình luận"
             android:inputType="textNoSuggestions"
+            android:paddingLeft="10dp"
+            android:paddingBottom="2dp"
+
             android:textColorHint="#6A090808" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnSend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:clickable="true"
+            android:foregroundGravity="center"
+
+            app:backgroundTint="#80D8FF"
+            app:fabSize="mini"
             app:srcCompat="@android:drawable/ic_menu_send" />
     </LinearLayout>
 
