@@ -72,11 +72,10 @@ public class Forum extends Fragment {
     }
 
     private void displayChatMessages() {
-
         adapter = new MessageAdapter(getActivity(), Messenger.class,
                 R.layout.messenge_out, FirebaseDatabase.getInstance().getReference("msg")
         );
-
         listMessenge.setAdapter(adapter);
     }
+
 }

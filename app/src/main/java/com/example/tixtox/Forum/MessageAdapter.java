@@ -38,12 +38,11 @@ public class MessageAdapter extends FirebaseListAdapter<Messenger> {
         Messenger messenger = getItem(position);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         System.out.println(messenger.getUserID());
-        if (user!= null) {
+        if (user != null) {
             if (messenger.getUserID().equals(user.getUid()))
                 view = activity.getLayoutInflater().inflate(R.layout.message_in, viewGroup, false);
             else
                 view = activity.getLayoutInflater().inflate(R.layout.messenge_out, viewGroup, false);
-
         }
         else
             view = activity.getLayoutInflater().inflate(R.layout.messenge_out, viewGroup, false);

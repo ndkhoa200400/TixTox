@@ -14,12 +14,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TixTox"
         android:usesCleartextTraffic="true">
+<<<<<<< Updated upstream
         <activity android:name=".activity_bill"></activity>
         <activity android:name=".MuaVeActivity">
 
         </activity>
         <activity
             android:name=".HeThongRapFragment.RapDetailActivity"
+=======
+
+        <activity android:name=".MuaVeActivity"> </activity>
+
+        <activity android:name=".HeThongRapFragment.RapDetailActivity"
+>>>>>>> Stashed changes
             tools:ignore="Instantiatable" />
         <activity android:name=".ChinhSuaTaiKhoanActivity" />
         <activity android:name=".HomeActivity">
