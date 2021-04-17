@@ -124,7 +124,7 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                                                     txtKhongCoPhim.setText("Hiện không có lịch chiếu!");
 
                                             }
-                                            ExpandableListRapCoPhimAdapter expandableListRapCoPhimAdapter = new ExpandableListRapCoPhimAdapter(context, availableCumRaps, results);
+                                            ExpandableListRapCoPhimAdapter expandableListRapCoPhimAdapter = new ExpandableListRapCoPhimAdapter(context, availableCumRaps, results,phim);
                                             listRap.setAdapter(expandableListRapCoPhimAdapter);
 
                                         }

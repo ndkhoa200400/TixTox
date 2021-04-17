@@ -9,6 +9,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,9 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.tixtox.HeThongRapFragment.RapDetailActivity;
 import com.example.tixtox.Model.ModelRap;
+import com.example.tixtox.Model.Phim;
 import com.example.tixtox.Model.Rap.CumRap;
 import com.example.tixtox.Model.Rap.RapDetail;
+import com.example.tixtox.MuaVeActivity;
 import com.example.tixtox.R;
+import com.example.tixtox.activity_checkout;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -32,16 +36,16 @@ import java.util.List;
 
 public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
     private Context context;
-
+    public Phim phim;
     private ArrayList<String> listCumRap;
     private HashMap<String, HashMap<String, ArrayList<Date>>> thongTinPhim;
     private ArrayList<ArrayList<String>> rapDetailsCuaMotCumRap;
-    public ExpandableListRapCoPhimAdapter(@NonNull Context context, ArrayList<String> cumRap, HashMap<String, HashMap<String, ArrayList<Date>>> thongTinPhim) {
+    public ExpandableListRapCoPhimAdapter(@NonNull Context context, ArrayList<String> cumRap, HashMap<String, HashMap<String, ArrayList<Date>>> thongTinPhim,Phim mphim) {
         this.context = context;
 
         this.listCumRap = cumRap;
         this.thongTinPhim = thongTinPhim;
-
+        this.phim = mphim;
         rapDetailsCuaMotCumRap = new ArrayList<>();
        for (String heThongRap: cumRap)
        {
@@ -122,8 +126,9 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
         LinearLayoutManager layoutManager = new LinearLayoutManager(linear.getContext(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = convertView.findViewById(R.id.recyclerViewGioChieu);
         recyclerView.setLayoutManager(layoutManager);
-        ListGioChieuAdapter adapter = new ListGioChieuAdapter(context, modelGioChieuArrayList);
+        ListGioChieuAdapter adapter = new ListGioChieuAdapter(context, modelGioChieuArrayList,phim,listCumRap.get(groupPosition));
         recyclerView.setAdapter(adapter);
+
 
 
 

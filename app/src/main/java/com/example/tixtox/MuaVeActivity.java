@@ -67,6 +67,9 @@ public class  MuaVeActivity extends AppCompatActivity {
     Dialog dialog;
     DatabaseReference dtb;
     String V = "";
+    int SoGheDon =0;
+    int SoGheDoi =0;
+
     ArrayList<Integer> ChangeGhe = new ArrayList<>();
     Integer[] image={R.drawable.icon_ghe, R.drawable.icon_ghe, R.drawable.icon_ghe,
             R.drawable.icon_ghe, R.drawable.icon_ghe,
@@ -198,6 +201,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                     image[position] = R.drawable.icon_ghe_green;
                     String a = ConvertPostoSe(position);
                     vitri.add(a);
+                    SoGheDon++;
                     V = "";
                     for (String s : vitri) {
                         V += s + " ";
@@ -212,6 +216,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                     image[position] = R.drawable.icon_ghe;
                     String a = ConvertPostoSe(position);
                     vitri.remove(a);
+                    SoGheDon--;
                     V = "";
                     for (String s : vitri) {
                         V += s + " ";
@@ -236,6 +241,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                     imageDoi[position] = R.drawable.icon_ghedoi_green;
                     String a = ConVertGheDoi(position);
                     vitri.add(a);
+                    SoGheDoi++;
                     V = "";
                     for (String s : vitri) {
                         V += s + " ";
@@ -250,6 +256,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                     imageDoi[position] = R.drawable.icon_ghedoi;
                     String a = ConVertGheDoi(position);
                     vitri.remove(a);
+                    SoGheDoi--;
                     V = "";
                     for (String s : vitri) {
                         V += s + "  ";

@@ -20,5 +20,8 @@ public class activity_bill extends AppCompatActivity {
         txtMagd = (TextView) findViewById(R.id.txtMagd_bill);
         txtSogheDoi = (TextView) findViewById(R.id.txtSogheDoi_bill);
         txtSoghedon=(TextView) findViewById(R.id.txtSogheDon_bill);
+
+        String code;
+
     }
 }

@@ -1,29 +1,33 @@
 package com.example.tixtox.FilmDetailsFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tixtox.Model.Phim;
+import com.example.tixtox.MuaVeActivity;
 import com.example.tixtox.R;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ListGioChieuAdapter extends RecyclerView.Adapter<ListGioChieuAdapter.ViewHolder> {
     private ArrayList<ModelGioChieu> listGioChieu;
     private Context context;
-
-    public ListGioChieuAdapter(Context context, ArrayList<ModelGioChieu> listGioChieu) {
+    public Phim phim;
+    public String NgayChieu;
+    public String CumRap;
+    public ListGioChieuAdapter(Context context, ArrayList<ModelGioChieu> listGioChieu,Phim mphim, String CumRap) {
         this.context = context;
         this.listGioChieu = listGioChieu;
+        this.phim = mphim;
+        this.CumRap = CumRap;
     }
 
     @NonNull
@@ -36,6 +40,14 @@ public class ListGioChieuAdapter extends RecyclerView.Adapter<ListGioChieuAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.gioBD.setText(this.listGioChieu.get(position).getGioBD());
+        holder.gioBD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,MuaVeActivity.class);
+                intent.putExtra("Phim_name", phim.getMaPhim());
+                context.startActivity(intent);
+            }
+        });
 
     }
 
@@ -52,7 +64,12 @@ public class ListGioChieuAdapter extends RecyclerView.Adapter<ListGioChieuAdapte
             gioBD = itemView.findViewById(R.id.gioBD);
 
         }
+
+
     }
+
+
+
 
 
 }
