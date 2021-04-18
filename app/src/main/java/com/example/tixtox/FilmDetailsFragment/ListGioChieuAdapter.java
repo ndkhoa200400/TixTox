@@ -6,13 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tixtox.Model.Phim;
-import com.example.tixtox.MuaVeActivity;
+import com.example.tixtox.DatVe.MuaVeActivity;
 import com.example.tixtox.R;
 
 import java.util.ArrayList;
@@ -23,11 +22,12 @@ public class ListGioChieuAdapter extends RecyclerView.Adapter<ListGioChieuAdapte
     public Phim phim;
     public String NgayChieu;
     public String CumRap;
-    public ListGioChieuAdapter(Context context, ArrayList<ModelGioChieu> listGioChieu,Phim mphim, String CumRap) {
+    public ListGioChieuAdapter(Context context, ArrayList<ModelGioChieu> listGioChieu,Phim mphim, String CumRap,String ngayChieu) {
         this.context = context;
         this.listGioChieu = listGioChieu;
         this.phim = mphim;
         this.CumRap = CumRap;
+        this.NgayChieu=ngayChieu;
     }
 
     @NonNull
@@ -44,7 +44,11 @@ public class ListGioChieuAdapter extends RecyclerView.Adapter<ListGioChieuAdapte
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context,MuaVeActivity.class);
-                intent.putExtra("Phim_name", phim.getMaPhim());
+                intent.putExtra("Phim_ID", phim.getMaPhim());
+                intent.putExtra("Phim_Ten", phim.getTenPhim());
+                intent.putExtra("Phim_Rap", CumRap);
+                intent.putExtra("Phim_ThoiGian", listGioChieu.get(position).getGioBD());
+                intent.putExtra("Phim_NgayChieu", NgayChieu);
                 context.startActivity(intent);
             }
         });

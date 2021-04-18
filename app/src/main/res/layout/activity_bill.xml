@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activity_bill"
+    tools:context=".DatVe.activity_bill"
     android:layout_width="match_parent"
     android:background="@drawable/bg_home"
 
@@ -241,8 +241,23 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="30dp"
         android:text="Màn hình chính"
-
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/radius_button"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_VeXemPhim_bill"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:text="Vé xem phim"
+        android:background="@drawable/radius_button"
+        app:layout_constraintBottom_toTopOf="@+id/btn_ManHinh_bill"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

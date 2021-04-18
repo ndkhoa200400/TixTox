@@ -1,61 +1,34 @@
-package com.example.tixtox;
+package com.example.tixtox.DatVe;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tixtox.Model.User;
-import com.example.tixtox.Model.VeXemPhim;
-import com.google.firebase.database.ChildEventListener;
+import com.example.tixtox.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 
-
-
-import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import static android.widget.Toast.LENGTH_SHORT;
 
 public class  MuaVeActivity extends AppCompatActivity {
     GridView gridview, gridviewGheDoi;
@@ -142,8 +115,12 @@ public class  MuaVeActivity extends AppCompatActivity {
         txtRap = (TextView) findViewById(R.id.txtTenRap);
         txtTenPhim = (TextView) findViewById(R.id.txtTenPhim);
         if (V.isEmpty()) btnNext.setEnabled(false);
+        Intent intent = getIntent();
+        txtTenPhim.setText(intent.getStringExtra("Phim_Ten"));
+        txtNgayChieu.setText(intent.getStringExtra("Phim_NgayChieu"));
+        txtRap.setText(intent.getStringExtra("Phim_Rap"));
+        txtSuatChieu.setText(intent.getStringExtra("Phim_ThoiGian"));
 
-        this.Load();
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,17 +136,20 @@ public class  MuaVeActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        Intent intent = new Intent(MuaVeActivity.this, activity_checkout.class);
+                        Intent intent = new Intent(MuaVeActivity.this, activity_bill.class);
+                        String MaHoaDon = dtb.child("HoaDon").push().getKey();
+                        HoaDon bill = new HoaDon(SoGheDoi,SoGheDon,txtTongTien.getText().toString(),"123");
                         VeXemPhim vexem = new VeXemPhim(V, txtTongTien.getText().toString(),
                                 txtNgayChieu.getText().toString() ,txtSuatChieu.getText().toString(),
                                 txtTenPhim.getText().toString(),
-                                txtRap.getText().toString(), txtPhong.getText().toString());
+                                txtRap.getText().toString(), txtPhong.getText().toString(),MaHoaDon);
                         String Key = dtb.child("VeXemPhim").push().getKey();
-                        //dtb.child("VeXemPhim").push().setValue(vexem);
                         dtb.child("VeXemPhim").child(Key).setValue(vexem);
-
-                        Toast.makeText(getApplicationContext(), Key, Toast.LENGTH_SHORT).show();
+                        dtb.child("VeXemPhim").child(Key).child("hoaDon").setValue(MaHoaDon);
+                        dtb.child("HoaDon").child(MaHoaDon).setValue(bill);
+                        Toast.makeText(getApplicationContext(), vexem.hoaDon, Toast.LENGTH_SHORT).show();
                         intent.putExtra("Key", Key);
+                        intent.putExtra("MaHoaDon", MaHoaDon);
                         startActivity(intent);
                         dialog.dismiss();
 
@@ -259,7 +239,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                     SoGheDoi--;
                     V = "";
                     for (String s : vitri) {
-                        V += s + "  ";
+                        V += s + " ";
                     }
                     if (V.isEmpty()) btnNext.setEnabled(false);
                     else btnNext.setEnabled(true);

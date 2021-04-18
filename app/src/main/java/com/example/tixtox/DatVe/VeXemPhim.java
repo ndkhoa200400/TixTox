@@ -1,4 +1,4 @@
-package com.example.tixtox.Model;
+package com.example.tixtox.DatVe;
 
 import com.example.tixtox.Model.Rap.RapPhim;
 
@@ -15,10 +15,10 @@ public class VeXemPhim {
     String phim;
     String rapphim;
     String PhongChieu;
-    public VeXemPhim(){
+    String hoaDon;
 
-    }
-    public VeXemPhim(String ghe, String giaTien, String thoiGian, String suatChieu, String phim, String rapphim, String phongChieu) {
+
+    public VeXemPhim(String ghe, String giaTien, String thoiGian, String suatChieu, String phim, String rapphim, String phongChieu, String hoaDon) {
         Ghe = ghe;
         GiaTien = giaTien;
         ThoiGian = thoiGian;
@@ -26,7 +26,16 @@ public class VeXemPhim {
         this.phim = phim;
         this.rapphim = rapphim;
         PhongChieu = phongChieu;
+        this.hoaDon = hoaDon;
     }
+
+
+
+
+    public VeXemPhim(){
+        super();
+    }
+
     public String getSuatChieu() {
         return SuatChieu;
     }

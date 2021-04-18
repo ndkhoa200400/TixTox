@@ -1,7 +1,6 @@
 package com.example.tixtox.FilmDetailsFragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,43 +8,36 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.example.tixtox.HeThongRapFragment.RapDetailActivity;
 import com.example.tixtox.Model.ModelRap;
 import com.example.tixtox.Model.Phim;
-import com.example.tixtox.Model.Rap.CumRap;
 import com.example.tixtox.Model.Rap.RapDetail;
-import com.example.tixtox.MuaVeActivity;
 import com.example.tixtox.R;
-import com.example.tixtox.activity_checkout;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
     private Context context;
     public Phim phim;
+    private String NgayChieu;
     private ArrayList<String> listCumRap;
     private HashMap<String, HashMap<String, ArrayList<Date>>> thongTinPhim;
     private ArrayList<ArrayList<String>> rapDetailsCuaMotCumRap;
-    public ExpandableListRapCoPhimAdapter(@NonNull Context context, ArrayList<String> cumRap, HashMap<String, HashMap<String, ArrayList<Date>>> thongTinPhim,Phim mphim) {
+    public ExpandableListRapCoPhimAdapter(@NonNull Context context, ArrayList<String> cumRap, HashMap<String, HashMap<String, ArrayList<Date>>> thongTinPhim,Phim mphim,String mNgaychieu) {
         this.context = context;
 
         this.listCumRap = cumRap;
         this.thongTinPhim = thongTinPhim;
         this.phim = mphim;
+        this.NgayChieu = mNgaychieu;
         rapDetailsCuaMotCumRap = new ArrayList<>();
        for (String heThongRap: cumRap)
        {
@@ -126,7 +118,7 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
         LinearLayoutManager layoutManager = new LinearLayoutManager(linear.getContext(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = convertView.findViewById(R.id.recyclerViewGioChieu);
         recyclerView.setLayoutManager(layoutManager);
-        ListGioChieuAdapter adapter = new ListGioChieuAdapter(context, modelGioChieuArrayList,phim,listCumRap.get(groupPosition));
+        ListGioChieuAdapter adapter = new ListGioChieuAdapter(context, modelGioChieuArrayList,phim,listCumRap.get(groupPosition),NgayChieu);
         recyclerView.setAdapter(adapter);
 
 
