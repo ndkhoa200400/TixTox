@@ -75,8 +75,7 @@ public class activity_checkout extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dtb.child("VeXemPhim").child(Mave).child("trangThai").setValue("Đã Hủy");
-                Intent intent = new Intent(activity_checkout.this, VeXemPhim.class);
-                startActivity(intent);
+                
             }
         });
     }
