@@ -43,7 +43,7 @@ public class PhimsFragment extends Fragment {
     private CardView searchBarContainer;
     private ArrayList<String> posters, filmNames, ratings;
     private int tabPosition = 0;
-
+    private Thread loadingPhimThread;
     public PhimsFragment() {
         // Required empty public constructor
     }
@@ -63,7 +63,7 @@ public class PhimsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
 
-        Thread loadingPhimThread = new Thread(){
+        loadingPhimThread = new Thread(){
             @Override
             public void run() {
                 try {
@@ -77,7 +77,6 @@ public class PhimsFragment extends Fragment {
 
             }
         };
-
 
         loadingPhimThread.start();
 
@@ -226,5 +225,26 @@ public class PhimsFragment extends Fragment {
 
 
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (this.loadingPhimThread.isInterrupted())
+            loadingPhimThread.resume();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (this.loadingPhimThread.isAlive())
+            loadingPhimThread.stop();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (this.loadingPhimThread.isAlive())
+            loadingPhimThread.suspend();
     }
 }

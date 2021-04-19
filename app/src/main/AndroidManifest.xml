@@ -3,9 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.tixtox">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,9 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TixTox"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DatVe.DanhSachVe"></activity>
+        <activity android:name=".AccountFragment.DanhSachKhuyenMaiActivity"></activity>
+        <activity android:name=".DatVe.DanhSachVe" />
         <activity android:name=".DatVe.activity_bill" />
-        <activity android:name=".DatVe.MuaVeActivity"></activity>
+        <activity android:name=".DatVe.MuaVeActivity" />
         <activity
             android:name=".HeThongRapFragment.RapDetailActivity"
             tools:ignore="Instantiatable" />
@@ -54,5 +52,8 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
     </application>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

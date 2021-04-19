@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.tixtox.AccountFragment.AdminFragment;
 import com.example.tixtox.AccountFragment.TaiKhoanFragment;
 import com.example.tixtox.Forum.Forum;
 import com.example.tixtox.HeThongRapFragment.HeThongRapFragment;
@@ -29,7 +30,7 @@ public class HomeActivity extends AppCompatActivity {
     private TabLayout tabHome;
     PhimsFragment phimsFragment;
     private BottomNavigationView bottomNavigation;
-
+    private Thread loadings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +82,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        new Thread(){
+        loadings =  new Thread(){
             @Override
             public void run() {
                 try {
@@ -90,7 +91,8 @@ public class HomeActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }.start();
+        };
+        loadings.start();;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         PhimsFragment phimsFragment = PhimsFragment.newInstance();
         ft.replace(R.id.fragment_home, phimsFragment);
@@ -101,20 +103,31 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
+        if (loadings.isInterrupted())
+            loadings.resume();
     }
 
     protected void checkAccount() {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();;
+
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final FirebaseUser mUser = mAuth.getCurrentUser();
         // Kiểm tra nếu người dùng đã đăng nhập thì load fragment đăng nhập
         if (mUser != null)
         {
-            TaiKhoanFragment taiKhoanFragment = TaiKhoanFragment.newInstance();
 
-            ft.replace(R.id.fragment_home, taiKhoanFragment);
-            ft.commit();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();;
+            if (mUser.getDisplayName().equals("admin")){
+                AdminFragment adminFragment = AdminFragment.newInstance();
+                ft.replace(R.id.fragment_home, adminFragment);
+                ft.commit();
+            }
+            else{
+                TaiKhoanFragment taiKhoanFragment = TaiKhoanFragment.newInstance();
+
+                ft.replace(R.id.fragment_home, taiKhoanFragment);
+                ft.commit();
+            }
+
         }
         else{
             startActivity(new Intent(this, LogInActivity.class));
@@ -123,6 +136,12 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(loadings.isAlive())
+        {
+            loadings.suspend();
+        }
+    }
 }

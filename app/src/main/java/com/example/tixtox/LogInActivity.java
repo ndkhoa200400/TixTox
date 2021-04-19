@@ -192,7 +192,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
                 }
             });
-            setResult(1234);
+
             finish();
 
         } else {
@@ -254,7 +254,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 if (task.isSuccessful()) {
                     // redirect to user profile
                     progressBar.setVisibility(View.GONE);
-                    userSignIn();
+                    finish();
 
                 } else {
                     Toast.makeText(LogInActivity.this, "Failed to login!", Toast.LENGTH_LONG).show();

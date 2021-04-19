@@ -42,7 +42,7 @@ public class TaiKhoanFragment extends Fragment {
     DatabaseReference databaseReference = firebaseDatabase.getReference();
     ImageView myPhoto;
     Button btnSignOut, btnEditAccount;
-    TextView txtDOB, txtName, txtEmail, txtPhone,txtVeDaMua;
+    TextView txtDOB, txtName, txtEmail, txtPhone,txtVeDaMua, txtDSKhuyenMai;
     ProgressBar progressBar;
 
     public TaiKhoanFragment() {
@@ -78,6 +78,7 @@ public class TaiKhoanFragment extends Fragment {
         txtName = view.findViewById(R.id.txtName_EditAccount);
         txtPhone = view.findViewById(R.id.editPhone);
         txtVeDaMua = view.findViewById(R.id.txtVeDaMua);
+        txtDSKhuyenMai = view.findViewById(R.id.txtDSKhuyenMai);
         myPhoto = view.findViewById(R.id.imgAvatar_EditAccount);
         btnSignOut = view.findViewById(R.id.btnSignOut_Account);
         btnEditAccount = view.findViewById(R.id.btnSubmit);
@@ -141,14 +142,18 @@ public class TaiKhoanFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Map<String, String> values = (Map<String, String>) snapshot.getValue();
-                if (values.get("dob") != null)
+                if (values != null)
                 {
-                    txtDOB.setText(values.get("dob"));
+                    if (values.get("dob") != null)
+                    {
+                        txtDOB.setText(values.get("dob"));
+                    }
+                    if (values.get("phone") != null)
+                    {
+                        txtPhone.setText(values.get("phone"));
+                    }
                 }
-                if (values.get("phone") != null)
-                {
-                    txtPhone.setText(values.get("phone"));
-                }
+
                 progressBar.setVisibility(View.GONE);
             }
 
@@ -163,6 +168,15 @@ public class TaiKhoanFragment extends Fragment {
                 Intent intent = new Intent(view.getContext(), DanhSachVe.class);
                 intent.putExtra("MaTK",FirebaseAuth.getInstance()
                         .getCurrentUser().getUid());
+                startActivity(intent);
+            }
+        });
+
+        txtDSKhuyenMai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(view.getContext(), DanhSachKhuyenMaiActivity.class);
+                
                 startActivity(intent);
             }
         });

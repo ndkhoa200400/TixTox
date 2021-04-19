@@ -62,12 +62,16 @@ public class ChinhSuaTaiKhoanActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Map<String, String> values = (Map<String, String>) snapshot.getValue();
-                if (values.get("dob") != null) {
-                    editDOB.setText(values.get("dob"));
+                if (values != null)
+                {
+                    if (values.get("dob") != null) {
+                        editDOB.setText(values.get("dob"));
+                    }
+                    if (values.get("phone") != null) {
+                        editPhone.setText(values.get("phone"));
+                    }
                 }
-                if (values.get("phone") != null) {
-                    editPhone.setText(values.get("phone"));
-                }
+
             }
 
             @Override
