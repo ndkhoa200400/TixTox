@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
+import com.example.tixtox.FilmDetailsFragment.BinhLuan;
 import com.example.tixtox.FilmDetailsFragment.FilmDetails;
 import com.example.tixtox.FilmDetailsFragment.LichChieuPhim;
 import com.example.tixtox.Model.Phim;
@@ -14,7 +15,7 @@ public class ThongTinPhimActivity extends FragmentActivity  {
     FragmentTransaction ft;
     FilmDetails filmDetails;
     LichChieuPhim lichChieuPhim;
-//    BinhLuan binhLuan;
+    BinhLuan binhLuan;
     TabLayout tabThongTinPhim;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,8 @@ public class ThongTinPhimActivity extends FragmentActivity  {
                     ft.replace(R.id.fragmentFilmDetails, filmDetails);
                     ft.commit();
                 }
-                if (tabPos == 1){
+                else
+                    if (tabPos == 1){
                     lichChieuPhim = LichChieuPhim.newInstance();
                     lichChieuPhim.setPhim(phim);
                     ft = getSupportFragmentManager().beginTransaction();
@@ -49,11 +51,11 @@ public class ThongTinPhimActivity extends FragmentActivity  {
                     ft.commit();
                 }
                 else {
-//                    binhLuan = BinhLuan.newInstance();
-//                    binhLuan.setPhim(phim);
-//                    ft = getSupportFragmentManager().beginTransaction();
-//                    ft.replace(R.id.binhLuan, binhLuan);
-//                    ft.commit();
+                    binhLuan = BinhLuan.newInstance();
+                    binhLuan.setPhim(phim);
+                    ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragmentFilmDetails, binhLuan);
+                    ft.commit();
                 }
             }
 
