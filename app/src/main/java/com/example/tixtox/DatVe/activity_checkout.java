@@ -27,8 +27,9 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 public class activity_checkout extends AppCompatActivity {
     ImageView imgQR_code;
     TextView  txtTenPhim,txtTenRap,txtMaDon,txtNgayChieu,txtPhongChieu,txtSoGhe,txtSuatChieu;
-    Button btnHome;
+    Button btnHome,btnHuyVe;
     VeXemPhim vexemphim = new VeXemPhim();
+    String trangthai;
     DatabaseReference dtb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +42,10 @@ public class activity_checkout extends AppCompatActivity {
         txtTenPhim = (TextView) findViewById(R.id.txtTenPhim_checkout) ;
         txtTenRap = (TextView) findViewById(R.id.txtTenRap_checkout) ;
         txtSuatChieu = (TextView) findViewById(R.id.txtSuatChieu_checkout) ;
+        btnHuyVe = (Button) findViewById(R.id.btnHuy);
         dtb = FirebaseDatabase.getInstance().getReference();
         imgQR_code=(ImageView) findViewById(R.id.imgQR_code);
+
         Intent intent = getIntent();
         String Mave = intent.getStringExtra("Key");
 
@@ -67,6 +70,15 @@ public class activity_checkout extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnHuyVe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dtb.child("VeXemPhim").child(Mave).child("trangThai").setValue("Đã Hủy");
+                Intent intent = new Intent(activity_checkout.this, VeXemPhim.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void Load(String MaVe) {
@@ -83,6 +95,10 @@ public class activity_checkout extends AppCompatActivity {
                 txtTenRap.setText(ve.getRapphim());
                 txtPhongChieu.setText(ve.getPhongChieu());
                 txtSoGhe.setText(ve.getGhe());
+                if (ve.getTrangThai().equals("Đã Hủy")) {
+                    btnHuyVe.setText("Đã Hủy");
+                    btnHuyVe.setEnabled(false);
+                }
 
             }
 

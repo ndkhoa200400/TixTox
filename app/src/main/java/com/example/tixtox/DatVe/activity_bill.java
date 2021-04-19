@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 public class activity_bill extends AppCompatActivity {
-    TextView txtTaiKhoan,txtMagd,txtGiaghedon,txtGiaghedoi,txtSoghedon,txtSogheDoi,txtTongTien;
+    TextView txtTaiKhoan,txtMagd,txtGiaghedon,txtGiaghedoi,txtSoghedon,txtSogheDoi,txtTongTien,txtNgayGD;
     Button btnVeXemPhim, btnManHinhChinh;
     DatabaseReference dtb;
     @Override
@@ -28,6 +29,7 @@ public class activity_bill extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bill);
         dtb = FirebaseDatabase.getInstance().getReference();
+        txtNgayGD = (TextView) findViewById(R.id.txtThoiGianThanhToan_bill);
         txtGiaghedoi=(TextView) findViewById(R.id.txtGiagheDoi_bill);
         txtGiaghedon=(TextView) findViewById(R.id.txtGiaGheDon_bill);
         txtTaiKhoan = (TextView) findViewById(R.id.txtTaiKhoan_bill);
@@ -75,6 +77,8 @@ public class activity_bill extends AppCompatActivity {
                 txtTaiKhoan.setText(bill.getID_Account());
                 txtGiaghedoi.setText((new Integer(soghedoi*140000).toString()));
                 txtGiaghedon.setText((new Integer(soghedon*70000).toString()));
+                txtNgayGD.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
+                        bill.getTime()));
 
             }
 

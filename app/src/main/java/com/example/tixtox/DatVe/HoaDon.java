@@ -1,11 +1,16 @@
 package com.example.tixtox.DatVe;
 
+import java.util.Date;
+
 public class HoaDon {
 
     int SoGheDoi;
     int SoGheDon;
     String ThanhTien;
 
+
+
+    Long Time;
     String ID_Account;
     public HoaDon(){
         super();
@@ -14,12 +19,14 @@ public class HoaDon {
         SoGheDoi = soGheDoi;
         SoGheDon = soGheDon;
         ThanhTien = thanhTien;
-
+        Time = new Date().getTime();
         this.ID_Account = ID_Account;
     }
 
 
-
+    public Long getTime() {
+        return Time;
+    }
 
     public int getSoGheDoi() {
         return SoGheDoi;

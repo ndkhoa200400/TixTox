@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tixtox.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,7 +36,6 @@ public class  MuaVeActivity extends AppCompatActivity {
     GridView gridview, gridviewGheDoi;
     ArrayList<VeXemPhim> vexm = new ArrayList<>();
     ArrayList<String> vitri = new ArrayList<>();
-    ImageButton btnGheDoi1, btnGheDoi2, btnGheDoi3, btnGheDoi4, btnGheDoi5;
     TextView txtSoGhe, txtTongTien, txtPhong, txtRap, txtSuatChieu, txtNgayChieu, txtTenPhim;
     Button btnNext;
     Dialog dialog;
@@ -120,48 +121,68 @@ public class  MuaVeActivity extends AppCompatActivity {
         txtNgayChieu.setText(intent.getStringExtra("Phim_NgayChieu"));
         txtRap.setText(intent.getStringExtra("Phim_Rap"));
         txtSuatChieu.setText(intent.getStringExtra("Phim_ThoiGian"));
+        SuatChieu suatchieu = new SuatChieu(intent.getStringExtra("Phim_ID")
+                ,intent.getStringExtra("Phim_NgayChieu")
+                ,intent.getStringExtra("Phim_ThoiGian"));
+
+//        Toast.makeText(getApplicationContext(), suatchieu.getGhe(), Toast.LENGTH_SHORT).show();
 
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (FirebaseAuth.getInstance()
+                        .getCurrentUser() == null)
+                    Toast.makeText(getApplicationContext(), "ChuaDangNhap", Toast.LENGTH_SHORT).show();
+                else {
+                    dialog.setContentView(R.layout.custom_dialog);
+                    dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.background_dialog));
+                    dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    dialog.setCancelable(false);
+                    Button oke = dialog.findViewById(R.id.btn_Xacnhan_dialog);
+                    Button tuchoi = dialog.findViewById(R.id.btn_Huy_dialog);
 
-                dialog.setContentView(R.layout.custom_dialog);
-                dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.background_dialog));
-                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                dialog.setCancelable(false);
-                Button oke = dialog.findViewById(R.id.btn_Xacnhan_dialog);
-                Button tuchoi = dialog.findViewById(R.id.btn_Huy_dialog);
-                oke.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-                        Intent intent = new Intent(MuaVeActivity.this, activity_bill.class);
-                        String MaHoaDon = dtb.child("HoaDon").push().getKey();
-                        HoaDon bill = new HoaDon(SoGheDoi,SoGheDon,txtTongTien.getText().toString(),"123");
-                        VeXemPhim vexem = new VeXemPhim(V, txtTongTien.getText().toString(),
-                                txtNgayChieu.getText().toString() ,txtSuatChieu.getText().toString(),
-                                txtTenPhim.getText().toString(),
-                                txtRap.getText().toString(), txtPhong.getText().toString(),MaHoaDon);
-                        String Key = dtb.child("VeXemPhim").push().getKey();
-                        dtb.child("VeXemPhim").child(Key).setValue(vexem);
-                        dtb.child("VeXemPhim").child(Key).child("hoaDon").setValue(MaHoaDon);
-                        dtb.child("HoaDon").child(MaHoaDon).setValue(bill);
-                        Toast.makeText(getApplicationContext(), vexem.hoaDon, Toast.LENGTH_SHORT).show();
-                        intent.putExtra("Key", Key);
-                        intent.putExtra("MaHoaDon", MaHoaDon);
-                        startActivity(intent);
-                        dialog.dismiss();
+                    oke.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                    }
-                });
-                tuchoi.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
+                            Intent intent = new Intent(MuaVeActivity.this, activity_bill.class);
+                            String MaHoaDon = dtb.child("HoaDon").push().getKey();
+                            String Key = dtb.child("VeXemPhim").push().getKey();
+                            HoaDon bill = new HoaDon(SoGheDoi, SoGheDon, txtTongTien.getText().toString(), "123");
+                            VeXemPhim vexem = new VeXemPhim(V, txtTongTien.getText().toString(),
+                                    txtNgayChieu.getText().toString(), txtSuatChieu.getText().toString(),
+                                    txtTenPhim.getText().toString(),
+                                    txtRap.getText().toString(), txtPhong.getText().toString(), MaHoaDon,FirebaseAuth.getInstance()
+                                    .getCurrentUser().getUid(),"Đã thanh toán",Key);
+
+                            dtb.child("VeXemPhim").child(Key).setValue(vexem);
+
+                            suatchieu.setGhe(V);
+                            dtb.child("SuatChieu").child(suatchieu.getId()).setValue(suatchieu);
+                            dtb.child("VeXemPhim").child(Key).child("hoaDon").setValue(MaHoaDon);
+                            dtb.child("VeXemPhim").child(Key).child("id").setValue(vexem.getId());
+                            dtb.child("VeXemPhim").child(Key).child("TrangThai").setValue(vexem.getTrangThai());
+                            dtb.child("VeXemPhim").child(Key).child("MaVe").setValue(vexem.getMaVe());
+                            dtb.child("HoaDon").child(MaHoaDon).setValue(bill);
+                            dtb.child("HoaDon").child(MaHoaDon).child("Time").setValue(bill.getTime());
+                            Toast.makeText(getApplicationContext(), vexem.hoaDon, Toast.LENGTH_SHORT).show();
+                            intent.putExtra("Key", Key);
+                            intent.putExtra("MaHoaDon", MaHoaDon);
+                            startActivity(intent);
+                            dialog.dismiss();
+
+                        }
+                    });
+                    tuchoi.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }
             }
         });
 

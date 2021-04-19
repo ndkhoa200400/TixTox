@@ -5,6 +5,7 @@ import com.example.tixtox.Model.Rap.RapPhim;
 import java.util.ArrayList;
 
 public class VeXemPhim {
+
     String id;
 
 
@@ -18,7 +19,18 @@ public class VeXemPhim {
     String hoaDon;
 
 
-    public VeXemPhim(String ghe, String giaTien, String thoiGian, String suatChieu, String phim, String rapphim, String phongChieu, String hoaDon) {
+    String MaVe;
+    String TrangThai;
+
+    public String getTrangThai() {
+        return TrangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        TrangThai = trangThai;
+    }
+    public VeXemPhim(String ghe, String giaTien, String thoiGian, String suatChieu, String phim, String rapphim,
+                     String phongChieu, String hoaDon,String mId, String mTrangThai,String mMave) {
         Ghe = ghe;
         GiaTien = giaTien;
         ThoiGian = thoiGian;
@@ -27,9 +39,26 @@ public class VeXemPhim {
         this.rapphim = rapphim;
         PhongChieu = phongChieu;
         this.hoaDon = hoaDon;
+        id = mId;
+        TrangThai = mTrangThai;
+        MaVe = mMave;
     }
 
+    public String getMaVe() {
+        return MaVe;
+    }
 
+    public void setMaVe(String maVe) {
+        MaVe = maVe;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
 
     public VeXemPhim(){

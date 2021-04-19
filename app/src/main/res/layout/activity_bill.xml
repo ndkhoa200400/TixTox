@@ -28,9 +28,10 @@
         android:background="@drawable/background_muave"
         app:layout_constraintBottom_toTopOf="@+id/btn_ManHinh_bill"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView16"
-        app:layout_constraintVertical_bias="0.74" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView17"
@@ -52,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="65dp"
         android:text="Tài Khoản"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +63,7 @@
         android:id="@+id/txtTaiKhoan_bill"
         android:layout_width="210dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="65dp"
         android:layout_marginEnd="20dp"
         android:text="txtTaiKhoan"
         android:textSize="20dp"
@@ -260,5 +261,25 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_ManHinh_bill"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView39"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="5dp"
+        android:text="Đã thanh toán: "
+        app:layout_constraintEnd_toStartOf="@+id/txtThoiGianThanhToan_bill"
+        app:layout_constraintTop_toTopOf="@+id/imageView18" />
+
+    <TextView
+        android:id="@+id/txtThoiGianThanhToan_bill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="24/3/2021 16:30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView18" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

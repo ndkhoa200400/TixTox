@@ -20,6 +20,7 @@ import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.example.tixtox.ChinhSuaTaiKhoanActivity;
+import com.example.tixtox.DatVe.DanhSachVe;
 import com.example.tixtox.HomeActivity;
 import com.example.tixtox.R;
 import com.facebook.login.LoginManager;
@@ -41,7 +42,7 @@ public class TaiKhoanFragment extends Fragment {
     DatabaseReference databaseReference = firebaseDatabase.getReference();
     ImageView myPhoto;
     Button btnSignOut, btnEditAccount;
-    TextView txtDOB, txtName, txtEmail, txtPhone;
+    TextView txtDOB, txtName, txtEmail, txtPhone,txtVeDaMua;
     ProgressBar progressBar;
 
     public TaiKhoanFragment() {
@@ -76,6 +77,7 @@ public class TaiKhoanFragment extends Fragment {
         txtDOB = view.findViewById(R.id.editDOB);
         txtName = view.findViewById(R.id.txtName_EditAccount);
         txtPhone = view.findViewById(R.id.editPhone);
+        txtVeDaMua = view.findViewById(R.id.txtVeDaMua);
         myPhoto = view.findViewById(R.id.imgAvatar_EditAccount);
         btnSignOut = view.findViewById(R.id.btnSignOut_Account);
         btnEditAccount = view.findViewById(R.id.btnSubmit);
@@ -155,7 +157,15 @@ public class TaiKhoanFragment extends Fragment {
 
             }
         });
-
+        txtVeDaMua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(view.getContext(), DanhSachVe.class);
+                intent.putExtra("MaTK",FirebaseAuth.getInstance()
+                        .getCurrentUser().getUid());
+                startActivity(intent);
+            }
+        });
         return view;
     }
 }

@@ -14,13 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TixTox"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".DatVe.activity_bill"></activity>
-        <activity android:name=".DatVe.MuaVeActivity">
-
-        </activity>
-
-        <activity android:name=".HeThongRapFragment.RapDetailActivity" tools:ignore="Instantiatable" />
+        <activity android:name=".DatVe.DanhSachVe"></activity>
+        <activity android:name=".DatVe.activity_bill" />
+        <activity android:name=".DatVe.MuaVeActivity"></activity>
+        <activity
+            android:name=".HeThongRapFragment.RapDetailActivity"
+            tools:ignore="Instantiatable" />
         <activity android:name=".ChinhSuaTaiKhoanActivity" />
         <activity android:name=".HomeActivity">
             <intent-filter>
@@ -30,9 +29,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ThongTinPhimActivity" />
-
-
-
         <activity android:name=".Welcomactivity" />
         <activity android:name=".RegisterAcitivy" />
         <activity android:name=".LogInActivity" />
