@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.example.tixtox.HomeActivity;
 import com.example.tixtox.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -75,8 +74,7 @@ public class activity_bill extends AppCompatActivity {
                 txtSoghedon.setText(soghedon.toString());
                 txtMagd.setText(MaHoaDon);
                 txtTongTien.setText(bill.getThanhTien());
-                txtTaiKhoan.setText( FirebaseAuth.getInstance()
-                        .getCurrentUser().getDisplayName());
+                txtTaiKhoan.setText(bill.getID_Account());
                 txtGiaghedoi.setText((new Integer(soghedoi*140000).toString()));
                 txtGiaghedon.setText((new Integer(soghedon*70000).toString()));
                 txtNgayGD.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
