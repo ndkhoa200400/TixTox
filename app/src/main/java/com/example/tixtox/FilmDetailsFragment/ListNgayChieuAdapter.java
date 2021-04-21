@@ -54,10 +54,12 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
         holder.thu.setText(this.listNgay.get(position).getThu());
         holder.ngay.setText(this.listNgay.get(position).getNgay());
         holder.thang.setText(this.listNgay.get(position).getThang());
+
         holder.cardViewItemNgay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
+                    holder.cardViewItemNgay.setCardBackgroundColor(R.color.trang_nga);
                     ModelPhim modelPhim = ModelPhim.getInstance();
                     new Thread() {
                         @Override

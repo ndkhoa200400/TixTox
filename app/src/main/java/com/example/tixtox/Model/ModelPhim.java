@@ -51,7 +51,7 @@ public class ModelPhim {
         // Hàm dùng để gọi API để lấy các phim đang chiếu
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime before = now.minusDays(14);
+        LocalDateTime before = now.minusDays(30);
         return getPhimTheoNgay(dtf.format(before), dtf.format(now));
     }
 
