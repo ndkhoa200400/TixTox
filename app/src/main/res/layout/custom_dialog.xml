@@ -14,7 +14,8 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        app:srcCompat="@drawable/icon_facebook" />
+        android:background="@drawable/background_icon"
+        app:srcCompat="@drawable/icon_app" />
 
     <TextView
         android:id="@+id/gioBD"
