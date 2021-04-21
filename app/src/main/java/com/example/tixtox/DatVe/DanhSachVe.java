@@ -58,7 +58,7 @@ public class DanhSachVe extends AppCompatActivity {
                         VeXemPhim ve = snapshot.getValue(VeXemPhim.class);
                         if(ve.id.equals(FirebaseAuth.getInstance()
                                 .getCurrentUser().getUid())) {
-                            arrayList.add(ve);
+                            arrayList.add(0,ve);
                             txtKhongCoVe.setText("");
                             adapter = new AdapterVeXemPhim(DanhSachVe.this, R.layout.layout_listve, arrayList);
                             listview.setAdapter(adapter);
@@ -68,7 +68,7 @@ public class DanhSachVe extends AppCompatActivity {
 
                         }
 
-                        Toast.makeText(getApplicationContext(),"af" +  ve.getGhe(), Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(getApplicationContext(),"af" +  ve.getGhe(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

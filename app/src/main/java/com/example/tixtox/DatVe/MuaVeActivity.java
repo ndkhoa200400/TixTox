@@ -124,7 +124,7 @@ public class  MuaVeActivity extends AppCompatActivity {
         SuatChieu suatchieu = new SuatChieu(intent.getStringExtra("Phim_ID")
                 ,intent.getStringExtra("Phim_NgayChieu")
                 ,intent.getStringExtra("Phim_ThoiGian"));
-
+        String hinhanh = intent.getStringExtra("Phim_Hinh_Anh");
 //        Toast.makeText(getApplicationContext(), suatchieu.getGhe(), Toast.LENGTH_SHORT).show();
 
 
@@ -133,6 +133,7 @@ public class  MuaVeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (FirebaseAuth.getInstance()
                         .getCurrentUser() == null)
+                    //
                     Toast.makeText(getApplicationContext(), "ChuaDangNhap", Toast.LENGTH_SHORT).show();
                 else {
                     dialog.setContentView(R.layout.custom_dialog);
@@ -155,7 +156,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                                     txtNgayChieu.getText().toString(), txtSuatChieu.getText().toString(),
                                     txtTenPhim.getText().toString(),
                                     txtRap.getText().toString(), txtPhong.getText().toString(), MaHoaDon,FirebaseAuth.getInstance()
-                                    .getCurrentUser().getUid(),"Đã thanh toán",Key);
+                                    .getCurrentUser().getUid(),"Đã thanh toán",Key,hinhanh);
 
                             dtb.child("VeXemPhim").child(Key).setValue(vexem);
 
@@ -165,10 +166,12 @@ public class  MuaVeActivity extends AppCompatActivity {
                             dtb.child("VeXemPhim").child(Key).child("id").setValue(vexem.getId());
                             dtb.child("VeXemPhim").child(Key).child("TrangThai").setValue(vexem.getTrangThai());
                             dtb.child("VeXemPhim").child(Key).child("MaVe").setValue(vexem.getMaVe());
+                            dtb.child("VeXemPhim").child(Key).child("HinhAnh").setValue(vexem.getHinhAnh());
                             dtb.child("HoaDon").child(MaHoaDon).setValue(bill);
                             dtb.child("HoaDon").child(MaHoaDon).child("Time").setValue(bill.getTime());
-                            Toast.makeText(getApplicationContext(), vexem.hoaDon, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), vexem.hoaDon, Toast.LENGTH_SHORT).show();
                             intent.putExtra("Key", Key);
+                            //intent.putExtra("Phim_Hinh_Anh", hinhanh);
                             intent.putExtra("MaHoaDon", MaHoaDon);
                             startActivity(intent);
                             dialog.dismiss();
@@ -210,7 +213,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                     txtSoGhe.setText(V);
                     if (V.isEmpty()) btnNext.setEnabled(false);
                     else btnNext.setEnabled(true);
-                    Toast.makeText(getApplicationContext(), V, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(), V, Toast.LENGTH_SHORT).show();
                     txtTongTien.setText(Integer.toString(Cost = Cost + gia));
                 } else {
                     imageView.setImageResource(R.drawable.icon_ghe);
@@ -222,7 +225,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                     for (String s : vitri) {
                         V += s + " ";
                     }
-                    Toast.makeText(getApplicationContext(), V, Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(getApplicationContext(), V, Toast.LENGTH_SHORT).show();
                     txtSoGhe.setText(V);
                     if (V.isEmpty()) btnNext.setEnabled(false);
                     else btnNext.setEnabled(true);
@@ -250,7 +253,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                     txtSoGhe.setText(V);
                     if (V.isEmpty()) btnNext.setEnabled(false);
                     else btnNext.setEnabled(true);
-                    Toast.makeText(getApplicationContext(), V, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(), V, Toast.LENGTH_SHORT).show();
                     txtTongTien.setText(Integer.toString(Cost = Cost + gia * 2));
                 } else {
                     imageView.setImageResource(R.drawable.icon_ghedoi);
@@ -264,7 +267,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                     }
                     if (V.isEmpty()) btnNext.setEnabled(false);
                     else btnNext.setEnabled(true);
-                    Toast.makeText(getApplicationContext(), V, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(), V, Toast.LENGTH_SHORT).show();
                     txtSoGhe.setText(V);
                     txtTongTien.setText(Integer.toString(Cost = Cost - gia * 2));
 
@@ -274,12 +277,12 @@ public class  MuaVeActivity extends AppCompatActivity {
         });
 
         for(int i=0;i<vexm.size();i++) {
-            Toast.makeText(getApplicationContext(), "afeqwqew" + vexm.get(i).getGhe(), Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getApplicationContext(), "afeqwqew" + vexm.get(i).getGhe(), Toast.LENGTH_SHORT).show();
             ChangeGhe = ConverStringtoGhe(vexm.get(i).getGhe());
             for (int j = 0; j < ChangeGhe.size(); j++)
                 setImageToX(ChangeGhe.get(j));
         }
-        Toast.makeText(getApplicationContext(), "afeqwqew" , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "afeqwqew" , Toast.LENGTH_SHORT).show();
 
     }
     public void setImage(Integer[] t)
@@ -424,7 +427,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                     keys.add(keyNode.getKey());
                     VeXemPhim xml = keyNode.getValue(VeXemPhim.class);
                     vexm.add(xml);
-                    Toast.makeText(getApplicationContext(),"af" +  xml.getGhe(), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(),"af" +  xml.getGhe(), Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -435,7 +438,7 @@ public class  MuaVeActivity extends AppCompatActivity {
             }
         });
         for(int i=0;i<vexm.size();i++) {
-            Toast.makeText(getApplicationContext(),"af" +  vexm.get(i).getGhe(), Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(getApplicationContext(),"af" +  vexm.get(i).getGhe(), Toast.LENGTH_SHORT).show();
             ChangeGhe = ConverStringtoGhe(vexm.get(i).getGhe());
             for(int j =0;j<ChangeGhe.size();j++)
                 setImageToX(ChangeGhe.get(i));

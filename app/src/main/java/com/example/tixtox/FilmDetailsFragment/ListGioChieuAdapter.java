@@ -49,6 +49,7 @@ public class ListGioChieuAdapter extends RecyclerView.Adapter<ListGioChieuAdapte
                 intent.putExtra("Phim_Rap", CumRap);
                 intent.putExtra("Phim_ThoiGian", listGioChieu.get(position).getGioBD());
                 intent.putExtra("Phim_NgayChieu", NgayChieu);
+                intent.putExtra("Phim_Hinh_Anh", phim.getHinhAnh());
                 context.startActivity(intent);
             }
         });

@@ -17,10 +17,18 @@ public class VeXemPhim {
     String rapphim;
     String PhongChieu;
     String hoaDon;
+    String HinhAnh;
 
 
     String MaVe;
     String TrangThai;
+    public String getHinhAnh() {
+        return HinhAnh;
+    }
+
+    public void setHinhAnh(String hinhAnh) {
+        HinhAnh = hinhAnh;
+    }
 
     public String getTrangThai() {
         return TrangThai;
@@ -30,7 +38,7 @@ public class VeXemPhim {
         TrangThai = trangThai;
     }
     public VeXemPhim(String ghe, String giaTien, String thoiGian, String suatChieu, String phim, String rapphim,
-                     String phongChieu, String hoaDon,String mId, String mTrangThai,String mMave) {
+                     String phongChieu, String hoaDon,String mId, String mTrangThai,String mMave,String hinhAnh) {
         Ghe = ghe;
         GiaTien = giaTien;
         ThoiGian = thoiGian;
@@ -42,6 +50,7 @@ public class VeXemPhim {
         id = mId;
         TrangThai = mTrangThai;
         MaVe = mMave;
+        this.HinhAnh = hinhAnh;
     }
 
     public String getMaVe() {

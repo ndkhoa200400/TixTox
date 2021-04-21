@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.tixtox.HomeActivity;
 import com.example.tixtox.R;
 import com.google.firebase.database.DataSnapshot;
@@ -25,7 +27,7 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class activity_checkout extends AppCompatActivity {
-    ImageView imgQR_code;
+    ImageView imgQR_code,imgTenphim;
     TextView  txtTenPhim,txtTenRap,txtMaDon,txtNgayChieu,txtPhongChieu,txtSoGhe,txtSuatChieu;
     Button btnHome,btnHuyVe;
     VeXemPhim vexemphim = new VeXemPhim();
@@ -35,6 +37,7 @@ public class activity_checkout extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+        imgTenphim = (ImageView) findViewById(R.id.imgTenphim_checkout);
         txtSoGhe = (TextView) findViewById(R.id.txtSoghe_checkout);
         txtNgayChieu = (TextView) findViewById(R.id.txtNgaychieu_checkout);
         txtPhongChieu = (TextView)  findViewById(R.id.txtPhongChieu_checkout);
@@ -48,9 +51,10 @@ public class activity_checkout extends AppCompatActivity {
 
         Intent intent = getIntent();
         String Mave = intent.getStringExtra("Key");
-
+        //String hinhanh = intent.getStringExtra("Phim_Hinh_Anh");
         Load(Mave);
         Mave.trim();
+
         MultiFormatWriter write =new MultiFormatWriter();
         try {
             BitMatrix matrix = write.encode(Mave, BarcodeFormat.QR_CODE,
@@ -94,6 +98,8 @@ public class activity_checkout extends AppCompatActivity {
                 txtTenRap.setText(ve.getRapphim());
                 txtPhongChieu.setText(ve.getPhongChieu());
                 txtSoGhe.setText(ve.getGhe());
+                Glide.with(activity_checkout.this).load(ve.HinhAnh)
+                        .into(imgTenphim);
                 if (ve.getTrangThai().equals("Đã Hủy")) {
                     btnHuyVe.setText("Đã Hủy");
                     btnHuyVe.setEnabled(false);

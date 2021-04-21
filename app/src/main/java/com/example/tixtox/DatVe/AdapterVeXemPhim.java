@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.tixtox.R;
 
 import java.util.List;
@@ -50,11 +52,13 @@ public class AdapterVeXemPhim extends BaseAdapter {
         TextView txtNgayThanhToan = (TextView) convertView.findViewById(R.id.txtNgayThanhToan_Ve);
         TextView txtTenRap = (TextView) convertView.findViewById(R.id.txtRap_ve);
         TextView txtTrangThai = (TextView) convertView.findViewById(R.id.txtTrangThai_Ve);
-
+        ImageView imgPhim = (ImageView) convertView.findViewById(R.id.imgPhim);
         txtTenPhim.setText(ve.getPhim());
         txtTenRap.setText(ve.getRapphim());
         txtNgayThanhToan.setText(ve.ThoiGian);
         txtTrangThai.setText(ve.getTrangThai());
+        Glide.with(convertView).load(ve.HinhAnh)
+                .into(imgPhim);
         return convertView;
     }
 }

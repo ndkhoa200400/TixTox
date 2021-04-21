@@ -43,12 +43,14 @@ public class activity_bill extends AppCompatActivity {
         Intent intent = getIntent();
         String Mave = intent.getStringExtra("Key");
         String MaHoaDon = intent.getStringExtra("MaHoaDon");
+        //String hinhanh = intent.getStringExtra("Phim_Hinh_Anh");
         Load(MaHoaDon);
         btnVeXemPhim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity_bill.this, activity_checkout.class);
                 intent.putExtra("Key", Mave);
+                //intent.putExtra("Phim_Hinh_Anh", hinhanh);
                 startActivity(intent);
             }
         });
@@ -57,6 +59,7 @@ public class activity_bill extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(activity_bill.this, HomeActivity.class);
+
                 startActivity(intent);
             }
         });
