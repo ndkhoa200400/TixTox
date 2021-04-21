@@ -1,6 +1,7 @@
 package com.example.tixtox.DatVe;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.tixtox.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -128,6 +130,59 @@ public class  MuaVeActivity extends AppCompatActivity {
 //        Toast.makeText(getApplicationContext(), suatchieu.getGhe(), Toast.LENGTH_SHORT).show();
 
 
+        new Thread(){
+            @Override
+            public void run() {
+                dtb.child("VeXemPhim").addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        VeXemPhim temp = snapshot.getValue(VeXemPhim.class);
+                        vexm.add(temp);
+
+                        ChangeGhe = ConverStringtoGhe(temp.getGhe());
+                        //Toast.makeText(getApplicationContext(), ChangeGhe.toString(), Toast.LENGTH_SHORT).show();
+                        for(int j =0;j<ChangeGhe.size();j++) {
+                            int km = ChangeGhe.get(j);
+
+                            if(km<100) image[km] = R.drawable.ghe_x;
+                            else imageDoi[km-101] = R.drawable.icon_ghedoi_x;
+
+                        }
+                        gridview.setAdapter(new ImageAdapterGridView(MuaVeActivity.this, image, 100, 80));
+                        gridviewGheDoi.setAdapter(new ImageAdapterGridView(MuaVeActivity.this, imageDoi, 100, 200));
+
+
+
+
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+            }
+        }.start();
+
+
+
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,7 +270,8 @@ public class  MuaVeActivity extends AppCompatActivity {
                     else btnNext.setEnabled(true);
                    // Toast.makeText(getApplicationContext(), V, Toast.LENGTH_SHORT).show();
                     txtTongTien.setText(Integer.toString(Cost = Cost + gia));
-                } else {
+                }
+                else if (image[position] == R.drawable.icon_ghe_green) {
                     imageView.setImageResource(R.drawable.icon_ghe);
                     image[position] = R.drawable.icon_ghe;
                     String a = ConvertPostoSe(position);
@@ -255,7 +311,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                     else btnNext.setEnabled(true);
                    // Toast.makeText(getApplicationContext(), V, Toast.LENGTH_SHORT).show();
                     txtTongTien.setText(Integer.toString(Cost = Cost + gia * 2));
-                } else {
+                } else if (imageDoi[position] == R.drawable.icon_ghedoi_green) {
                     imageView.setImageResource(R.drawable.icon_ghedoi);
                     imageDoi[position] = R.drawable.icon_ghedoi;
                     String a = ConVertGheDoi(position);
@@ -344,11 +400,16 @@ public class  MuaVeActivity extends AppCompatActivity {
     }
 
     public String ConvertPostoSe(int pos) {
-        pos = pos + 1;
+        pos = pos+1;
         int num;
         num = pos / 11;
         int div;
-        div = pos % 11;
+        div = pos % 11 ;
+        if (div == 0)
+        {
+            div = 11;
+            num--;
+        }
         String b = "";
         if (num == 0)
             b = "A" + Integer.toString(div);
@@ -381,15 +442,15 @@ public class  MuaVeActivity extends AppCompatActivity {
     private void Load() {
 
 
-      /*  dtb.child("VeXemPhim").addChildEventListener(new ChildEventListener() {
+       dtb.child("VeXemPhim").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 VeXemPhim temp = snapshot.getValue(VeXemPhim.class);
                 vexm.add(temp);
-                Toast.makeText(getApplicationContext(), temp.getGhe(), Toast.LENGTH_SHORT).show();
+
                 ChangeGhe = ConverStringtoGhe(temp.getGhe());
                 for(int j =0;j<ChangeGhe.size();j++){
-                    setImageToX(ChangeGhe.get(j));
+                   image[10]= R.drawable.ghe_x;
 
                 }
 
@@ -415,35 +476,9 @@ public class  MuaVeActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });*/
-
-        dtb.child("VeXemPhim").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<String> keys = new ArrayList<>();
-                vexm.clear();
-                for(DataSnapshot keyNode: snapshot.getChildren())
-                {
-                    keys.add(keyNode.getKey());
-                    VeXemPhim xml = keyNode.getValue(VeXemPhim.class);
-                    vexm.add(xml);
-                   // Toast.makeText(getApplicationContext(),"af" +  xml.getGhe(), Toast.LENGTH_SHORT).show();
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
         });
-        for(int i=0;i<vexm.size();i++) {
-          //  Toast.makeText(getApplicationContext(),"af" +  vexm.get(i).getGhe(), Toast.LENGTH_SHORT).show();
-            ChangeGhe = ConverStringtoGhe(vexm.get(i).getGhe());
-            for(int j =0;j<ChangeGhe.size();j++)
-                setImageToX(ChangeGhe.get(i));
 
-        }
+
 
 
     }
@@ -462,7 +497,7 @@ public class  MuaVeActivity extends AppCompatActivity {
     public Integer transfer(String l) {
         char a = l.charAt(0);
         if (isNumeric(l.substring(1))) {
-            return check(a) + Integer.valueOf(l.substring(1));
+            return check(a) + Integer.parseInt(l.substring(1));
         } else return Integer.valueOf(l.substring(2)) + 100;
     }
 
@@ -476,22 +511,22 @@ public class  MuaVeActivity extends AppCompatActivity {
 
 
             case 'C':
-                return 20;
+                return 21;
 
             case 'D':
-                return 30;
+                return 32;
 
             case 'E':
-                return 40;
+                return 43;
 
             case 'F':
-                return 50;
+                return 54;
 
             case 'G':
-                return 60;
+                return 65;
 
             case 'H':
-                return 70;
+                return 76;
 
 
 
