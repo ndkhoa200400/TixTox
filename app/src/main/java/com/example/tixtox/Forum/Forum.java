@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.tixtox.R;
 import com.firebase.ui.database.FirebaseListAdapter;
@@ -16,6 +17,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Forum extends Fragment {
     EditText editMessenge;
@@ -52,11 +55,19 @@ public class Forum extends Fragment {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (auth == null)
+                    Toast.makeText(getApplicationContext(), "Chưa Đăng Nhập", Toast.LENGTH_SHORT).show();
+                else{
                 String msg = editMessenge.getText().toString();
-                editMessenge.setText("");
+                if (msg.length() == 0){
+                    Toast.makeText(getApplicationContext(), "Mời bạn nhập bình luận", Toast.LENGTH_SHORT).show();
+                }
+                else {
+//                    btnSend.setEnabled(true);
+                    editMessenge.setText("");
 //                btnSend.setEnabled(false);
                 FirebaseDatabase.getInstance()
-                        .getReference("msg")
+                        .getReference("Msg")
                         .push()
                         .setValue(new Messenger(msg,
                                 FirebaseAuth.getInstance()
@@ -65,6 +76,8 @@ public class Forum extends Fragment {
                                 .getCurrentUser().getUid())
                         );
                 displayChatMessages();
+                }
+                }
             }
         });
         displayChatMessages();
@@ -73,7 +86,7 @@ public class Forum extends Fragment {
 
     private void displayChatMessages() {
         adapter = new MessageAdapter(getActivity(), Messenger.class,
-                R.layout.messenge_out, FirebaseDatabase.getInstance().getReference("msg")
+                R.layout.messenge_out, FirebaseDatabase.getInstance().getReference("Msg")
         );
         listMessenge.setAdapter(adapter);
     }

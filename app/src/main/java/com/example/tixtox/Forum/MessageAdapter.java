@@ -28,16 +28,14 @@ public class MessageAdapter extends FirebaseListAdapter<Messenger> {
 
         txtMessage.setText(model.getMessageText());
         txtTaikhoan.setText(model.getMessageUser());
-        System.out.println(model.getMessageText());
-        // Format the date before showing it
-        txtTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
+
+        txtTime.setText(DateFormat.format("dd/MM/yyyy (HH:mm:ss)",
                 model.getMessageTime()));
     }
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
         Messenger messenger = getItem(position);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        System.out.println(messenger.getUserID());
         if (user != null) {
             if (messenger.getUserID().equals(user.getUid()))
                 view = activity.getLayoutInflater().inflate(R.layout.message_in, viewGroup, false);
@@ -66,6 +64,4 @@ public class MessageAdapter extends FirebaseListAdapter<Messenger> {
         // return a value between 0 and (getViewTypeCount - 1)
         return position % 2;
     }
-
-
 }
