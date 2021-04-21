@@ -1,19 +1,28 @@
 package com.example.tixtox.HeThongRapFragment;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.tixtox.HomeFragment.PhimsFragment;
 import com.example.tixtox.Model.Rap.RapDetail;
 import com.example.tixtox.R;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.tabs.TabLayout;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,6 +79,23 @@ public class ThongTinRapDetailFragment extends Fragment {
                 startActivity(mapIntent);
             }
         });
+
+        Geocoder geocoder = new Geocoder(getContext());
+        try {
+            List<Address> addresses = geocoder.getFromLocationName(this.rapDetail.getDiaChi(), 1);
+            if (addresses != null)
+            {
+                Address a = addresses.get(0);
+                MapsFragment mapsFragment = MapsFragment.newInstance(new LatLng(a.getLatitude(), a.getLongitude()));
+                FragmentTransaction trasection = getChildFragmentManager().beginTransaction();
+                trasection.replace(R.id.fragment, mapsFragment);
+                trasection.commit();
+            }
+
+        }catch (IOException e)
+        {
+
+        }
 
 
 

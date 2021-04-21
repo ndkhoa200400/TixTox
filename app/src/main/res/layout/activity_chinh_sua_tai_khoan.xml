@@ -118,10 +118,11 @@
                     android:text="Tên tài khoản"
                     android:textColor="#000000" />
 
-                <TextView
-                    android:id="@+id/txtName_EditAccount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp" />
+                <EditText
+                    android:id="@+id/editName_EditAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:textSize="14sp" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

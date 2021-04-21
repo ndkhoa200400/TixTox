@@ -75,7 +75,7 @@ public class TaiKhoanFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         txtEmail = view.findViewById(R.id.txtEmail_EditAccount);
         txtDOB = view.findViewById(R.id.editDOB);
-        txtName = view.findViewById(R.id.txtName_EditAccount);
+        txtName = view.findViewById(R.id.editName_EditAccount);
         txtPhone = view.findViewById(R.id.editPhone);
         txtVeDaMua = view.findViewById(R.id.txtVeDaMua);
         txtDSKhuyenMai = view.findViewById(R.id.txtDSKhuyenMai);
@@ -152,6 +152,8 @@ public class TaiKhoanFragment extends Fragment {
                     {
                         txtPhone.setText(values.get("phone"));
                     }
+                    if (values.get("fullname") != null)
+                        txtName.setText(values.get("fullname"));
                 }
 
                 progressBar.setVisibility(View.GONE);
@@ -181,5 +183,37 @@ public class TaiKhoanFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        progressBar.setVisibility(View.VISIBLE);
+        FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Map<String, String> values = (Map<String, String>) snapshot.getValue();
+                if (values != null)
+                {
+                    if (values.get("dob") != null)
+                    {
+                        txtDOB.setText(values.get("dob"));
+                    }
+                    if (values.get("phone") != null)
+                    {
+                        txtPhone.setText(values.get("phone"));
+                    }
+                    if (values.get("fullname") != null)
+                        txtName.setText(values.get("fullname"));
+                }
+
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

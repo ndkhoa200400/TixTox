@@ -142,7 +142,7 @@
                         android:textColor="#000000" />
 
                     <TextView
-                        android:id="@+id/txtName_EditAccount"
+                        android:id="@+id/editName_EditAccount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
