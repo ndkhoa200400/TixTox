@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
-import com.example.tixtox.FilmDetailsFragment.BinhLuan;
+import com.example.tixtox.FilmDetailsFragment.BinhLuanFragment;
 import com.example.tixtox.FilmDetailsFragment.FilmDetails;
 import com.example.tixtox.FilmDetailsFragment.LichChieuPhim;
 import com.example.tixtox.Model.Phim;
@@ -15,7 +15,7 @@ public class ThongTinPhimActivity extends FragmentActivity  {
     FragmentTransaction ft;
     FilmDetails filmDetails;
     LichChieuPhim lichChieuPhim;
-    BinhLuan binhLuan;
+    BinhLuanFragment binhLuanFragment;
     TabLayout tabThongTinPhim;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +51,10 @@ public class ThongTinPhimActivity extends FragmentActivity  {
                     ft.commit();
                 }
                 else {
-                    binhLuan = BinhLuan.newInstance();
-                    binhLuan.setPhim(phim);
+                    binhLuanFragment = BinhLuanFragment.newInstance();
+                    binhLuanFragment.setPhim(phim);
                     ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.fragmentFilmDetails, binhLuan);
+                    ft.replace(R.id.fragmentFilmDetails, binhLuanFragment);
                     ft.commit();
                 }
             }

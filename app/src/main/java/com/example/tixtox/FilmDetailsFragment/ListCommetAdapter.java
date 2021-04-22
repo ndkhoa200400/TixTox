@@ -5,8 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.tixtox.Forum.Messenger;
-import com.example.tixtox.HomeActivity;
 import com.example.tixtox.R;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,8 +22,8 @@ public class ListCommetAdapter extends FirebaseListAdapter<ModelBinhLuan> {
     protected void populateView(View v, ModelBinhLuan model, int position) {
         TextView txtName = v.findViewById(R.id.txtName);
         TextView txtContent = v.findViewById(R.id.txtContent);
-        txtName.setText(model.getTxtName());
-        txtContent.setText(model.getTxtContent());
+        txtName.setText(model.getUsername());
+        txtContent.setText(model.getCmtContnt());
     }
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {

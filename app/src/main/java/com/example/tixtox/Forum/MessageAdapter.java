@@ -18,6 +18,7 @@ public class MessageAdapter extends FirebaseListAdapter<Messenger> {
     public MessageAdapter(Activity activity, Class<Messenger> modelClass, int modelLayout, Query ref) {
         super(activity, modelClass, modelLayout, ref);
         this.activity = (HomeActivity) activity;
+
     }
 
     @Override
@@ -64,4 +65,6 @@ public class MessageAdapter extends FirebaseListAdapter<Messenger> {
         // return a value between 0 and (getViewTypeCount - 1)
         return position % 2;
     }
+
+
 }

@@ -1,35 +1,37 @@
 package com.example.tixtox.FilmDetailsFragment;
 
+import java.util.Date;
+
 public class ModelBinhLuan {
     private String userID;
-    private String txtName;
-    private long txtTime;
-    private String txtContent;
+    private String username;
+    private long cmtTime;
+    private String cmtContnt;
 
     public ModelBinhLuan() {
     }
 
-    public ModelBinhLuan(String userID, String txtName, long txtTime, String txtContent) {
+    public ModelBinhLuan(String userID, String username, String cmtContnt) {
         this.userID = userID;
-        this.txtName = txtName;
-        this.txtTime = txtTime;
-        this.txtContent = txtContent;
+        this.username = username;
+        this.cmtTime = new Date().getTime();
+        this.cmtContnt = cmtContnt;
     }
 
     public String getUserID() {
         return userID;
     }
 
-    public long getTxtTime() {
-        return txtTime;
+    public long getCmtTime() {
+        return cmtTime;
     }
 
-    public String getTxtName() {
-        return txtName;
+    public String getUsername() {
+        return username;
     }
 
-    public String getTxtContent() {
-        return txtContent;
+    public String getCmtContnt() {
+        return cmtContnt;
     }
 
     public void setUserID(String userID) {
