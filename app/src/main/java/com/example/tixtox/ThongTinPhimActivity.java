@@ -29,7 +29,7 @@ public class ThongTinPhimActivity extends FragmentActivity  {
         ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragmentFilmDetails, filmDetails);
         ft.commit();
-
+        System.out.println(phim.getMaPhim());
         tabThongTinPhim = findViewById(R.id.tabThongTinPhim);
         tabThongTinPhim.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
             @Override

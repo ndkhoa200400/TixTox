@@ -86,10 +86,11 @@ public class ChinhSuaTaiKhoanActivity extends AppCompatActivity {
                 String newPhone = editPhone.getText().toString();
                 String newName = editName.getText().toString();
                 Pattern pattern = Pattern.compile("^\\d{10}$");
-                if (newPhone.length() < 10 || !pattern.matcher(newPhone).matches()) {
-                    editPhone.setError("Số điện thoại không hợp lệ!");
-                    return;
-                }
+                if (!newPhone.isEmpty())
+                    if (newPhone.length() < 10 || !pattern.matcher(newPhone).matches()) {
+                        editPhone.setError("Số điện thoại không hợp lệ!");
+                        return;
+                    }
                 Map<String, Object> newInfo = new HashMap<>();
                 newInfo.put("fullname", newName);
                 newInfo.put("phone", newPhone);
