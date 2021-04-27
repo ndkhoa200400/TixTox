@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -61,6 +62,7 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                 try {
                     holder.cardViewItemNgay.setCardBackgroundColor(R.color.trang_nga);
                     ModelPhim modelPhim = ModelPhim.getInstance();
+                    ModelRap modelRap = ModelRap.getInstance();
                     new Thread() {
                         @Override
                         public void run() {
@@ -77,10 +79,14 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                                 SimpleDateFormat format =new SimpleDateFormat("yyyy-MM-dd");
                                 for (String cumRap : cumRaps) {
                                     // cumRap: là một hệ thống rạp - VD: CGV, BHD
-                                    HashMap<String, ArrayList<Date>> rapDetails = thongTinLichChieu.get(cumRap); // Lấy các rạp detail từ một cụm rạp
+                                    // maRapPhim: là phòng phim của một chi nhánh rạp. VD: 771 => Rạp 1 của Galaxy Nguyễn Văn Quá
+
+                                    HashMap<String, ArrayList<Date>> maRapPhim = thongTinLichChieu.get(cumRap); // Lấy các mã rạp phi của 1  rạp detail từ một cụm rạp
                                     HashMap<String, ArrayList<Date>> thongTinChieuCuaMotRap = new HashMap<>();
+
                                     for (String maRapDetail : thongTinLichChieu.get(cumRap).keySet()) {
-                                        ArrayList<Date> times = rapDetails.get(maRapDetail);
+                                        String tenRapDetail = modelRap.getMotRapDetailDuaTrenPhongRap(cumRap, maRapDetail).getTenRap();
+                                        ArrayList<Date> times = maRapPhim.get(maRapDetail);
 
                                         ArrayList<Date> validDates = new ArrayList<>();
 
@@ -92,7 +98,16 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                                             }
                                         }
                                         if (!validDates.isEmpty())
-                                            thongTinChieuCuaMotRap.put(maRapDetail, validDates);
+                                        {
+                                            if (thongTinChieuCuaMotRap.containsKey(tenRapDetail))
+                                            {
+                                                ArrayList<Date> temp = thongTinChieuCuaMotRap.get(tenRapDetail);
+                                                validDates.addAll(temp);
+                                                Collections.sort(validDates);
+                                            }
+                                            thongTinChieuCuaMotRap.put(tenRapDetail, validDates);
+                                        }
+
 
 
                                     }
@@ -101,9 +116,6 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
 
                                 }
                                 Activity activity = (Activity) context;
-                                System.out.println("DONE");
-                                System.out.println(results);
-                                System.out.println(thongTinLichChieu);
                                 // Lấy thông tin lịch chiếu và render lên
                                 if (activity!= null)
                                 {

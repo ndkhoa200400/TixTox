@@ -151,55 +151,49 @@ public class ModelRap {
 
     public void getThongTinLichChieuHeThongRap(String maCumRap, String maRapDetail) throws IOException, ParseException {
         System.out.println(maCumRap);
-        ResponseBody responseBody = query(url + "/LayThongTinLichChieuHeThongRap?maHeThongRap="+maCumRap);
-       if (responseBody != null)
-       {
-           Gson gson = new Gson();
-           ArrayList data = gson.fromJson(responseBody.string(), ArrayList.class);
-           for(Object i: data)
-           {
-               LinkedTreeMap d = (LinkedTreeMap) i;
-               ArrayList listRaps = (ArrayList) d.get("lstCumRap");
+        ResponseBody responseBody = query(url + "/LayThongTinLichChieuHeThongRap?maHeThongRap=" + maCumRap);
+        if (responseBody != null) {
+            Gson gson = new Gson();
+            ArrayList data = gson.fromJson(responseBody.string(), ArrayList.class);
+            for (Object i : data) {
+                LinkedTreeMap d = (LinkedTreeMap) i;
+                ArrayList listRaps = (ArrayList) d.get("lstCumRap");
 
-               for (Object r: listRaps)
-               {
-                   LinkedTreeMap rap = (LinkedTreeMap) r;
-                   if (rap.get("maCumRap").equals(maRapDetail))
-                   {
-                       System.out.println(rap.get("danhSachPhim"));
-                       ArrayList danhSachPhim = (ArrayList) rap.get("danhSachPhim");
+                for (Object r : listRaps) {
+                    LinkedTreeMap rap = (LinkedTreeMap) r;
+                    if (rap.get("maCumRap").equals(maRapDetail)) {
+                        System.out.println(rap.get("danhSachPhim"));
+                        ArrayList danhSachPhim = (ArrayList) rap.get("danhSachPhim");
 
 
-                       ModelPhim modelPhim = ModelPhim.getInstance();
-                       // Kiểm tra các phim nào đang chiếu.
-                       for(Object p: danhSachPhim)
-                       {
-                           LinkedTreeMap phim = (LinkedTreeMap) p;
-                           for (Phim phimDangChieu: modelPhim.getPhimDangChieu()){
-                                if (phim.get("tenPhim").equals(phimDangChieu.getTenPhim()))
-                                {
+                        ModelPhim modelPhim = ModelPhim.getInstance();
+                        // Kiểm tra các phim nào đang chiếu.
+                        for (Object p : danhSachPhim) {
+                            LinkedTreeMap phim = (LinkedTreeMap) p;
+                            for (Phim phimDangChieu : modelPhim.getPhimDangChieu()) {
+                                if (phim.get("tenPhim").equals(phimDangChieu.getTenPhim())) {
 
                                 }
-                           }
+                            }
 
-                       }
-                       return;
-                   }
+                        }
+                        return;
+                    }
 
-               }
-           }
-       }
+                }
+            }
+        }
     }
 
     public void getThongTinLichChieuPhim(String maPhim, String ngayXem) throws IOException {
-        ResponseBody responseBody = query(url + "/LayThongTinLichChieuPhim?MaPhim="+maPhim);
-        if(responseBody != null){
+        ResponseBody responseBody = query(url + "/LayThongTinLichChieuPhim?MaPhim=" + maPhim);
+        if (responseBody != null) {
             Gson gson = new Gson();
             ArrayList data = gson.fromJson(responseBody.string(), ArrayList.class);
-            for(Object obj1: data){
+            for (Object obj1 : data) {
                 LinkedTreeMap linkedTreeMap1 = (LinkedTreeMap) obj1;
                 ArrayList heThongRapChieu = (ArrayList) linkedTreeMap1.get("heThongRapChieu");
-                for(Object obj2: heThongRapChieu){
+                for (Object obj2 : heThongRapChieu) {
                     LinkedTreeMap linkedTreeMap2 = (LinkedTreeMap) obj2;
                     ArrayList cumRapChieu = (ArrayList) linkedTreeMap2.get("cumRapChieu");
                 }
@@ -207,14 +201,13 @@ public class ModelRap {
         }
     }
 
-    public RapDetail getMotRapDetail(String maCumRap, String maRapDetail)
-    {
-        ArrayList<RapDetail> rapDetails =  this.heThongRaps.get(maCumRap);
-        if (rapDetails != null)
-        {
-            for (RapDetail rap: rapDetails) {
-                if (rap.getMaRap().equals(maRapDetail))
-                {
+    public RapDetail getMotRapDetail(String maCumRap, String maRapDetail) {
+        ArrayList<RapDetail> rapDetails = this.heThongRaps.get(maCumRap);
+        ;
+        if (rapDetails != null) {
+            for (RapDetail rap : rapDetails) {
+
+                if (rap.getMaRap().equals(maRapDetail)) {
                     return rap;
                 }
             }
@@ -222,16 +215,12 @@ public class ModelRap {
         return null;
     }
 
-    public RapDetail getMotRapDetail(String maCumRap, String maRapDetail, String maRap)
-    {
-        ArrayList<RapDetail> rapDetails =  this.heThongRaps.get(maCumRap);
-        if (rapDetails != null)
-        {
-            for (RapDetail rap: rapDetails) {
-                if (rap.getMaRap().equals(maRapDetail))
-                {
-                    for (RapPhim rapPhim: rap.getListRapPhim())
-                    {
+    public RapDetail getMotRapDetail(String maCumRap, String maRapDetail, String maRap) {
+        ArrayList<RapDetail> rapDetails = this.heThongRaps.get(maCumRap);
+        if (rapDetails != null) {
+            for (RapDetail rap : rapDetails) {
+                if (rap.getMaRap().equals(maRapDetail)) {
+                    for (RapPhim rapPhim : rap.getListRapPhim()) {
                         if (rapPhim.getMaRap().equals(maRap))
                             return rap;
                     }
@@ -241,24 +230,27 @@ public class ModelRap {
         return null;
     }
 
-    public RapDetail getMotRapDetailDuaTrenPhongRap(String maCumRap,  String maRap)
-    {
-        ArrayList<RapDetail> rapDetails =  this.heThongRaps.get(maCumRap);
+    public RapDetail getMotRapDetailDuaTrenPhongRap(String maCumRap, String maRap) {
+        ArrayList<RapDetail> rapDetails = this.heThongRaps.get(maCumRap);
 
-        if (rapDetails != null)
-        {
-            System.out.println("OKK");
-            for (RapDetail rap: rapDetails) {
+        if (rapDetails != null) {
+            for (RapDetail rap : rapDetails) {
 
-                   for (RapPhim rapPhim: rap.getListRapPhim())
-                    {
-                        System.out.println(rapPhim.getMaRap());
-                        if (rapPhim.getMaRap().equals(maRap))
-                            return rap;
-                    }
+                for (RapPhim rapPhim : rap.getListRapPhim()) {
+
+                    if (rapPhim.getMaRap().equals(maRap))
+                        return rap;
                 }
             }
+        }
 
+        return null;
+    }
+
+    public CumRap timCumRapTheoMa(String maCumRap) {
+        for (CumRap cumRap : this.cumRaps) {
+            if (cumRap.getMaHeThongRap().equals(maCumRap)) return cumRap;
+        }
         return null;
     }
 }

@@ -54,4 +54,15 @@ public class RapDetail {
     {
         this.maRap = maRap;
     }
+
+    public boolean containsRapPhim(String maRapPhim){
+        for(RapPhim rapPhim: this.listRapPhim)
+        {
+            if (rapPhim.getMaRap().equals(maRapPhim))
+                return true;
+        }
+        return false;
+    }
+
+
 }
