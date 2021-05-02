@@ -42,6 +42,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ThongTinPhimActivity" />
+        <activity android:name=".WishList.WishListActivity" />
         <activity android:name=".Welcomactivity" />
         <activity android:name=".RegisterAcitivy" />
         <activity android:name=".LogInActivity" />

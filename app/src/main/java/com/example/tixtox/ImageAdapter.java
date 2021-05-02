@@ -1,6 +1,7 @@
 package com.example.tixtox;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
+import com.example.tixtox.WishList.WishListAdapter;
 
 import java.util.ArrayList;
 
@@ -78,6 +80,18 @@ public class ImageAdapter extends ArrayAdapter<String> {
         else{
             layoutItemFilm.setPadding(0, 0, 0,0);
         }
+
+        ImageView btn_favour = convertView.findViewById(R.id.btn_favour);
+        btn_favour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println(position);
+                Intent intent = new Intent(context, WishListAdapter.class);
+
+                intent.putExtra("phimyeuthich", posters.get(position) + ' ' + filmNames.get(position));
+                
+            }
+        });
 
         return convertView;
     }
