@@ -1,36 +1,63 @@
 package com.example.tixtox.WishList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.tixtox.DatVe.MuaVeActivity;
+import com.example.tixtox.DatVe.VeXemPhim;
 import com.example.tixtox.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class WishListActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_wishlist);
-        ListView wishList = findViewById(R.id.wishList);
+
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         ArrayList<ItemWishList> listFilm = new ArrayList<>();
 
-        String rcvMsg = (String) getIntent().getSerializableExtra("phimyeuthich");
-        System.out.println(rcvMsg);
-        if(rcvMsg == null || rcvMsg.isEmpty()){
-            TextView notify = findViewById(R.id.notify);
-            notify.setText("Nothing here");
-        }
-        else {
-            String[] data = rcvMsg.split(" ");
-            ItemWishList item = new ItemWishList(data[0], data[1]);
-            listFilm.add(item);
-        }
-        WishListAdapter adapter=new WishListAdapter(this,R.layout.layout_item_wishlist,listFilm);
-        wishList.setAdapter(adapter);
+        setContentView(R.layout.layout_wishlist);
+        ListView wishList = findViewById(R.id.wishList);
+        new Thread(){
+            @Override
+            public void run() {
+                database.child("WishList").child(currentUserId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        for(DataSnapshot s:snapshot.getChildren()){
+                            ItemWishList temp = new ItemWishList((String) s.getValue(), s.getKey());
+                            listFilm.add(temp);
+                        }
+                        WishListAdapter adapter=new WishListAdapter(WishListActivity.this,R.layout.layout_item_wishlist,listFilm);
+                        wishList.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        }.start();
+
+
+
     }
 }

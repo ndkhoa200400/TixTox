@@ -15,7 +15,11 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
+import com.example.tixtox.WishList.WishListActivity;
 import com.example.tixtox.WishList.WishListAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -25,6 +29,7 @@ public class ImageAdapter extends ArrayAdapter<String> {
     ArrayList<String> posters;
     ArrayList<String> filmNames;
     ArrayList<String> danhGias;
+    DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
     public ImageAdapter(Context context, ArrayList<String> posters, ArrayList<String> filmNames, ArrayList<String> danhGias) {
         super(context, R.layout.image_view, posters);
@@ -75,7 +80,7 @@ public class ImageAdapter extends ArrayAdapter<String> {
 
         ConstraintLayout layoutItemFilm = convertView.findViewById(R.id.layoutItemFilm);
         if(filmNames.get(position).equals(filmNames.get(0))){
-            layoutItemFilm.setPadding(0, 240,0,0);
+            layoutItemFilm.setPadding(0, 220,0,0);
         }
         else{
             layoutItemFilm.setPadding(0, 0, 0,0);
@@ -85,11 +90,10 @@ public class ImageAdapter extends ArrayAdapter<String> {
         btn_favour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(position);
-                Intent intent = new Intent(context, WishListAdapter.class);
-
-                intent.putExtra("phimyeuthich", posters.get(position) + ' ' + filmNames.get(position));
-                
+                //push data to database, wishlistactivity will get this data from database
+                String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                database.child("WishList").child(currentUserID).push();
+                database.child("WishList").child(currentUserID).child(filmNames.get(position)).setValue(posters.get(position));
             }
         });
 

@@ -57,7 +57,7 @@ public class WishListAdapter extends BaseAdapter {
                 .load(listFilm.get(position).getImageFilm())
                 .error(R.drawable.icon_home)
                 .into((ImageView) imageFilm);
-        return null;
+        return convertView;
     }
 }
 class ItemWishList {
