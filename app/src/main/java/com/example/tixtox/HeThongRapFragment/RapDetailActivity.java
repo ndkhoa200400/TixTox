@@ -67,6 +67,10 @@ public class RapDetailActivity extends AppCompatActivity {
                 int position = tab.getPosition();
                 if (position == 0){
 
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    LichChieuRapFragment lichChieuRapFragment = LichChieuRapFragment.newInstance();
+                    ft.replace(R.id.fragment_rapDetail, lichChieuRapFragment);
+                    ft.commit();
                 }
                 else{
 

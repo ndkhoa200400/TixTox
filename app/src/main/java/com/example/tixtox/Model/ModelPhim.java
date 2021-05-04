@@ -140,7 +140,7 @@ public class ModelPhim {
     public ArrayList<Phim> getPhimTheoNgay(String dateFrom, String dateTo) throws IOException, ParseException {
 
 
-        ResponseBody responseBody = query(url + "LayDanhSachPhimTheoNgay?maNhom=GP01&soTrang=1&soTrang=10&tuNgay=" + dateFrom + "&denNgay=" + dateTo);
+        ResponseBody responseBody = query(url + "LayDanhSachPhimTheoNgay?maNhom=GP01&tuNgay=" + dateFrom + "&denNgay=" + dateTo);
 
         if (responseBody != null) {
             Gson gson = new Gson();
@@ -202,11 +202,13 @@ public class ModelPhim {
     }
 
     public ArrayList<Phim> getPhimSapChieu() throws IOException, ParseException {
+        // Public methods
         if (phimSapChieu == null)   modelPhim.setPhimSapChieu(modelPhim.getPhimsSapChieu());
         return phimSapChieu;
     }
 
     public ArrayList<Phim> getPhimDangChieu() throws IOException, ParseException {
+        // Public methods
         if (phimDangChieu == null)  modelPhim.setPhimDangChieu(modelPhim.getPhimsDangChieu());
         return phimDangChieu;
     }

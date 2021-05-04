@@ -7,14 +7,14 @@ import android.os.Bundle;
 
 import com.example.tixtox.FilmDetailsFragment.BinhLuanFragment;
 import com.example.tixtox.FilmDetailsFragment.FilmDetails;
-import com.example.tixtox.FilmDetailsFragment.LichChieuPhim;
+import com.example.tixtox.FilmDetailsFragment.LichChieuPhimFragment;
 import com.example.tixtox.Model.Phim;
 import com.google.android.material.tabs.TabLayout;
 
 public class ThongTinPhimActivity extends FragmentActivity  {
     FragmentTransaction ft;
     FilmDetails filmDetails;
-    LichChieuPhim lichChieuPhim;
+    LichChieuPhimFragment lichChieuPhimFragment;
     BinhLuanFragment binhLuanFragment;
     TabLayout tabThongTinPhim;
     @Override
@@ -44,10 +44,10 @@ public class ThongTinPhimActivity extends FragmentActivity  {
                 }
                 else
                     if (tabPos == 1){
-                    lichChieuPhim = LichChieuPhim.newInstance();
-                    lichChieuPhim.setPhim(phim);
+                    lichChieuPhimFragment = LichChieuPhimFragment.newInstance();
+                    lichChieuPhimFragment.setPhim(phim);
                     ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.fragmentFilmDetails, lichChieuPhim);
+                    ft.replace(R.id.fragmentFilmDetails, lichChieuPhimFragment);
                     ft.commit();
                 }
                 else {

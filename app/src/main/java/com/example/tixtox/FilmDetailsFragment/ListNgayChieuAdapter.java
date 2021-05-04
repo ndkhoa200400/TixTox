@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -60,6 +61,8 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
             @Override
             public void onClick(View v) {
                 try {
+                    ProgressBar progressBar = ((Activity)context).findViewById(R.id.progressBar6);
+                    progressBar.setVisibility(View.VISIBLE);
                     holder.cardViewItemNgay.setCardBackgroundColor(R.color.trang_nga);
                     ModelPhim modelPhim = ModelPhim.getInstance();
                     ModelRap modelRap = ModelRap.getInstance();
@@ -141,7 +144,7 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                                             ExpandableListRapCoPhimAdapter expandableListRapCoPhimAdapter = new ExpandableListRapCoPhimAdapter(context, availableCumRaps, results,phim,
                                                     listNgay.get(position).getNgay()+"/"+listNgay.get(position).getThang()+"/"+listNgay.get(position).getNam());
                                             listRap.setAdapter(expandableListRapCoPhimAdapter);
-
+                                            progressBar.setVisibility(View.GONE);
                                         }
                                     });
                                 }
