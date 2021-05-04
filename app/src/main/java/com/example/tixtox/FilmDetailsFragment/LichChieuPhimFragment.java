@@ -102,6 +102,7 @@ public class LichChieuPhimFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
+
         return view;
     }
 

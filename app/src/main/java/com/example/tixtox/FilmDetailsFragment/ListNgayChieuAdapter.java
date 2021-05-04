@@ -35,6 +35,7 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
     private Context context;
     private Phim phim;
     private HashMap<String, HashMap<String, ArrayList<Date>>> thongTinLichChieu;
+    int index = -1;
 
     public ListNgayChieuAdapter(Context context, ArrayList<ModelNgay> listNgay, Phim phim) {
         this.context = context;
@@ -60,10 +61,14 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
         holder.cardViewItemNgay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                index = position;
+                notifyDataSetChanged();
+
                 try {
+
                     ProgressBar progressBar = ((Activity)context).findViewById(R.id.progressBar6);
                     progressBar.setVisibility(View.VISIBLE);
-                    holder.cardViewItemNgay.setCardBackgroundColor(R.color.trang_nga);
+
                     ModelPhim modelPhim = ModelPhim.getInstance();
                     ModelRap modelRap = ModelRap.getInstance();
                     new Thread() {
@@ -175,7 +180,12 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
 
             }
         });
-
+        if(index==position){
+            holder.cardViewItemNgay.setCardBackgroundColor(Color.BLUE);
+        }
+        else{
+            holder.cardViewItemNgay.setCardBackgroundColor(Color.GRAY);
+        }
     }
 
     @Override

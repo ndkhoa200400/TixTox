@@ -2,16 +2,24 @@ package com.example.tixtox.WishList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.DialogFragment;
+
 import com.bumptech.glide.Glide;
+import com.example.tixtox.AccountFragment.TaiKhoanFragment;
 import com.example.tixtox.ImageAdapter;
 import com.example.tixtox.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -57,6 +65,16 @@ public class WishListAdapter extends BaseAdapter {
                 .load(listFilm.get(position).getImageFilm())
                 .error(R.drawable.icon_home)
                 .into((ImageView) imageFilm);
+        Button remove = convertView.findViewById(R.id.remove);
+        remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+                String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                database.child("WishList").child(currentUserId).child(listFilm.get(position).getFilmName()).removeValue();
+                //something here
+            }
+        });
         return convertView;
     }
 }

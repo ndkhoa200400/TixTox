@@ -45,8 +45,14 @@ public class WishListActivity extends AppCompatActivity {
                             ItemWishList temp = new ItemWishList((String) s.getValue(), s.getKey());
                             listFilm.add(temp);
                         }
+                        if(listFilm.size() > 0) {
                         WishListAdapter adapter=new WishListAdapter(WishListActivity.this,R.layout.layout_item_wishlist,listFilm);
-                        wishList.setAdapter(adapter);
+                        wishList.setAdapter(adapter);}
+
+                        else{
+                            TextView noti = findViewById(R.id.notify);
+                            noti.setText("Danh sách trống.");
+                        }
                     }
 
                     @Override
