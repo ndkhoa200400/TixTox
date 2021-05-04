@@ -125,26 +125,34 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                                     activity.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ExpandableListView listRap = ((Activity)context).findViewById(R.id.listRapCoSuatChieu);
-                                            TextView txtKhongCoPhim = ((Activity)context).findViewById(R.id.txtKhongCoPhim);
-                                            ArrayList<String> availableCumRaps = new ArrayList<>();
-                                            for (String result: results.keySet())
-                                            {
-                                                availableCumRaps.add(result);
-                                            }
-                                            if (availableCumRaps.size() > 0)
-                                            {
-                                                txtKhongCoPhim.setText("");
-                                            }
-                                            else{
-                                                if(txtKhongCoPhim!=null)
-                                                    txtKhongCoPhim.setText("Hiện không có lịch chiếu!");
+                                            try {
+                                                ExpandableListView listRap = ((Activity)context).findViewById(R.id.listRapCoSuatChieu);
+                                                TextView txtKhongCoPhim = ((Activity)context).findViewById(R.id.txtKhongCoPhim);
+                                                ArrayList<String> availableCumRaps = new ArrayList<>();
+                                                for (String result: results.keySet())
+                                                {
+                                                    availableCumRaps.add(result);
+                                                }
+                                                if (availableCumRaps.size() > 0)
+                                                {
+                                                    txtKhongCoPhim.setText("");
+                                                }
+                                                else{
+                                                    if(txtKhongCoPhim!=null)
+                                                        txtKhongCoPhim.setText("Hiện không có lịch chiếu!");
 
+                                                }
+
+                                                ExpandableListRapCoPhimAdapter expandableListRapCoPhimAdapter = new ExpandableListRapCoPhimAdapter(context, availableCumRaps, results,phim,
+                                                        listNgay.get(position).getNgay()+"/"+listNgay.get(position).getThang()+"/"+listNgay.get(position).getNam());
+
+                                                listRap.setAdapter(expandableListRapCoPhimAdapter);
+                                                progressBar.setVisibility(View.GONE);
                                             }
-                                            ExpandableListRapCoPhimAdapter expandableListRapCoPhimAdapter = new ExpandableListRapCoPhimAdapter(context, availableCumRaps, results,phim,
-                                                    listNgay.get(position).getNgay()+"/"+listNgay.get(position).getThang()+"/"+listNgay.get(position).getNam());
-                                            listRap.setAdapter(expandableListRapCoPhimAdapter);
-                                            progressBar.setVisibility(View.GONE);
+                                           catch (Exception e) {
+                                               System.out.println("Error in line 154 - ListNgayCHieuAdapter");
+                                               e.printStackTrace();
+                                           }
                                         }
                                     });
                                 }

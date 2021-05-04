@@ -6,6 +6,7 @@ import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -13,9 +14,12 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.tixtox.HomeFragment.PhimsFragment;
+import com.example.tixtox.Model.ModelRap;
 import com.example.tixtox.Model.Rap.RapDetail;
 import com.example.tixtox.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -31,15 +35,17 @@ import java.util.List;
  */
 public class ThongTinRapDetailFragment extends Fragment {
     RapDetail rapDetail;
+    String maCumRap;
 
 
     public ThongTinRapDetailFragment() {
         // Required empty public constructor
     }
     // TODO: Rename and change types and number of parameters
-    public static ThongTinRapDetailFragment newInstance(RapDetail rapDetail) {
+    public static ThongTinRapDetailFragment newInstance(RapDetail rapDetail, String maCumRap) {
         ThongTinRapDetailFragment fragment = new ThongTinRapDetailFragment();
-        fragment.setRapDetail(rapDetail);
+        fragment.rapDetail = rapDetail;
+        fragment.maCumRap = maCumRap;
         return fragment;
     }
 
@@ -47,10 +53,6 @@ public class ThongTinRapDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-    }
-
-    public void setRapDetail(RapDetail rapDetail) {
-        this.rapDetail = rapDetail;
     }
 
     @Override
@@ -61,12 +63,14 @@ public class ThongTinRapDetailFragment extends Fragment {
 
         TextView txtTenRap = v.findViewById(R.id.txtTenRapDetail);
         TextView txtDiaChi = v.findViewById(R.id.txtDiaChiRap);
+        ConstraintLayout layoutDiaChi = v.findViewById(R.id.layoutDiaChi);
 
+        ConstraintLayout layoutGiaVe = v.findViewById(R.id.layoutGiaVe);
         txtTenRap.setText(this.rapDetail.getTenRap());
 
         txtDiaChi.setText(this.rapDetail.getDiaChi());
 
-        txtDiaChi.setOnClickListener(new View.OnClickListener() {
+        layoutDiaChi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Khi ấn vào text sẽ nhảy sang google map
@@ -79,7 +83,18 @@ public class ThongTinRapDetailFragment extends Fragment {
                 startActivity(mapIntent);
             }
         });
+        layoutGiaVe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+
+                Intent intent = new Intent(getContext(), BangGiaVeActivity.class);
+                intent.putExtra("maCumRap",maCumRap);
+
+                startActivity(intent);
+
+            }
+        });
         Geocoder geocoder = new Geocoder(getContext());
         try {
             List<Address> addresses = geocoder.getFromLocationName(this.rapDetail.getDiaChi(), 1);
@@ -97,7 +112,7 @@ public class ThongTinRapDetailFragment extends Fragment {
 
         }
 
-
+        ((ProgressBar)getActivity().findViewById(R.id.progressBar7)).setVisibility(View.GONE);
 
         return v;
     }
