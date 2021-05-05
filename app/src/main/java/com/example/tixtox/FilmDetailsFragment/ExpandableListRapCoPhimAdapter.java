@@ -46,9 +46,7 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
            {
                rapDetails.add(rap);
            }
-
            rapDetailsCuaMotCumRap.add(rapDetails);
-
        }
     }
 

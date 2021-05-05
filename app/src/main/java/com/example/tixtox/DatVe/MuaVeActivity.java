@@ -138,19 +138,19 @@ public class  MuaVeActivity extends AppCompatActivity {
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                         VeXemPhim temp = snapshot.getValue(VeXemPhim.class);
                         vexm.add(temp);
+                        if(temp.getTrangThai().equals("Đã thanh toán")) {
+                            ChangeGhe = ConverStringtoGhe(temp.getGhe());
+                            //Toast.makeText(getApplicationContext(), ChangeGhe.toString(), Toast.LENGTH_SHORT).show();
+                            for (int j = 0; j < ChangeGhe.size(); j++) {
+                                int km = ChangeGhe.get(j);
 
-                        ChangeGhe = ConverStringtoGhe(temp.getGhe());
-                        //Toast.makeText(getApplicationContext(), ChangeGhe.toString(), Toast.LENGTH_SHORT).show();
-                        for(int j =0;j<ChangeGhe.size();j++) {
-                            int km = ChangeGhe.get(j);
+                                if (km < 100) image[km] = R.drawable.ghe_x;
+                                else imageDoi[km - 101] = R.drawable.icon_ghedoi_x;
 
-                            if(km<100) image[km] = R.drawable.ghe_x;
-                            else imageDoi[km-101] = R.drawable.icon_ghedoi_x;
-
+                            }
+                            gridview.setAdapter(new ImageAdapterGridView(MuaVeActivity.this, image, 100, 80));
+                            gridviewGheDoi.setAdapter(new ImageAdapterGridView(MuaVeActivity.this, imageDoi, 100, 200));
                         }
-                        gridview.setAdapter(new ImageAdapterGridView(MuaVeActivity.this, image, 100, 80));
-                        gridviewGheDoi.setAdapter(new ImageAdapterGridView(MuaVeActivity.this, imageDoi, 100, 200));
-
 
 
 
