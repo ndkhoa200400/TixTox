@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.tixtox.Forum.MessageAdapter;
 import com.example.tixtox.Forum.Messenger;
 import com.example.tixtox.Model.Phim;
 import com.example.tixtox.R;
@@ -21,7 +20,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class BinhLuan extends Fragment {
+import java.util.HashMap;
+import java.util.Map;
+
+public class BinhLuanFragment extends Fragment {
     TextView txtRating, txtNosRating;
     EditText edtComment;
     FloatingActionButton btnSend;
@@ -31,10 +33,10 @@ public class BinhLuan extends Fragment {
     private Phim phim;
     private FirebaseListAdapter<ModelBinhLuan> adapter;
 
-    public BinhLuan() {}
+    public BinhLuanFragment() {}
 
-    public static BinhLuan newInstance() {
-        BinhLuan fragment = new BinhLuan();
+    public static BinhLuanFragment newInstance() {
+        BinhLuanFragment fragment = new BinhLuanFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -62,15 +64,16 @@ public class BinhLuan extends Fragment {
                 String cmt = edtComment.getText().toString();
                 edtComment.setText("");
 //                btnSend.setEnabled(false);
+
+
+
+                FirebaseUser user = FirebaseAuth.getInstance()
+                        .getCurrentUser();
+
                 FirebaseDatabase.getInstance()
                         .getReference("Comment")
-                        .push()
-                        .setValue(new Messenger(cmt,
-                                FirebaseAuth.getInstance()
-                                        .getCurrentUser()
-                                        .getDisplayName(), FirebaseAuth.getInstance()
-                                .getCurrentUser().getUid())
-                        );
+
+                        .child(phim.getMaPhim()).push().setValue(new ModelBinhLuan(user.getUid().toString(), user.getDisplayName(), cmt));
                 displayComment();
             }
         });
@@ -78,8 +81,9 @@ public class BinhLuan extends Fragment {
         return view;
     }
     private void displayComment() {
+
         adapter = new ListCommetAdapter(getActivity(), ModelBinhLuan.class,
-                R.layout.comment_layout, FirebaseDatabase.getInstance().getReference("Comment")
+                R.layout.comment_layout, FirebaseDatabase.getInstance().getReference("Comment").child(phim.getMaPhim())
         );
         listComments.setAdapter(adapter);
     }

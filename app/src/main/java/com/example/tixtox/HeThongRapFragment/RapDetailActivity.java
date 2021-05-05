@@ -3,6 +3,7 @@ package com.example.tixtox.HeThongRapFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,15 +21,17 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 public class RapDetailActivity extends AppCompatActivity {
-    private String maCumRap, maRapDetail, tenChiNhanhRap;
+    private String maCumRap, maRapDetail;
     private ArrayList<Phim> listPhimDangChieu;
     private TextView txtTenRap;
     RapDetail rapDetail;
-
+    private ProgressBar progressBar;
     private TabLayout tabLayout;
-    public RapDetailActivity(){}
 
-    public RapDetailActivity(String maCumRap, String maRapDetail){
+    public RapDetailActivity() {
+    }
+
+    public RapDetailActivity(String maCumRap, String maRapDetail) {
         this.maCumRap = maCumRap;
         this.maRapDetail = maRapDetail;
     }
@@ -39,18 +42,19 @@ public class RapDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_rap);
 
         txtTenRap = findViewById(R.id.tenRap);
-
+        progressBar = findViewById(R.id.progressBar7);
+        progressBar.setVisibility(View.VISIBLE);
         Intent intent = getIntent();
 
         Bundle bundle = intent.getExtras();
         maCumRap = (String) bundle.get("maCumRap");
         maRapDetail = (String) bundle.get("maRapDetail");
 
+
         try {
             ModelRap modelRap = ModelRap.getInstance();
             rapDetail = modelRap.getMotRapDetail(maCumRap, maRapDetail);
-            if (rapDetail != null)
-            {
+            if (rapDetail != null) {
                 txtTenRap.setText(rapDetail.getTenRap());
             }
         } catch (IOException e) {
@@ -63,18 +67,16 @@ public class RapDetailActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
+                progressBar.setVisibility(View.VISIBLE);
                 int position = tab.getPosition();
-                if (position == 0){
+                if (position == 0) {
 
-                }
-                else{
+                   loadLichChieuFragment();
+                } else {
 
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ThongTinRapDetailFragment thongTinRapDetailFragment = ThongTinRapDetailFragment.newInstance(rapDetail);
-                    ft.replace(R.id.fragment_rapDetail, thongTinRapDetailFragment);
-                    ft.commit();
+                    loadThongTinRapFragment();
                 }
+
             }
 
             @Override
@@ -87,6 +89,27 @@ public class RapDetailActivity extends AppCompatActivity {
 
             }
         });
+        loadLichChieuFragment();
+
     }
 
+    private void loadLichChieuFragment() {
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        LichChieuRapFragment lichChieuRapFragment = LichChieuRapFragment.newInstance();
+
+        ft.replace(R.id.fragment_rapDetail, lichChieuRapFragment);
+        ft.commit();
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void loadThongTinRapFragment() {
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ThongTinRapDetailFragment thongTinRapDetailFragment = ThongTinRapDetailFragment.newInstance(rapDetail, maCumRap);
+
+        ft.replace(R.id.fragment_rapDetail, thongTinRapDetailFragment);
+        ft.commit();
+
+    }
 }

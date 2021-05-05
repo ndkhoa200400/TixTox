@@ -103,8 +103,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (loadings.isInterrupted())
-            loadings.resume();
+
     }
 
     protected void checkAccount() {
@@ -139,9 +138,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(loadings.isAlive())
-        {
-            loadings.suspend();
-        }
+
     }
 }

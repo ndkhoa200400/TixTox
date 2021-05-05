@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -33,6 +35,7 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
     private Context context;
     private Phim phim;
     private HashMap<String, HashMap<String, ArrayList<Date>>> thongTinLichChieu;
+    int index = -1;
 
     public ListNgayChieuAdapter(Context context, ArrayList<ModelNgay> listNgay, Phim phim) {
         this.context = context;
@@ -58,9 +61,16 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
         holder.cardViewItemNgay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                index = position;
+                notifyDataSetChanged();
+
                 try {
-                    holder.cardViewItemNgay.setCardBackgroundColor(R.color.trang_nga);
+
+                    ProgressBar progressBar = ((Activity)context).findViewById(R.id.progressBar6);
+                    progressBar.setVisibility(View.VISIBLE);
+
                     ModelPhim modelPhim = ModelPhim.getInstance();
+                    ModelRap modelRap = ModelRap.getInstance();
                     new Thread() {
                         @Override
                         public void run() {
@@ -77,10 +87,14 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                                 SimpleDateFormat format =new SimpleDateFormat("yyyy-MM-dd");
                                 for (String cumRap : cumRaps) {
                                     // cumRap: là một hệ thống rạp - VD: CGV, BHD
-                                    HashMap<String, ArrayList<Date>> rapDetails = thongTinLichChieu.get(cumRap); // Lấy các rạp detail từ một cụm rạp
+                                    // maRapPhim: là phòng phim của một chi nhánh rạp. VD: 771 => Rạp 1 của Galaxy Nguyễn Văn Quá
+
+                                    HashMap<String, ArrayList<Date>> maRapPhim = thongTinLichChieu.get(cumRap); // Lấy các mã rạp phi của 1  rạp detail từ một cụm rạp
                                     HashMap<String, ArrayList<Date>> thongTinChieuCuaMotRap = new HashMap<>();
+
                                     for (String maRapDetail : thongTinLichChieu.get(cumRap).keySet()) {
-                                        ArrayList<Date> times = rapDetails.get(maRapDetail);
+                                        String tenRapDetail = modelRap.getMotRapDetailDuaTrenPhongRap(cumRap, maRapDetail).getTenRap();
+                                        ArrayList<Date> times = maRapPhim.get(maRapDetail);
 
                                         ArrayList<Date> validDates = new ArrayList<>();
 
@@ -92,7 +106,16 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                                             }
                                         }
                                         if (!validDates.isEmpty())
-                                            thongTinChieuCuaMotRap.put(maRapDetail, validDates);
+                                        {
+                                            if (thongTinChieuCuaMotRap.containsKey(tenRapDetail))
+                                            {
+                                                ArrayList<Date> temp = thongTinChieuCuaMotRap.get(tenRapDetail);
+                                                validDates.addAll(temp);
+                                                Collections.sort(validDates);
+                                            }
+                                            thongTinChieuCuaMotRap.put(tenRapDetail, validDates);
+                                        }
+
 
 
                                     }
@@ -101,35 +124,40 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
 
                                 }
                                 Activity activity = (Activity) context;
-                                System.out.println("DONE");
-                                System.out.println(results);
-                                System.out.println(thongTinLichChieu);
                                 // Lấy thông tin lịch chiếu và render lên
                                 if (activity!= null)
                                 {
                                     activity.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ExpandableListView listRap = ((Activity)context).findViewById(R.id.listRapCoSuatChieu);
-                                            TextView txtKhongCoPhim = ((Activity)context).findViewById(R.id.txtKhongCoPhim);
-                                            ArrayList<String> availableCumRaps = new ArrayList<>();
-                                            for (String result: results.keySet())
-                                            {
-                                                availableCumRaps.add(result);
-                                            }
-                                            if (availableCumRaps.size() > 0)
-                                            {
-                                                txtKhongCoPhim.setText("");
-                                            }
-                                            else{
-                                                if(txtKhongCoPhim!=null)
-                                                    txtKhongCoPhim.setText("Hiện không có lịch chiếu!");
+                                            try {
+                                                ExpandableListView listRap = ((Activity)context).findViewById(R.id.listRapCoSuatChieu);
+                                                TextView txtKhongCoPhim = ((Activity)context).findViewById(R.id.txtKhongCoPhim);
+                                                ArrayList<String> availableCumRaps = new ArrayList<>();
+                                                for (String result: results.keySet())
+                                                {
+                                                    availableCumRaps.add(result);
+                                                }
+                                                if (availableCumRaps.size() > 0)
+                                                {
+                                                    txtKhongCoPhim.setText("");
+                                                }
+                                                else{
+                                                    if(txtKhongCoPhim!=null)
+                                                        txtKhongCoPhim.setText("Hiện không có lịch chiếu!");
 
-                                            }
-                                            ExpandableListRapCoPhimAdapter expandableListRapCoPhimAdapter = new ExpandableListRapCoPhimAdapter(context, availableCumRaps, results,phim,
-                                                    listNgay.get(position).getNgay()+"/"+listNgay.get(position).getThang()+"/"+listNgay.get(position).getNam());
-                                            listRap.setAdapter(expandableListRapCoPhimAdapter);
+                                                }
 
+                                                ExpandableListRapCoPhimAdapter expandableListRapCoPhimAdapter = new ExpandableListRapCoPhimAdapter(context, availableCumRaps, results,phim,
+                                                        listNgay.get(position).getNgay()+"/"+listNgay.get(position).getThang()+"/"+listNgay.get(position).getNam());
+
+                                                listRap.setAdapter(expandableListRapCoPhimAdapter);
+                                                progressBar.setVisibility(View.GONE);
+                                            }
+                                           catch (Exception e) {
+                                               System.out.println("Error in line 154 - ListNgayCHieuAdapter");
+                                               e.printStackTrace();
+                                           }
                                         }
                                     });
                                 }
@@ -152,7 +180,12 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
 
             }
         });
-
+        if(index==position){
+            holder.cardViewItemNgay.setCardBackgroundColor(Color.BLUE);
+        }
+        else{
+            holder.cardViewItemNgay.setCardBackgroundColor(Color.GRAY);
+        }
     }
 
     @Override

@@ -231,20 +231,18 @@ public class PhimsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         if (this.loadingPhimThread.isInterrupted())
-            loadingPhimThread.resume();
+            loadingPhimThread.start();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (this.loadingPhimThread.isAlive())
-            loadingPhimThread.stop();
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (this.loadingPhimThread.isAlive())
-            loadingPhimThread.suspend();
+
     }
 }

@@ -1,6 +1,5 @@
 package com.example.tixtox.FilmDetailsFragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +9,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tixtox.Model.Phim;
 import com.example.tixtox.R;
-
-import org.lucasr.twowayview.TwoWayView;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -27,15 +23,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class LichChieuPhim extends Fragment {
+public class LichChieuPhimFragment extends Fragment {
     private Phim phim;
     TextView tenPhim;
     private ArrayList<ModelNgay> listNgay = new ArrayList<>();
 
-    public LichChieuPhim(){}
+    public LichChieuPhimFragment(){}
 
-    public static LichChieuPhim newInstance() {
-        LichChieuPhim fragment = new LichChieuPhim();
+    public static LichChieuPhimFragment newInstance() {
+        LichChieuPhimFragment fragment = new LichChieuPhimFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -105,6 +101,7 @@ public class LichChieuPhim extends Fragment {
         ListNgayChieuAdapter adapter = new ListNgayChieuAdapter(getActivity(), listNgay, phim);
 
         recyclerView.setAdapter(adapter);
+
 
         return view;
     }

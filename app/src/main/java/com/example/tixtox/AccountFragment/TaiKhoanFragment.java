@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.example.tixtox.ChinhSuaTaiKhoanActivity;
 import com.example.tixtox.DatVe.DanhSachVe;
 import com.example.tixtox.HomeActivity;
 import com.example.tixtox.R;
+import com.example.tixtox.WishList.WishListActivity;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,6 +45,7 @@ public class TaiKhoanFragment extends Fragment {
     ImageView myPhoto;
     Button btnSignOut, btnEditAccount;
     TextView txtDOB, txtName, txtEmail, txtPhone,txtVeDaMua, txtDSKhuyenMai;
+    CardView cardViewWishList;
     ProgressBar progressBar;
 
     public TaiKhoanFragment() {
@@ -179,6 +182,14 @@ public class TaiKhoanFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(view.getContext(), DanhSachKhuyenMaiActivity.class);
                 
+                startActivity(intent);
+            }
+        });
+        cardViewWishList = view.findViewById(R.id.cardViewWishList);
+        cardViewWishList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(view.getContext(), WishListActivity.class);
                 startActivity(intent);
             }
         });

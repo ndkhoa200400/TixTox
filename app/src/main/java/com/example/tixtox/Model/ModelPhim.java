@@ -51,7 +51,7 @@ public class ModelPhim {
         // Hàm dùng để gọi API để lấy các phim đang chiếu
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime before = now.minusDays(30);
+        LocalDateTime before = now.minusDays(45);
         return getPhimTheoNgay(dtf.format(before), dtf.format(now));
     }
 
@@ -59,7 +59,7 @@ public class ModelPhim {
         // Hàm dùng để gọi API để lấy các phim sắp chiếu
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime after = now.plusDays(28);
+        LocalDateTime after = now.plusDays(45);
         return getPhimTheoNgay(dtf.format(now), dtf.format(after));
     }
 
@@ -140,7 +140,7 @@ public class ModelPhim {
     public ArrayList<Phim> getPhimTheoNgay(String dateFrom, String dateTo) throws IOException, ParseException {
 
 
-        ResponseBody responseBody = query(url + "LayDanhSachPhimTheoNgay?maNhom=GP01&soTrang=1&soTrang=10&tuNgay=" + dateFrom + "&denNgay=" + dateTo);
+        ResponseBody responseBody = query(url + "LayDanhSachPhimTheoNgay?maNhom=GP01&tuNgay=" + dateFrom + "&denNgay=" + dateTo);
 
         if (responseBody != null) {
             Gson gson = new Gson();
@@ -202,11 +202,13 @@ public class ModelPhim {
     }
 
     public ArrayList<Phim> getPhimSapChieu() throws IOException, ParseException {
+        // Public methods
         if (phimSapChieu == null)   modelPhim.setPhimSapChieu(modelPhim.getPhimsSapChieu());
         return phimSapChieu;
     }
 
     public ArrayList<Phim> getPhimDangChieu() throws IOException, ParseException {
+        // Public methods
         if (phimDangChieu == null)  modelPhim.setPhimDangChieu(modelPhim.getPhimsDangChieu());
         return phimDangChieu;
     }
