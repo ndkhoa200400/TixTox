@@ -30,6 +30,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 
+
+// Class xử lý khi người dùng chọn vào 1 ngày để hiện thông tin chiếu của một phim
 public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdapter.ViewHolder> {
     private ArrayList<ModelNgay> listNgay;
     private Context context;
@@ -123,6 +125,7 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                                         results.put(cumRap, thongTinChieuCuaMotRap);
 
                                 }
+                                System.out.println(results);
                                 Activity activity = (Activity) context;
                                 // Lấy thông tin lịch chiếu và render lên
                                 if (activity!= null)
@@ -143,8 +146,13 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                                                     txtKhongCoPhim.setText("");
                                                 }
                                                 else{
-                                                    if(txtKhongCoPhim!=null)
+                                                    if(txtKhongCoPhim!=null) {
                                                         txtKhongCoPhim.setText("Hiện không có lịch chiếu!");
+                                                        if (listRap.getExpandableListAdapter() != null)
+                                                        {
+                                                            listRap.setVisibility(View.GONE);
+                                                        }
+                                                    }
 
                                                 }
 

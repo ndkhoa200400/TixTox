@@ -16,18 +16,18 @@ import com.example.tixtox.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FilmDetails#newInstance} factory method to
+ * Use the {@link FilmDetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FilmDetails extends Fragment {
+public class FilmDetailsFragment extends Fragment {
     Phim phim;
     ImageView poster;
     TextView txtFilmName, txtReleaseDate, txtRating, txtContent;
-    public FilmDetails() {
+    public FilmDetailsFragment() {
     }
 
-    public static FilmDetails newInstance() {
-        FilmDetails fragment = new FilmDetails();
+    public static FilmDetailsFragment newInstance() {
+        FilmDetailsFragment fragment = new FilmDetailsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;

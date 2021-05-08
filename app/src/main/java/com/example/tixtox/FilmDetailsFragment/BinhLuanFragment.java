@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.tixtox.Forum.Messenger;
 import com.example.tixtox.Model.Phim;
 import com.example.tixtox.R;
 import com.firebase.ui.database.FirebaseListAdapter;
@@ -19,9 +18,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class BinhLuanFragment extends Fragment {
     TextView txtRating, txtNosRating;
@@ -82,7 +78,7 @@ public class BinhLuanFragment extends Fragment {
     }
     private void displayComment() {
 
-        adapter = new ListCommetAdapter(getActivity(), ModelBinhLuan.class,
+        adapter = new ListCommentAdapter(getActivity(), ModelBinhLuan.class,
                 R.layout.comment_layout, FirebaseDatabase.getInstance().getReference("Comment").child(phim.getMaPhim())
         );
         listComments.setAdapter(adapter);

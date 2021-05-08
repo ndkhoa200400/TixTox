@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -92,6 +93,7 @@ public class LichChieuPhimFragment extends Fragment {
         View view =  inflater.inflate(R.layout.activity_lich_chieu_phim, container, false);
         tenPhim = view.findViewById(R.id.tenPhim);
         tenPhim.setText(phim.getTenPhim());
+        ProgressBar progressBar = view.findViewById(R.id.progressBar6);
 
         createDateData(); //khoi tao data listNgay
         LinearLayout linear = view.findViewById(R.id.layoutChonNgay);
@@ -102,7 +104,7 @@ public class LichChieuPhimFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
-
+        progressBar.setVisibility(View.GONE);
         return view;
     }
 
