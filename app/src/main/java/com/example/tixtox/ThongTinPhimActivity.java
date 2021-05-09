@@ -6,14 +6,14 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.example.tixtox.FilmDetailsFragment.BinhLuanFragment;
-import com.example.tixtox.FilmDetailsFragment.FilmDetails;
+import com.example.tixtox.FilmDetailsFragment.FilmDetailsFragment;
 import com.example.tixtox.FilmDetailsFragment.LichChieuPhimFragment;
 import com.example.tixtox.Model.Phim;
 import com.google.android.material.tabs.TabLayout;
 
 public class ThongTinPhimActivity extends FragmentActivity  {
     FragmentTransaction ft;
-    FilmDetails filmDetails;
+    FilmDetailsFragment filmDetails;
     LichChieuPhimFragment lichChieuPhimFragment;
     BinhLuanFragment binhLuanFragment;
     TabLayout tabThongTinPhim;
@@ -24,7 +24,7 @@ public class ThongTinPhimActivity extends FragmentActivity  {
 
         Phim phim = (Phim) getIntent().getSerializableExtra("phim");
 
-        filmDetails = FilmDetails.newInstance();
+        filmDetails = FilmDetailsFragment.newInstance();
         filmDetails.setPhim(phim);
         ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragmentFilmDetails, filmDetails);
@@ -36,7 +36,7 @@ public class ThongTinPhimActivity extends FragmentActivity  {
             public void onTabSelected(TabLayout.Tab tab) {
                 int tabPos = tab.getPosition();
                 if(tabPos == 0){
-                    filmDetails = FilmDetails.newInstance();
+                    filmDetails = FilmDetailsFragment.newInstance();
                     filmDetails.setPhim(phim);
                     ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.fragmentFilmDetails, filmDetails);

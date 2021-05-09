@@ -11,9 +11,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.Query;
 
-public class ListCommetAdapter extends FirebaseListAdapter<ModelBinhLuan> {
+public class ListCommentAdapter extends FirebaseListAdapter<ModelBinhLuan> {
     private Activity activity;
-    public ListCommetAdapter(Activity activity, Class<ModelBinhLuan> modelClass, int modelLayout, Query ref) {
+    public ListCommentAdapter(Activity activity, Class<ModelBinhLuan> modelClass, int modelLayout, Query ref) {
         super(activity, modelClass, modelLayout, ref);
         this.activity = activity;
     }
@@ -29,11 +29,7 @@ public class ListCommetAdapter extends FirebaseListAdapter<ModelBinhLuan> {
     public View getView(int position, View view, ViewGroup viewGroup) {
         ModelBinhLuan comment = getItem(position);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        if (user != null) {
-//            view = activity.getLayoutInflater().inflate(R.layout.comment_layout, viewGroup, false);
-//        }
-//        else
-//            view = activity.getLayoutInflater().inflate(R.layout.comment_layout, viewGroup, false);
+
         view = activity.getLayoutInflater().inflate(R.layout.comment_layout, viewGroup, false);
         populateView(view, comment, position);
 
