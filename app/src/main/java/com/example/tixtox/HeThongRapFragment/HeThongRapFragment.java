@@ -48,7 +48,7 @@ public class HeThongRapFragment extends Fragment {
         listView = view.findViewById(R.id.expandableListView);
         progressBar = view.findViewById(R.id.progressBar3);
         progressBar.setVisibility(View.VISIBLE);
-        // goi API de GET thong tin
+        // Lấy thông tin cụm rạp và hệ thống rạp
         Thread getDanhSachRap = new Thread() {
             @Override
             public void run() {

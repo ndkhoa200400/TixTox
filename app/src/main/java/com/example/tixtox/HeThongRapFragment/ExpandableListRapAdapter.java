@@ -96,6 +96,7 @@ public class ExpandableListRapAdapter extends BaseExpandableListAdapter {
                 Intent intent = new Intent(context, RapDetailActivity.class);
                 intent.putExtra("maCumRap", listCumRap.get(groupPosition).getMaHeThongRap());
                 intent.putExtra("maRapDetail",  rapDetail.getMaRap());
+               
                 context.startActivity(intent);
             }
         });
