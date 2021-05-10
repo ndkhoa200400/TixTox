@@ -5,6 +5,10 @@ public class KhuyenMai {
     String name;
     double discount;
 
+    public KhuyenMai() {
+        super();
+    }
+
     public KhuyenMai(int type, String name, double discount) {
         this.type = type;
         this.name = name;

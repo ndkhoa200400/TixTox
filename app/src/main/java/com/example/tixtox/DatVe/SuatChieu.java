@@ -32,10 +32,10 @@ public class SuatChieu {
     }
 
 
-    public SuatChieu(String maphim, String ngay, String gio) {
-        id = maphim+ngay+gio;
+    public SuatChieu(String maphim, String ngay, String gio, String rap) {
+        id = maphim+ngay+gio+rap;
      //   Load();
-    }
+}
     private void UpdateGhe(String v)
     {
         Ghe = Ghe + " " + v;
@@ -45,10 +45,13 @@ public class SuatChieu {
     {
 
     }
-
-    void Load()
+    void Loading()
     {
-        dtb.child("SuatChieu").child(this.id).addValueEventListener(new ValueEventListener() {
+        String[] ids = id.split("/");
+    }
+    void Load(String[] id_S)
+    {
+        dtb.child("SuatChieu").child(id_S[0]).child(id_S[1]).child(id_S[2]).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Ghe = snapshot.child("Ghe").getValue().toString();

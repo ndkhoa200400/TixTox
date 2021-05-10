@@ -14,12 +14,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tixtox.Model.KhuyenMai;
 import com.example.tixtox.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -39,13 +41,13 @@ public class  MuaVeActivity extends AppCompatActivity {
     ArrayList<VeXemPhim> vexm = new ArrayList<>();
     ArrayList<String> vitri = new ArrayList<>();
     TextView txtSoGhe, txtTongTien, txtPhong, txtRap, txtSuatChieu, txtNgayChieu, txtTenPhim;
-    Button btnNext;
+    Button btnNext,btnNhapKM;
     Dialog dialog;
     DatabaseReference dtb;
     String V = "";
     int SoGheDon =0;
     int SoGheDoi =0;
-
+    String MaKM;
     ArrayList<Integer> ChangeGhe = new ArrayList<>();
     Integer[] image={R.drawable.icon_ghe, R.drawable.icon_ghe, R.drawable.icon_ghe,
             R.drawable.icon_ghe, R.drawable.icon_ghe,
@@ -105,6 +107,8 @@ public class  MuaVeActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_muave);
+
+        btnNhapKM = (Button) findViewById(R.id.btn_NhapMa);
         dialog = new Dialog(MuaVeActivity.this);
         gridviewGheDoi = (GridView) findViewById(R.id.gridviewGheDoi);
         gridview = (GridView) findViewById(R.id.gridviewGhe);
@@ -125,11 +129,11 @@ public class  MuaVeActivity extends AppCompatActivity {
         txtSuatChieu.setText(intent.getStringExtra("Phim_ThoiGian"));
         SuatChieu suatchieu = new SuatChieu(intent.getStringExtra("Phim_ID")
                 ,intent.getStringExtra("Phim_NgayChieu")
-                ,intent.getStringExtra("Phim_ThoiGian"));
+                ,intent.getStringExtra("Phim_ThoiGian"),intent.getStringExtra("Phim_Rap"));
         String hinhanh = intent.getStringExtra("Phim_Hinh_Anh");
 //        Toast.makeText(getApplicationContext(), suatchieu.getGhe(), Toast.LENGTH_SHORT).show();
-
-
+        String[] id_S = suatchieu.getId().split("/");
+        Toast.makeText(getApplicationContext(), id_S[0] +"---" + id_S[1]+"---" + id_S[2], Toast.LENGTH_SHORT).show();
         new Thread(){
             @Override
             public void run() {
@@ -182,7 +186,78 @@ public class  MuaVeActivity extends AppCompatActivity {
         }.start();
 
 
+        btnNhapKM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.setContentView(R.layout.custom_khuyenmai);
+                dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.background_dialog));
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.setCancelable(false);
+                Button oke = dialog.findViewById(R.id.btn_xacnhan_khuyenmai);
+                Button huy = dialog.findViewById(R.id.btn_huy_khuyenmai);
+                Button check = dialog.findViewById(R.id.btn_check_khuyenmai);
+                EditText makm = dialog.findViewById(R.id.txtMa_khuyenmai);
+                TextView hienthi = dialog.findViewById(R.id.txt_tb_khuyenmai);
+                check.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (makm.getText().length() == 0) hienthi.setText("Vui lòng nhập mã khuyến mãi!!!");
+                        else
+                        {
+                            dtb.child("KhuyenMai").addChildEventListener(new ChildEventListener() {
+                                @Override
+                                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                    KhuyenMai temp = snapshot.getValue(KhuyenMai.class);
 
+
+                                    if (makm.getText().toString().equals(temp.getName())) {
+                                        hienthi.setText("đã áp dụng thành công");
+                                        MaKM = temp.getName();
+                                        txtTongTien.setText(Double.toString(temp.getGiaTienSauKM((Double.valueOf(txtTongTien.getText().toString())))));
+                                    }
+                                }
+
+                                @Override
+                                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                }
+
+                                @Override
+                                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                                }
+
+                                @Override
+                                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                            //hienthi.setText("Vui 123 nhập mã khuyến mãi!!!");
+
+                        }
+                    }
+                });
+                oke.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        Toast.makeText(getApplicationContext(), MaKM, Toast.LENGTH_SHORT).show();
+
+                        dialog.dismiss();
+                    }
+                });
+                huy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+        });
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

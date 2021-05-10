@@ -109,7 +109,7 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
         LinearLayoutManager layoutManager = new LinearLayoutManager(linear.getContext(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = convertView.findViewById(R.id.recyclerViewGioChieu);
         recyclerView.setLayoutManager(layoutManager);
-        ListGioChieuAdapter adapter = new ListGioChieuAdapter(context, modelGioChieuArrayList, phim, listCumRap.get(groupPosition), NgayChieu);
+        ListGioChieuAdapter adapter = new ListGioChieuAdapter(context, modelGioChieuArrayList, phim, rapDetailsCuaMotCumRap.get(groupPosition).get(childPosition), NgayChieu);
         recyclerView.setAdapter(adapter);
 
 
