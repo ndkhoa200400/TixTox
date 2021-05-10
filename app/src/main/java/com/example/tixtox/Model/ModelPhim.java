@@ -71,14 +71,13 @@ public class ModelPhim {
         return simpleDateFormat.parse(h);
 
     }
-    public  HashMap<String, HashMap<String, ArrayList<Date>>> getThongTinPhim(String MaPhim) throws IOException, JSONException, ParseException {
+    public  HashMap<String, HashMap<String, ArrayList<Date>>> getThongTinPhim(String MaPhim) throws IOException, ParseException {
 
         // Lấy thông tin chi tiết của một phim
         // Trả về rạp, ngày chiếu va thông tin phim chi tiết
         String link = url+"/LayThongTinPhim?MaPhim=" + MaPhim;
 
         ResponseBody responseBody = query(link);
-
 
         if (responseBody != null) {
             Gson gson = new Gson();
@@ -127,8 +126,6 @@ public class ModelPhim {
                     dates.add(gioChieu);
                     temp.put(maRapDetail, dates);
                     thongTinLichChieu.put(maCumRap, temp);
-
-
                 }
 
             }

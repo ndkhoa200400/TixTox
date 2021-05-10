@@ -16,6 +16,7 @@ import com.example.tixtox.FilmDetailsFragment.ListNgayChieuAdapter;
 import com.example.tixtox.FilmDetailsFragment.ModelNgay;
 import com.example.tixtox.R;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,7 +61,12 @@ public class LichChieuRapFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(linear.getContext(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = view.findViewById(R.id.listViewChonNgay);
         recyclerView.setLayoutManager(layoutManager);
-        ListNgayChieuAdapter adapter = new ListNgayChieuAdapter(getActivity(), listNgay, null);
+        ListNgayChieuAdapter adapter = null;
+        try {
+            adapter = new ListNgayChieuAdapter(getActivity(), listNgay, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         recyclerView.setAdapter(adapter);
         progressBar.setVisibility(View.GONE);

@@ -38,12 +38,16 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
     private Phim phim;
     private HashMap<String, HashMap<String, ArrayList<Date>>> thongTinLichChieu;
     int index = -1;
+    ModelPhim modelPhim;
+    ModelRap modelRap;
 
-    public ListNgayChieuAdapter(Context context, ArrayList<ModelNgay> listNgay, Phim phim) {
+    public ListNgayChieuAdapter(Context context, ArrayList<ModelNgay> listNgay, Phim phim) throws IOException {
         this.context = context;
         this.listNgay = listNgay;
         this.phim = phim;
-
+        modelPhim = ModelPhim.getInstance();
+        thongTinLichChieu = null;
+        modelRap = ModelRap.getInstance();
 
     }
 
@@ -66,132 +70,113 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                 index = position;
                 notifyDataSetChanged();
 
-                try {
+                ProgressBar progressBar = ((Activity) context).findViewById(R.id.progressBar6);
+                progressBar.setVisibility(View.VISIBLE);
 
-                    ProgressBar progressBar = ((Activity)context).findViewById(R.id.progressBar6);
-                    progressBar.setVisibility(View.VISIBLE);
 
-                    ModelPhim modelPhim = ModelPhim.getInstance();
-                    ModelRap modelRap = ModelRap.getInstance();
-                    new Thread() {
-                        @Override
-                        public void run() {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        if (thongTinLichChieu == null) {
                             try {
                                 thongTinLichChieu = modelPhim.getThongTinPhim(phim.getMaPhim());
-                                ArrayList<String> cumRaps = new ArrayList<>();
-                                HashMap<String, HashMap<String, ArrayList<Date>>> results = new HashMap<>(); // kết quả trả về các thông tin lịch chiếu của ngày được click
-
-                                for (String str : thongTinLichChieu.keySet()) {
-                                    cumRaps.add(str);
-                                }
-                                Date selectedDate = listNgay.get(position).getDate();
-
-                                SimpleDateFormat format =new SimpleDateFormat("yyyy-MM-dd");
-                                for (String cumRap : cumRaps) {
-                                    // cumRap: là một hệ thống rạp - VD: CGV, BHD
-                                    // maRapPhim: là phòng phim của một chi nhánh rạp. VD: 771 => Rạp 1 của Galaxy Nguyễn Văn Quá
-
-                                    HashMap<String, ArrayList<Date>> maRapPhim = thongTinLichChieu.get(cumRap); // Lấy các mã rạp phi của 1  rạp detail từ một cụm rạp
-                                    HashMap<String, ArrayList<Date>> thongTinChieuCuaMotRap = new HashMap<>();
-
-                                    for (String maRapDetail : thongTinLichChieu.get(cumRap).keySet()) {
-                                        String tenRapDetail = modelRap.getMotRapDetailDuaTrenPhongRap(cumRap, maRapDetail).getTenRap();
-                                        ArrayList<Date> times = maRapPhim.get(maRapDetail);
-
-                                        ArrayList<Date> validDates = new ArrayList<>();
-
-                                        for (Date time : times) {
-
-                                            if (format.format(time).equals(format.format(selectedDate))) {
-                                                validDates.add(time);
-
-                                            }
-                                        }
-                                        if (!validDates.isEmpty())
-                                        {
-                                            if (thongTinChieuCuaMotRap.containsKey(tenRapDetail))
-                                            {
-                                                ArrayList<Date> temp = thongTinChieuCuaMotRap.get(tenRapDetail);
-                                                validDates.addAll(temp);
-                                                Collections.sort(validDates);
-                                            }
-                                            thongTinChieuCuaMotRap.put(tenRapDetail, validDates);
-                                        }
-
-
-
-                                    }
-                                    if (!thongTinChieuCuaMotRap.isEmpty())
-                                        results.put(cumRap, thongTinChieuCuaMotRap);
-
-                                }
-                                System.out.println(results);
-                                Activity activity = (Activity) context;
-                                // Lấy thông tin lịch chiếu và render lên
-                                if (activity!= null)
-                                {
-                                    activity.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                ExpandableListView listRap = ((Activity)context).findViewById(R.id.listRapCoSuatChieu);
-                                                TextView txtKhongCoPhim = ((Activity)context).findViewById(R.id.txtKhongCoPhim);
-                                                ArrayList<String> availableCumRaps = new ArrayList<>();
-                                                for (String result: results.keySet())
-                                                {
-                                                    availableCumRaps.add(result);
-                                                }
-                                                if (availableCumRaps.size() > 0)
-                                                {
-                                                    txtKhongCoPhim.setText("");
-                                                }
-                                                else{
-                                                    if(txtKhongCoPhim!=null) {
-                                                        txtKhongCoPhim.setText("Hiện không có lịch chiếu!");
-                                                        if (listRap.getExpandableListAdapter() != null)
-                                                        {
-                                                            listRap.setVisibility(View.GONE);
-                                                        }
-                                                    }
-
-                                                }
-
-                                                ExpandableListRapCoPhimAdapter expandableListRapCoPhimAdapter = new ExpandableListRapCoPhimAdapter(context, availableCumRaps, results,phim,
-                                                        listNgay.get(position).getNgay()+"/"+listNgay.get(position).getThang()+"/"+listNgay.get(position).getNam());
-
-                                                listRap.setAdapter(expandableListRapCoPhimAdapter);
-                                                progressBar.setVisibility(View.GONE);
-                                            }
-                                           catch (Exception e) {
-                                               System.out.println("Error in line 154 - ListNgayCHieuAdapter");
-                                               e.printStackTrace();
-                                           }
-                                        }
-                                    });
-                                }
                             } catch (IOException e) {
-                                e.printStackTrace();
-                            } catch (JSONException e) {
                                 e.printStackTrace();
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
+                        }
+                        ArrayList<String> cumRaps = new ArrayList<>();
+                        HashMap<String, HashMap<String, ArrayList<Date>>> results = new HashMap<>(); // kết quả trả về các thông tin lịch chiếu của ngày được click
+
+                        for (String str : thongTinLichChieu.keySet()) {
+                            cumRaps.add(str);
+                        }
+                        Date selectedDate = listNgay.get(position).getDate();
+
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                        for (String cumRap : cumRaps) {
+                            // cumRap: là một hệ thống rạp - VD: CGV, BHD
+                            // maRapPhim: là phòng phim của một chi nhánh rạp. VD: 771 => Rạp 1 của Galaxy Nguyễn Văn Quá
+
+                            HashMap<String, ArrayList<Date>> maRapPhim = thongTinLichChieu.get(cumRap); // Lấy các mã rạp phi của 1  rạp detail từ một cụm rạp
+                            HashMap<String, ArrayList<Date>> thongTinChieuCuaMotRap = new HashMap<>();
+
+                            for (String maRapDetail : thongTinLichChieu.get(cumRap).keySet()) {
+                                String tenRapDetail = modelRap.getMotRapDetailDuaTrenPhongRap(cumRap, maRapDetail).getTenRap();
+                                ArrayList<Date> times = maRapPhim.get(maRapDetail);
+
+                                ArrayList<Date> validDates = new ArrayList<>();
+
+                                for (Date time : times) {
+
+                                    if (format.format(time).equals(format.format(selectedDate))) {
+                                        validDates.add(time);
+
+                                    }
+                                }
+                                if (!validDates.isEmpty()) {
+                                    if (thongTinChieuCuaMotRap.containsKey(tenRapDetail)) {
+                                        ArrayList<Date> temp = thongTinChieuCuaMotRap.get(tenRapDetail);
+                                        validDates.addAll(temp);
+                                        Collections.sort(validDates);
+                                    }
+                                    thongTinChieuCuaMotRap.put(tenRapDetail, validDates);
+                                }
 
 
+                            }
+                            if (!thongTinChieuCuaMotRap.isEmpty())
+                                results.put(cumRap, thongTinChieuCuaMotRap);
 
                         }
-                    }.start();
+                        System.out.println(results);
+                        Activity activity = (Activity) context;
+                        // Lấy thông tin lịch chiếu và render lên
+                        if (activity != null) {
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        ExpandableListView listRap = ((Activity) context).findViewById(R.id.listRapCoSuatChieu);
+                                        TextView txtKhongCoPhim = ((Activity) context).findViewById(R.id.txtKhongCoPhim);
+                                        ArrayList<String> availableCumRaps = new ArrayList<>();
+                                        for (String result : results.keySet()) {
+                                            availableCumRaps.add(result);
+                                        }
+                                        if (availableCumRaps.size() > 0) {
+                                            txtKhongCoPhim.setText("");
+                                        } else {
+                                            if (txtKhongCoPhim != null) {
+                                                txtKhongCoPhim.setText("Hiện không có lịch chiếu!");
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                                            }
+
+                                        }
+
+                                        ExpandableListRapCoPhimAdapter expandableListRapCoPhimAdapter = new ExpandableListRapCoPhimAdapter(context, availableCumRaps, results, phim,
+                                                listNgay.get(position).getNgay() + "/" + listNgay.get(position).getThang() + "/" + listNgay.get(position).getNam());
+
+                                        listRap.setAdapter(expandableListRapCoPhimAdapter);
+                                        progressBar.setVisibility(View.GONE);
+                                    } catch (Exception e) {
+                                        System.out.println("Error in line 154 - ListNgayCHieuAdapter");
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+
+
+                    }
+                }.start();
+
 
             }
         });
-        if(index==position){
+        if (index == position) {
             holder.cardViewItemNgay.setCardBackgroundColor(Color.BLUE);
-        }
-        else{
+        } else {
             holder.cardViewItemNgay.setCardBackgroundColor(Color.GRAY);
         }
     }

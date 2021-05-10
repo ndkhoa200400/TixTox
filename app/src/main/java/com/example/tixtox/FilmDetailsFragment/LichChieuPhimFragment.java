@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tixtox.Model.Phim;
 import com.example.tixtox.R;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -100,7 +101,12 @@ public class LichChieuPhimFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(linear.getContext(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = view.findViewById(R.id.listViewChonNgay);
         recyclerView.setLayoutManager(layoutManager);
-        ListNgayChieuAdapter adapter = new ListNgayChieuAdapter(getActivity(), listNgay, phim);
+        ListNgayChieuAdapter adapter = null;
+        try {
+            adapter = new ListNgayChieuAdapter(getActivity(), listNgay, phim);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         recyclerView.setAdapter(adapter);
 
