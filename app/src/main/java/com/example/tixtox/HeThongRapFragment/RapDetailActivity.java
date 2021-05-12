@@ -96,7 +96,7 @@ public class RapDetailActivity extends AppCompatActivity {
     private void loadLichChieuFragment() {
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        LichChieuRapFragment lichChieuRapFragment = LichChieuRapFragment.newInstance();
+        LichChieuRapFragment lichChieuRapFragment = LichChieuRapFragment.newInstance(maRapDetail, maCumRap);
 
         ft.replace(R.id.fragment_rapDetail, lichChieuRapFragment);
         ft.commit();

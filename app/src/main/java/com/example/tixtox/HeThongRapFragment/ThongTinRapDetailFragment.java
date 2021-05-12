@@ -28,11 +28,6 @@ import com.google.android.material.tabs.TabLayout;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ThongTinRapDetailFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ThongTinRapDetailFragment extends Fragment {
     RapDetail rapDetail;
     String maCumRap;

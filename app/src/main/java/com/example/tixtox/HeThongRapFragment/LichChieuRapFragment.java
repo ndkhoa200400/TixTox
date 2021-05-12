@@ -24,22 +24,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LichChieuRapFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class LichChieuRapFragment extends Fragment {
     private ArrayList<ModelNgay> listNgay = new ArrayList<>();
-
+    String maRapDetail, maCumRap;
     public LichChieuRapFragment() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static LichChieuRapFragment newInstance() {
+    public static LichChieuRapFragment newInstance(String maRapDetail, String maCumRap) {
         LichChieuRapFragment fragment = new LichChieuRapFragment();
-
+        fragment.maCumRap = maCumRap;
+        fragment.maRapDetail = maRapDetail;
         return fragment;
     }
 
@@ -61,9 +58,9 @@ public class LichChieuRapFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(linear.getContext(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = view.findViewById(R.id.listViewChonNgay);
         recyclerView.setLayoutManager(layoutManager);
-        ListNgayChieuAdapter adapter = null;
+        LichChieuRapAdapter adapter = null;
         try {
-            adapter = new ListNgayChieuAdapter(getActivity(), listNgay, null);
+            adapter = new LichChieuRapAdapter(getActivity(), listNgay, maRapDetail, maCumRap);
         } catch (IOException e) {
             e.printStackTrace();
         }

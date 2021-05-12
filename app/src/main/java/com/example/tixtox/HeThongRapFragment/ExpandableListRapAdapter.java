@@ -52,7 +52,6 @@ public class ExpandableListRapAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.layout_item_cum_rap, null);
         }
-        System.out.println("view cum rap");
 
         TextView tenCumRap = convertView.findViewById(R.id.txtTenCumRap);
         CumRap cumRap = (CumRap) this.getGroup(listPosition);
@@ -80,23 +79,11 @@ public class ExpandableListRapAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
 
-                    Thread t = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                            ModelRap modelRap = ModelRap.getInstance();
-                            modelRap.getThongTinLichChieuHeThongRap(listCumRap.get(groupPosition).getMaHeThongRap(), rapDetail.getMaRap());
 
-                            } catch (IOException | ParseException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                    t.start();
                 Intent intent = new Intent(context, RapDetailActivity.class);
                 intent.putExtra("maCumRap", listCumRap.get(groupPosition).getMaHeThongRap());
                 intent.putExtra("maRapDetail",  rapDetail.getMaRap());
-               
+                
                 context.startActivity(intent);
             }
         });

@@ -1,23 +1,31 @@
-package com.example.tixtox.FilmDetailsFragment;
+package com.example.tixtox.HeThongRapFragment;
 
 import android.app.Activity;
 import android.content.Context;
+
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tixtox.FilmDetailsFragment.ExpandableListRapCoPhimAdapter;
+import com.example.tixtox.FilmDetailsFragment.ListGioChieuAdapter;
+import com.example.tixtox.FilmDetailsFragment.ModelGioChieu;
+import com.example.tixtox.FilmDetailsFragment.ModelNgay;
 import com.example.tixtox.Model.ModelPhim;
 import com.example.tixtox.Model.ModelRap;
 import com.example.tixtox.Model.Phim;
 import com.example.tixtox.R;
+
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -26,37 +34,42 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
-
-// Class xử lý khi người dùng chọn vào 1 ngày để hiện thông tin chiếu của một phim
-public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdapter.ViewHolder> {
+// Class xử lý khi người dùng chọn vào 1 ngày để hiện thông tin chiếu của một rạp detail
+class LichChieuRapAdapter extends RecyclerView.Adapter<LichChieuRapAdapter.ViewHolder> {
     private ArrayList<ModelNgay> listNgay;
     private Context context;
-    private Phim phim;
-    private HashMap<String, HashMap<String, ArrayList<Date>>> thongTinLichChieu;
-    int index = -1;
-    ModelPhim modelPhim;
-    ModelRap modelRap;
 
-    public ListNgayChieuAdapter(Context context, ArrayList<ModelNgay> listNgay, Phim phim) throws IOException {
+    int index = -1;
+    private ModelPhim modelPhim;
+    private ModelRap modelRap;
+    private String maRapDetail;
+    private String maCumRap;
+    private HashMap<String, ArrayList<Date>> thongTinLichChieu; // lưu trữ thông tin lịch chiếu
+
+    public LichChieuRapAdapter(Context context, ArrayList<ModelNgay> listNgay, String maRapDetail, String maCumRap) throws IOException {
         this.context = context;
         this.listNgay = listNgay;
-        this.phim = phim;
         modelPhim = ModelPhim.getInstance();
         thongTinLichChieu = null;
         modelRap = ModelRap.getInstance();
-
+        this.maCumRap = maCumRap;
+        this.maRapDetail = maRapDetail;
+        System.out.println("Line 53 LichChieuRap");
+        System.out.println(maCumRap);
+        System.out.println(maRapDetail);
     }
 
     @NonNull
     @Override
-    public ListNgayChieuAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_ngay, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListNgayChieuAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.thu.setText(this.listNgay.get(position).getThu());
         holder.ngay.setText(this.listNgay.get(position).getNgay());
         holder.thang.setText(this.listNgay.get(position).getThang());
@@ -69,65 +82,43 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
 
                 ProgressBar progressBar = ((Activity) context).findViewById(R.id.progressBar6);
                 progressBar.setVisibility(View.VISIBLE);
-
-
                 new Thread() {
                     @Override
                     public void run() {
+                        super.run();
                         if (thongTinLichChieu == null) {
                             try {
-                                thongTinLichChieu = modelPhim.getThongTinPhim(phim.getMaPhim());
+                                thongTinLichChieu = modelRap.getThongTinLichChieuHeThongRap(maCumRap, maRapDetail);
+                                System.out.println(thongTinLichChieu);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
                         }
-                        ArrayList<String> cumRaps = new ArrayList<>();
-                        HashMap<String, HashMap<String, ArrayList<Date>>> results = new HashMap<>(); // kết quả trả về các thông tin lịch chiếu của ngày được click
-
-                        for (String str : thongTinLichChieu.keySet()) {
-                            cumRaps.add(str);
-                        }
-                        Date selectedDate = listNgay.get(position).getDate();
-
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                        for (String cumRap : cumRaps) {
-                            // cumRap: là một hệ thống rạp - VD: CGV, BHD
-                            // maRapPhim: là phòng phim của một chi nhánh rạp. VD: 771 => Rạp 1 của Galaxy Nguyễn Văn Quá
-
-                            HashMap<String, ArrayList<Date>> maRapPhim = thongTinLichChieu.get(cumRap); // Lấy các mã rạp phi của 1  rạp detail từ một cụm rạp
-                            HashMap<String, ArrayList<Date>> thongTinChieuCuaMotRap = new HashMap<>();
-
-                            for (String maRapDetail : thongTinLichChieu.get(cumRap).keySet()) {
-                                String tenRapDetail = modelRap.getMotRapDetailDuaTrenPhongRap(cumRap, maRapDetail).getTenRap();
-                                ArrayList<Date> times = maRapPhim.get(maRapDetail);
-
+                            HashMap<String, ArrayList<Date>> results = new HashMap<>();
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                            String selectedDate =  format.format(listNgay.get(position).getDate()) ;
+                            // Quét qua từng tên phim để lấy lịch chiếu
+                            for (String tenPhim: thongTinLichChieu.keySet())
+                            {
                                 ArrayList<Date> validDates = new ArrayList<>();
-
-                                for (Date time : times) {
-
-                                    if (format.format(time).equals(format.format(selectedDate))) {
-                                        validDates.add(time);
+                                for (Date date: thongTinLichChieu.get(tenPhim)) {
+                                    if (format.format(date).equals(selectedDate)) {
+                                        validDates.add(date);
 
                                     }
                                 }
-                                if (!validDates.isEmpty()) {
-                                    if (thongTinChieuCuaMotRap.containsKey(tenRapDetail)) {
-                                        ArrayList<Date> temp = thongTinChieuCuaMotRap.get(tenRapDetail);
-                                        validDates.addAll(temp);
-                                        Collections.sort(validDates);
-                                    }
-                                    thongTinChieuCuaMotRap.put(tenRapDetail, validDates);
+                                if (!validDates.isEmpty())
+                                {
+                                    Collections.sort(validDates);
+                                    results.put(tenPhim, validDates);
                                 }
-
 
                             }
-                            if (!thongTinChieuCuaMotRap.isEmpty())
-                                results.put(cumRap, thongTinChieuCuaMotRap);
-
-                        }
+                        System.out.println("Lich chieu rap adapter");
                         System.out.println(results);
+
                         Activity activity = (Activity) context;
                         // Lấy thông tin lịch chiếu và render lên
                         if (activity != null) {
@@ -135,13 +126,25 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                                 @Override
                                 public void run() {
                                     try {
-                                        ExpandableListView listRap = ((Activity) context).findViewById(R.id.listRapCoSuatChieu);
-                                        TextView txtKhongCoPhim = ((Activity) context).findViewById(R.id.txtKhongCoPhim);
-                                        ArrayList<String> availableCumRaps = new ArrayList<>();
-                                        for (String result : results.keySet()) {
-                                            availableCumRaps.add(result);
+                                        LinearLayout linear = activity.findViewById(R.id.layoutChonGioChieu);
+                                        LinearLayoutManager layoutManager = new LinearLayoutManager(linear.getContext(), LinearLayoutManager.HORIZONTAL, false);
+                                        RecyclerView recyclerView = activity.findViewById(R.id.recyclerViewGioChieu);
+                                        recyclerView.setLayoutManager(layoutManager);
+                                        ArrayList<ModelGioChieu> modelGioChieuArrayList = new ArrayList<>();
+                                        SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.UK);
+                                        for (Date gioChieu : listGioChieu) {
+                                            ModelGioChieu modelGioChieu = new ModelGioChieu();
+                                            modelGioChieu.setGioBD(format.format(gioChieu));
+                                            modelGioChieuArrayList.add(modelGioChieu);
                                         }
-                                        if (availableCumRaps.size() > 0) {
+                                        ListGioChieuAdapter adapter = new ListGioChieuAdapter(context, modelGioChieuArrayList, phim, rapDetailsCuaMotCumRap.get(groupPosition).get(childPosition), NgayChieu);
+                                        recyclerView.setAdapter(adapter);
+                                        TextView txtKhongCoPhim =activity.findViewById(R.id.txtKhongCoPhim);
+                                        ArrayList<String> availablePhims = new ArrayList<>();
+                                        for (String result : results.keySet()) {
+                                            availablePhims.add(result);
+                                        }
+                                        if (availablePhims.size() > 0) {
                                             txtKhongCoPhim.setText("");
                                         } else {
                                             if (txtKhongCoPhim != null) {
@@ -151,24 +154,20 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
 
                                         }
 
-                                        ExpandableListRapCoPhimAdapter expandableListRapCoPhimAdapter = new ExpandableListRapCoPhimAdapter(context, availableCumRaps, results, phim,
-                                                listNgay.get(position).getNgay() + "/" + listNgay.get(position).getThang() + "/" + listNgay.get(position).getNam());
 
-                                        listRap.setAdapter(expandableListRapCoPhimAdapter);
+
                                         progressBar.setVisibility(View.GONE);
                                     } catch (Exception e) {
-                                        System.out.println("Error in line 154 - ListNgayCHieuAdapter");
+                                        System.out.println("Error in line 145 - ListChieu rapAdapter");
                                         e.printStackTrace();
                                     }
                                 }
                             });
                         }
 
-
                     }
+
                 }.start();
-
-
             }
         });
         if (index == position) {
