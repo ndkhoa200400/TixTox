@@ -50,6 +50,8 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
                 rapDetails.add(rap);
             }
 
+
+
             rapDetailsCuaMotCumRap.add(rapDetails);
 
         }
@@ -87,15 +89,14 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.layout_item_rap_phim, null);
         }
+        // Set tên rạp
         TextView txtTenRapDetail = convertView.findViewById(R.id.txtTenRapDetail);
         String tenRapDetail = (String) getChild(groupPosition, childPosition);
-
-
         txtTenRapDetail.setText(tenRapDetail);
-
 
         ArrayList<Date> listGioChieu = this.thongTinPhim.get(listCumRap.get(groupPosition)).get(tenRapDetail);
 
+        // Set ngày giờ chiếu
         ArrayList<ModelGioChieu> modelGioChieuArrayList = new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.UK);
         for (Date gioChieu : listGioChieu) {
@@ -107,6 +108,7 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
 
         LinearLayout linear = convertView.findViewById(R.id.layoutChonGioChieu);
         LinearLayoutManager layoutManager = new LinearLayoutManager(linear.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        // Hiện các thông tin giờ chiếu qua recyclerView
         RecyclerView recyclerView = convertView.findViewById(R.id.recyclerViewGioChieu);
         recyclerView.setLayoutManager(layoutManager);
         ListGioChieuAdapter adapter = new ListGioChieuAdapter(context, modelGioChieuArrayList, phim, rapDetailsCuaMotCumRap.get(groupPosition).get(childPosition), NgayChieu);

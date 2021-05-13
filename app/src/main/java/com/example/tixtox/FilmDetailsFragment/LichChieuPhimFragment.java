@@ -73,7 +73,7 @@ public class LichChieuPhimFragment extends Fragment {
 
         return ngay;
     }
-    //Khoi tao data 7 ngay ke tu ngay hien tai
+    //Khoi tao data 15 ngay ke tu ngay hien tai
     public void createDateData(){
 
         //ngay thang nam hien tai

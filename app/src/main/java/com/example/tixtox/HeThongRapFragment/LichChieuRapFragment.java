@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.example.tixtox.FilmDetailsFragment.ListNgayChieuAdapter;
 import com.example.tixtox.FilmDetailsFragment.ModelNgay;
 import com.example.tixtox.R;
 
@@ -37,6 +36,8 @@ public class LichChieuRapFragment extends Fragment {
         LichChieuRapFragment fragment = new LichChieuRapFragment();
         fragment.maCumRap = maCumRap;
         fragment.maRapDetail = maRapDetail;
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -49,23 +50,24 @@ public class LichChieuRapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.activity_lich_chieu_phim, container, false);
+        View view =  inflater.inflate(R.layout.fragment_lich_chieu_rap, container, false);
         ProgressBar progressBar = view.findViewById(R.id.progressBar6);
 
         createDateData(); //khoi tao data listNgay
-        LinearLayout linear = view.findViewById(R.id.layoutChonNgay);
+        LinearLayout linear = view.findViewById(R.id.layoutChonNgayRap);
         LinearLayoutManager layoutManager = new LinearLayoutManager(linear.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView recyclerView = view.findViewById(R.id.listViewChonNgay);
+        RecyclerView recyclerView = view.findViewById(R.id.listViewChonNgayRap);
         recyclerView.setLayoutManager(layoutManager);
+
         LichChieuRapAdapter adapter = null;
         try {
             adapter = new LichChieuRapAdapter(getActivity(), listNgay, maRapDetail, maCumRap);
+            recyclerView.setAdapter(adapter);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        recyclerView.setAdapter(adapter);
+
         progressBar.setVisibility(View.GONE);
         return view;
     }
