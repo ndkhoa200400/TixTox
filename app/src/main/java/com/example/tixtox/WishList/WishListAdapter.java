@@ -65,14 +65,15 @@ public class WishListAdapter extends BaseAdapter {
                 .load(listFilm.get(position).getImageFilm())
                 .error(R.drawable.icon_home)
                 .into((ImageView) imageFilm);
-        Button remove = convertView.findViewById(R.id.remove);
+        ImageView remove = convertView.findViewById(R.id.remove);
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseReference database = FirebaseDatabase.getInstance().getReference();
                 String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 database.child("WishList").child(currentUserId).child(listFilm.get(position).getFilmName()).removeValue();
-                //something here
+                listFilm.remove(position);
+                notifyDataSetChanged();
             }
         });
         return convertView;
