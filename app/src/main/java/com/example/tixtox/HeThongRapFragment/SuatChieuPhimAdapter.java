@@ -27,12 +27,14 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class SuatChieuPhimAdapter extends ArrayAdapter<String> {
-    ArrayList<String> listTenPhim; HashMap<String, ArrayList<Date>> thongTinSuatChieu;
+    ArrayList<String> listTenPhim;
+    HashMap<String, ArrayList<Date>> thongTinSuatChieu;
     Context context;
     int resouce;
     String tenRapDetail;
     ModelPhim modelPhim;
     String ngayChieu;
+
     public SuatChieuPhimAdapter(@NonNull Context context, int resource, ArrayList<String> listTenPhim, HashMap<String, ArrayList<Date>> thongTinSuatChieu, String tenRapDetail, String ngayChieu) throws IOException {
         super(context, resource, listTenPhim);
         this.context = context;
@@ -42,6 +44,7 @@ public class SuatChieuPhimAdapter extends ArrayAdapter<String> {
         this.tenRapDetail = tenRapDetail;
         this.ngayChieu = ngayChieu;
         modelPhim = ModelPhim.getInstance();
+
     }
 
     @NonNull
@@ -50,12 +53,16 @@ public class SuatChieuPhimAdapter extends ArrayAdapter<String> {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(this.resouce, parent, false);
         }
-        TextView txtTenPhim = convertView.findViewById(R.id.txtTenPhim);
 
+        String tenPhim = this.listTenPhim.get(position);
+        TextView txtTenPhim = convertView.findViewById(R.id.txtTenPhim);
+        txtTenPhim.setText(tenPhim);
         LinearLayout linear = convertView.findViewById(R.id.layoutChonGioChieu);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(linear.getContext(), LinearLayoutManager.HORIZONTAL, false);
+
         // Set ngày giờ chiếu
-        ArrayList<Date> listGioChieu = this.thongTinSuatChieu.get(position);
+        ArrayList<Date> listGioChieu = this.thongTinSuatChieu.get(listTenPhim.get(position));
         ArrayList<ModelGioChieu> modelGioChieuArrayList = new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.UK);
         for (Date gioChieu : listGioChieu) {
@@ -65,12 +72,11 @@ public class SuatChieuPhimAdapter extends ArrayAdapter<String> {
         }
 
 
-
         // Hiện các thông tin giờ chiếu qua recyclerView
         RecyclerView recyclerView = convertView.findViewById(R.id.recyclerViewGioChieu);
         recyclerView.setLayoutManager(layoutManager);
-        Phim phim = modelPhim.timPhimTheoTen(this.listTenPhim.get(position));
-        ListGioChieuAdapter adapter = new ListGioChieuAdapter(context, modelGioChieuArrayList, phim,tenRapDetail, ngayChieu);
+        Phim phim = modelPhim.timPhimTheoTen(tenPhim);
+        ListGioChieuAdapter adapter = new ListGioChieuAdapter(context, modelGioChieuArrayList, phim, tenRapDetail, ngayChieu);
         recyclerView.setAdapter(adapter);
 
         return convertView;

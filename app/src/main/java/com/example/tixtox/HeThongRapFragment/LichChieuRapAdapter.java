@@ -58,9 +58,7 @@ public class LichChieuRapAdapter extends RecyclerView.Adapter<LichChieuRapAdapte
         this.maCumRap = maCumRap;
         this.maRapDetail = maRapDetail;
         System.out.println("Line 53 LichChieuRap");
-        System.out.println(maCumRap);
-        System.out.println(maRapDetail);
-        System.out.println(listNgay.size());
+
     }
 
     @NonNull
@@ -77,7 +75,6 @@ public class LichChieuRapAdapter extends RecyclerView.Adapter<LichChieuRapAdapte
         holder.thu.setText(this.listNgay.get(position).getThu());
         holder.ngay.setText(this.listNgay.get(position).getNgay());
         holder.thang.setText(this.listNgay.get(position).getThang());
-        System.out.println(this.listNgay.get(position).getDate());
         holder.cardViewItemNgay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,33 +90,31 @@ public class LichChieuRapAdapter extends RecyclerView.Adapter<LichChieuRapAdapte
                         if (thongTinLichChieu == null) {
                             try {
                                 thongTinLichChieu = modelRap.getThongTinLichChieuHeThongRap(maCumRap, maRapDetail);
-
                             } catch (IOException e) {
                                 e.printStackTrace();
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
                         }
-                            HashMap<String, ArrayList<Date>> results = new HashMap<>();
-                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                            String selectedDate =  format.format(listNgay.get(position).getDate()) ;
-                            // Quét qua từng tên phim để lấy lịch chiếu
-                            for (String tenPhim: thongTinLichChieu.keySet())
-                            {
-                                ArrayList<Date> validDates = new ArrayList<>();
-                                for (Date date: thongTinLichChieu.get(tenPhim)) {
-                                    if (format.format(date).equals(selectedDate)) {
+                        HashMap<String, ArrayList<Date>> results = new HashMap<>();
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                        String selectedDate = format.format(listNgay.get(position).getDate());
+                        // Quét qua từng tên phim để lấy lịch chiếu
+                        for (String tenPhim : thongTinLichChieu.keySet()) {
+                            ArrayList<Date> validDates = new ArrayList<>();
+                            for (Date date : thongTinLichChieu.get(tenPhim)) {
+                                if (format.format(date).equals(selectedDate)) {
+                                    if (!validDates.contains(date))
                                         validDates.add(date);
 
-                                    }
                                 }
-                                if (!validDates.isEmpty())
-                                {
-                                    Collections.sort(validDates);
-                                    results.put(tenPhim, validDates);
-                                }
-
                             }
+                            if (!validDates.isEmpty()) {
+                                Collections.sort(validDates);
+                                results.put(tenPhim, validDates);
+                            }
+
+                        }
                         System.out.println("Lich chieu rap adapter");
                         System.out.println(results);
 
