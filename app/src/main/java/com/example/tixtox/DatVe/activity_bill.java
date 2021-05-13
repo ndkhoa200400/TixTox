@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 public class activity_bill extends AppCompatActivity {
-    TextView txtTaiKhoan,txtMagd,txtGiaghedon,txtGiaghedoi,txtSoghedon,txtSogheDoi,txtTongTien,txtNgayGD;
+    TextView txtTaiKhoan,txtMagd,txtGiaghedon,txtGiaghedoi,txtSoghedon,txtSogheDoi,txtTongTien,txtNgayGD,txtGiamGia;
     Button btnVeXemPhim, btnManHinhChinh;
     DatabaseReference dtb;
     @Override
@@ -40,6 +40,7 @@ public class activity_bill extends AppCompatActivity {
         txtSoghedon=(TextView) findViewById(R.id.txtSogheDon_bill);
         btnVeXemPhim = (Button) findViewById(R.id.btn_VeXemPhim_bill);
         btnManHinhChinh = (Button)  findViewById(R.id.btn_ManHinh_bill);
+        txtGiamGia = (TextView) findViewById(R.id.txtGiamGia_bill);
         Intent intent = getIntent();
         String Mave = intent.getStringExtra("Key");
         String MaHoaDon = intent.getStringExtra("MaHoaDon");
@@ -82,6 +83,7 @@ public class activity_bill extends AppCompatActivity {
                         .getCurrentUser().getDisplayName());
                 txtGiaghedoi.setText((new Integer(soghedoi*140000).toString()));
                 txtGiaghedon.setText((new Integer(soghedon*70000).toString()));
+                txtGiamGia.setText(new Integer( soghedoi*140000 +  soghedon*70000 - Integer.valueOf(bill.getThanhTien())).toString() );
                 txtNgayGD.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
                         bill.getTime()));
 

@@ -266,6 +266,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                                                 (Double.valueOf(txtTongTien.getText()
                                                         .toString())))));
                                 MaKMAD.clear();
+                                MaKM = "";
                             }
                         }
                         else
@@ -350,6 +351,8 @@ public class  MuaVeActivity extends AppCompatActivity {
                             Intent intent = new Intent(MuaVeActivity.this, activity_bill.class);
                             String MaHoaDon = dtb.child("HoaDon").push().getKey();
                             String Key = dtb.child("VeXemPhim").push().getKey();
+                            Integer tiengiam  =(int)Float.parseFloat(txtTongTien.getText().toString());
+                            txtTongTien.setText(tiengiam.toString());
                             HoaDon bill = new HoaDon(SoGheDoi, SoGheDon, txtTongTien.getText().toString(), "123");
                             VeXemPhim vexem = new VeXemPhim(V, txtTongTien.getText().toString(),
                                     txtNgayChieu.getText().toString(), txtSuatChieu.getText().toString(),

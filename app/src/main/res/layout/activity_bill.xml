@@ -164,14 +164,13 @@
                 android:id="@+id/txtGiaGheDon_bill"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="75dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="210000
         "
                 android:textSize="20dp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.77"
                 app:layout_constraintStart_toEndOf="@+id/txtSogheDon_bill"
                 app:layout_constraintTop_toBottomOf="@+id/textView45" />
 
@@ -179,14 +178,13 @@
                 android:id="@+id/txtGiagheDoi_bill"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="75dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="560000
         "
                 android:textSize="20dp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.77"
                 app:layout_constraintStart_toEndOf="@+id/txtSogheDoi_bill"
                 app:layout_constraintTop_toBottomOf="@+id/txtGiaGheDon_bill" />
 
@@ -194,7 +192,7 @@
                 android:id="@+id/searchBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtSogheDoi_bill"
@@ -227,15 +225,13 @@
                 android:id="@+id/txtThanhTien_bill"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="75dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
                 android:gravity="center|center_horizontal"
                 android:text="770000"
                 android:textSize="20dp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/textView38"
+                app:layout_constraintStart_toEndOf="@+id/txtSogheDoi_bill"
                 app:layout_constraintTop_toBottomOf="@+id/searchBtn" />
 
             <TextView
@@ -257,6 +253,29 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView39"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView46"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:textSize="20dp"
+                android:text="Khuyến mãi"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView37" />
+
+            <TextView
+                android:id="@+id/txtGiamGia_bill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="75dp"
+                android:layout_marginTop="15dp"
+                android:text="0"
+                android:textSize="20dp"
+                app:layout_constraintStart_toEndOf="@+id/txtSogheDoi_bill"
+                app:layout_constraintTop_toBottomOf="@+id/txtGiagheDoi_bill" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
