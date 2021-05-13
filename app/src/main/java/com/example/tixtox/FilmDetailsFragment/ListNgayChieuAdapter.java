@@ -172,9 +172,15 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
             }
         });
         if (index == position) {
-            holder.cardViewItemNgay.setCardBackgroundColor(Color.BLUE);
+            holder.cardViewItemNgay.setCardBackgroundColor(Color.parseColor("#003D98"));
+            holder.thu.setTextColor(Color.WHITE);
+            holder.ngay.setTextColor(Color.WHITE);
+            holder.thang.setTextColor(Color.WHITE);
         } else {
-            holder.cardViewItemNgay.setCardBackgroundColor(Color.GRAY);
+            holder.cardViewItemNgay.setCardBackgroundColor(Color.WHITE);
+            holder.thu.setTextColor(Color.BLACK);
+            holder.ngay.setTextColor(Color.BLACK);
+            holder.thang.setTextColor(Color.BLACK);
         }
     }
 
