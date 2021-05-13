@@ -55,4 +55,21 @@ public class KhuyenMai {
             else return giaTien - discount;
         }
     }
+
+    public double getGiaTienSauHuyKM(double giaTien)
+    {
+        if (type==1)
+        {
+            if (discount < 1 && discount > 0)
+            {
+                return giaTien / (1 - discount);
+            }
+            else{
+                return  (Double)(giaTien / (100-discount))*100.0;
+            }
+        }else{
+            return giaTien + discount;
+        }
+    }
+
 }

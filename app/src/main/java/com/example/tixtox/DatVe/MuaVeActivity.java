@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +41,7 @@ public class  MuaVeActivity extends AppCompatActivity {
     GridView gridview, gridviewGheDoi;
     ArrayList<VeXemPhim> vexm = new ArrayList<>();
     ArrayList<String> vitri = new ArrayList<>();
+    ArrayList<KhuyenMai> MaKMAD = new ArrayList<>();
     TextView txtSoGhe, txtTongTien, txtPhong, txtRap, txtSuatChieu, txtNgayChieu, txtTenPhim;
     Button btnNext,btnNhapKM;
     Dialog dialog;
@@ -47,7 +49,7 @@ public class  MuaVeActivity extends AppCompatActivity {
     String V = "";
     int SoGheDon =0;
     int SoGheDoi =0;
-    String MaKM;
+    String MaKM = "";
     ArrayList<Integer> ChangeGhe = new ArrayList<>();
     Integer[] image={R.drawable.icon_ghe, R.drawable.icon_ghe, R.drawable.icon_ghe,
             R.drawable.icon_ghe, R.drawable.icon_ghe,
@@ -198,22 +200,96 @@ public class  MuaVeActivity extends AppCompatActivity {
                 Button check = dialog.findViewById(R.id.btn_check_khuyenmai);
                 EditText makm = dialog.findViewById(R.id.txtMa_khuyenmai);
                 TextView hienthi = dialog.findViewById(R.id.txt_tb_khuyenmai);
+                makm.setText(MaKM);
+                if (MaKM.length() !=0) {
+                    check.setText("HỦY BỎ");
+                    makm.setEnabled(false);
+                    //makm.setActivated(false);
+                }
                 check.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (makm.getText().length() == 0) hienthi.setText("Vui lòng nhập mã khuyến mãi!!!");
+                        hienthi.setText("");
+                        if (check.getText().equals("HỦY BỎ")){
+                            makm.setText("");
+                            makm.setEnabled(true);
+                            check.setText("KIỂM TRA");
+                        }
+                        else if (makm.getText().length() == 0) hienthi.setText("Vui lòng nhập mã khuyến mãi!!!");
                         else
                         {
+
                             dtb.child("KhuyenMai").addChildEventListener(new ChildEventListener() {
                                 @Override
                                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                                     KhuyenMai temp = snapshot.getValue(KhuyenMai.class);
-
-
                                     if (makm.getText().toString().equals(temp.getName())) {
-                                        hienthi.setText("đã áp dụng thành công");
+                                        hienthi.setText("Mã có thể sử dụng");
+                                    }
+                                }
+
+                                @Override
+                                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                }
+
+                                @Override
+                                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                                }
+
+                                @Override
+                                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                            //hienthi.setText("Vui 123 nhập mã khuyến mãi!!!");
+                            if (hienthi.getText().length() == 0)
+                                hienthi.setText("Mã không tồn tại");
+                        }
+                    }
+                });
+                oke.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        Toast.makeText(getApplicationContext(), MaKM, Toast.LENGTH_SHORT).show();
+                        if (makm.getText().length() == 0)
+                        {
+                            if(MaKMAD.size() !=0) {
+                                txtTongTien.setText(Double.toString(
+                                        MaKMAD.get(0).getGiaTienSauHuyKM(
+                                                (Double.valueOf(txtTongTien.getText()
+                                                        .toString())))));
+                                MaKMAD.clear();
+                            }
+                        }
+                        else
+                        {
+                            dtb.child("KhuyenMai").addChildEventListener(new ChildEventListener() {
+                                @SuppressLint("SetTextI18n")
+                                @Override
+                                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                    KhuyenMai temp = snapshot.getValue(KhuyenMai.class);
+                                    if (makm.getText().toString().equals(temp.getName())) {
+                                        Toast.makeText(getApplicationContext(), "Đã áp dụng thành công", Toast.LENGTH_SHORT).show();
                                         MaKM = temp.getName();
-                                        txtTongTien.setText(Double.toString(temp.getGiaTienSauKM((Double.valueOf(txtTongTien.getText().toString())))));
+                                        if(MaKMAD.size() !=0) {
+                                            txtTongTien.setText(Double.toString(
+                                                    MaKMAD.get(0).getGiaTienSauHuyKM(
+                                                            (Double.valueOf(txtTongTien.getText()
+                                                                    .toString())))));
+                                        }
+                                        MaKMAD.clear();
+                                        MaKMAD.add(temp);
+                                        txtTongTien.setText(Double.toString(
+                                                temp.getGiaTienSauKM(
+                                                        (Double.valueOf(txtTongTien.getText()
+                                                                .toString())))));
                                     }
                                 }
 
@@ -240,13 +316,6 @@ public class  MuaVeActivity extends AppCompatActivity {
                             //hienthi.setText("Vui 123 nhập mã khuyến mãi!!!");
 
                         }
-                    }
-                });
-                oke.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        Toast.makeText(getApplicationContext(), MaKM, Toast.LENGTH_SHORT).show();
-
                         dialog.dismiss();
                     }
                 });
@@ -344,7 +413,13 @@ public class  MuaVeActivity extends AppCompatActivity {
                     if (V.isEmpty()) btnNext.setEnabled(false);
                     else btnNext.setEnabled(true);
                    // Toast.makeText(getApplicationContext(), V, Toast.LENGTH_SHORT).show();
-                    txtTongTien.setText(Integer.toString(Cost = Cost + gia));
+                    //txtTongTien.setText(Integer.toString(Cost = Cost + gia));
+                    if(MaKMAD.size() !=0)
+                        txtTongTien.setText(Double.toString(
+                                MaKMAD.get(0).getGiaTienSauKM(
+                                        (Double.valueOf(Cost = Cost + gia )))));
+                    else
+                        txtTongTien.setText(Integer.toString(Cost = Cost + gia ));
                 }
                 else if (image[position] == R.drawable.icon_ghe_green) {
                     imageView.setImageResource(R.drawable.icon_ghe);
@@ -360,7 +435,13 @@ public class  MuaVeActivity extends AppCompatActivity {
                     txtSoGhe.setText(V);
                     if (V.isEmpty()) btnNext.setEnabled(false);
                     else btnNext.setEnabled(true);
-                    txtTongTien.setText(Integer.toString(Cost = Cost - gia));
+                    //txtTongTien.setText(Integer.toString(Cost = Cost - gia));
+                    if(MaKMAD.size() !=0)
+                        txtTongTien.setText(Double.toString(
+                                MaKMAD.get(0).getGiaTienSauKM(
+                                        (Double.valueOf(Cost = Cost - gia )))));
+                    else
+                        txtTongTien.setText(Integer.toString(Cost = Cost - gia ));
 
                 }
 
@@ -385,6 +466,11 @@ public class  MuaVeActivity extends AppCompatActivity {
                     if (V.isEmpty()) btnNext.setEnabled(false);
                     else btnNext.setEnabled(true);
                    // Toast.makeText(getApplicationContext(), V, Toast.LENGTH_SHORT).show();
+                    if(MaKMAD.size() !=0)
+                    txtTongTien.setText(Double.toString(
+                            MaKMAD.get(0).getGiaTienSauKM(
+                                    (Double.valueOf(Cost = Cost + gia * 2)))));
+                    else
                     txtTongTien.setText(Integer.toString(Cost = Cost + gia * 2));
                 } else if (imageDoi[position] == R.drawable.icon_ghedoi_green) {
                     imageView.setImageResource(R.drawable.icon_ghedoi);
@@ -400,7 +486,13 @@ public class  MuaVeActivity extends AppCompatActivity {
                     else btnNext.setEnabled(true);
                    // Toast.makeText(getApplicationContext(), V, Toast.LENGTH_SHORT).show();
                     txtSoGhe.setText(V);
-                    txtTongTien.setText(Integer.toString(Cost = Cost - gia * 2));
+                    //txtTongTien.setText(Integer.toString(Cost = Cost - gia * 2));
+                    if(MaKMAD.size() !=0)
+                        txtTongTien.setText(Double.toString(
+                                MaKMAD.get(0).getGiaTienSauKM(
+                                        (Double.valueOf(Cost = Cost - gia * 2)))));
+                    else
+                        txtTongTien.setText(Integer.toString(Cost = Cost - gia * 2));
 
                 }
 
