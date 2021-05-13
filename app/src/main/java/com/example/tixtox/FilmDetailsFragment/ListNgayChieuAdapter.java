@@ -2,7 +2,6 @@ package com.example.tixtox.FilmDetailsFragment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +18,6 @@ import com.example.tixtox.Model.ModelPhim;
 import com.example.tixtox.Model.ModelRap;
 import com.example.tixtox.Model.Phim;
 import com.example.tixtox.R;
-
-import org.json.JSONException;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -175,9 +172,15 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
             }
         });
         if (index == position) {
-            holder.cardViewItemNgay.setCardBackgroundColor(Color.BLUE);
+            holder.cardViewItemNgay.setCardBackgroundColor(Color.parseColor("#003D98"));
+            holder.thu.setTextColor(Color.WHITE);
+            holder.ngay.setTextColor(Color.WHITE);
+            holder.thang.setTextColor(Color.WHITE);
         } else {
-            holder.cardViewItemNgay.setCardBackgroundColor(Color.GRAY);
+            holder.cardViewItemNgay.setCardBackgroundColor(Color.WHITE);
+            holder.thu.setTextColor(Color.BLACK);
+            holder.ngay.setTextColor(Color.BLACK);
+            holder.thang.setTextColor(Color.BLACK);
         }
     }
 

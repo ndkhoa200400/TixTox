@@ -177,7 +177,6 @@ public class ModelRap {
                 for (LinkedTreeMap rap : listRaps) {
                     // Kiểm tra xem mã cụm rạp có phải rạp đang query không
                     if (rap.get("maCumRap").equals(maRapDetail)) {
-                        System.out.println(rap.get("danhSachPhim"));
                         ArrayList<LinkedTreeMap> danhSachPhim = (ArrayList<LinkedTreeMap>) rap.get("danhSachPhim");
 
                         // thongTinMotPhim bao gồm mã phim, tên phim, hình ảnh và lstChieuTheoPhim

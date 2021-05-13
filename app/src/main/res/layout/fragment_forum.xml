@@ -55,15 +55,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="0dp"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:paddingBottom="1dp"
         android:paddingLeft="1dp"
         android:paddingRight="1dp"
+        android:paddingBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,16 +73,20 @@
         <EditText
             android:id="@+id/editMessenge"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginBottom="2dp"
             android:layout_weight="9"
             android:background="@drawable/edttext_round"
             android:ems="10"
+
             android:hint="Nhập bình luận"
             android:inputType="textNoSuggestions"
             android:paddingLeft="10dp"
             android:paddingBottom="2dp"
-
             android:textColorHint="#6A090808" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -89,10 +94,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:clickable="true"
-            android:foregroundGravity="center"
 
+            android:foregroundGravity="center"
             app:backgroundTint="#80D8FF"
             app:fabSize="mini"
             app:srcCompat="@android:drawable/ic_menu_send" />

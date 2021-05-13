@@ -1,4 +1,4 @@
-package com.example.tixtox.FilmDetailsFragment;
+package com.example.tixtox.HeThongRapFragment;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,9 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.tixtox.FilmDetailsFragment.ListGioChieuAdapter;
+import com.example.tixtox.FilmDetailsFragment.ModelGioChieu;
 import com.example.tixtox.Model.ModelRap;
 import com.example.tixtox.Model.Phim;
-import com.example.tixtox.Model.Rap.RapDetail;
 import com.example.tixtox.R;
 
 import java.io.IOException;
@@ -26,35 +27,24 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
+public class ExpandableListSuatChieuRapAdapter extends BaseExpandableListAdapter {
     private Context context;
     public Phim phim;
     private String NgayChieu;
-    private ArrayList<String> listCumRap;
-    private HashMap<String, HashMap<String, ArrayList<Date>>> thongTinPhim;
+
+    private  HashMap<String, ArrayList<Date>> thongTinLichChieu;
     private ArrayList<ArrayList<String>> rapDetailsCuaMotCumRap;
     private int currentClick = 0;
 
-    public ExpandableListRapCoPhimAdapter(@NonNull Context context, ArrayList<String> cumRap, HashMap<String, HashMap<String, ArrayList<Date>>> thongTinPhim, Phim mphim, String mNgaychieu) {
+    public ExpandableListSuatChieuRapAdapter(@NonNull Context context,  HashMap<String, ArrayList<Date>> thongTinLichChieu, String maPhim,  String mNgaychieu) {
         this.context = context;
 
-        this.listCumRap = cumRap;
-        this.thongTinPhim = thongTinPhim;
-        this.phim = mphim;
+        this.thongTinLichChieu = thongTinLichChieu;
+
         this.NgayChieu = mNgaychieu;
         rapDetailsCuaMotCumRap = new ArrayList<>();
 
-        for (String heThongRap : cumRap) {
-            ArrayList<String> rapDetails = new ArrayList<>();
-            for (String rap : thongTinPhim.get(heThongRap).keySet()) {
-                rapDetails.add(rap);
-            }
 
-
-
-            rapDetailsCuaMotCumRap.add(rapDetails);
-
-        }
 
     }
 
@@ -89,26 +79,22 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.layout_item_rap_phim, null);
         }
-        // Set tên rạp
         TextView txtTenRapDetail = convertView.findViewById(R.id.txtTenRapDetail);
         String tenRapDetail = (String) getChild(groupPosition, childPosition);
+
+
         txtTenRapDetail.setText(tenRapDetail);
 
-        ArrayList<Date> listGioChieu = this.thongTinPhim.get(listCumRap.get(groupPosition)).get(tenRapDetail);
 
-        // Set ngày giờ chiếu
+
+
         ArrayList<ModelGioChieu> modelGioChieuArrayList = new ArrayList<>();
         SimpleDateFormat format = new SimpleDateFormat("HH:mm", Locale.UK);
-        for (Date gioChieu : listGioChieu) {
-            ModelGioChieu modelGioChieu = new ModelGioChieu();
-            modelGioChieu.setGioBD(format.format(gioChieu));
-            modelGioChieuArrayList.add(modelGioChieu);
-        }
+
 
 
         LinearLayout linear = convertView.findViewById(R.id.layoutChonGioChieu);
         LinearLayoutManager layoutManager = new LinearLayoutManager(linear.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        // Hiện các thông tin giờ chiếu qua recyclerView
         RecyclerView recyclerView = convertView.findViewById(R.id.recyclerViewGioChieu);
         recyclerView.setLayoutManager(layoutManager);
         ListGioChieuAdapter adapter = new ListGioChieuAdapter(context, modelGioChieuArrayList, phim, rapDetailsCuaMotCumRap.get(groupPosition).get(childPosition), NgayChieu);
@@ -120,19 +106,18 @@ public class ExpandableListRapCoPhimAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return this.listCumRap.size();
+        return 0;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        if (thongTinPhim != null)
-            return this.thongTinPhim.get(this.listCumRap.get(groupPosition)).size();
+
         return 0;
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this.listCumRap.get(groupPosition);
+        return null;
     }
 
     @Override

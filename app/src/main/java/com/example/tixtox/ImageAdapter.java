@@ -80,7 +80,7 @@ public class ImageAdapter extends ArrayAdapter<String> {
 
         ConstraintLayout layoutItemFilm = convertView.findViewById(R.id.layoutItemFilm);
         if(filmNames.get(position).equals(filmNames.get(0))){
-            layoutItemFilm.setPadding(0, 220,0,0);
+            layoutItemFilm.setPadding(0, 200,0,0);
         }
         else{
             layoutItemFilm.setPadding(0, 0, 0,0);

@@ -2,6 +2,8 @@ package com.example.tixtox.WishList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,6 +36,22 @@ public class WishListActivity extends AppCompatActivity {
 
         setContentView(R.layout.layout_wishlist);
         ListView wishList = findViewById(R.id.wishList);
+        Button deleteAll = findViewById(R.id.delete_all);
+        deleteAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!listFilm.isEmpty()){
+                    listFilm.clear();
+                    DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+                    String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    database.child("WishList").child(currentUserId).removeValue();
+                    WishListAdapter adapter=new WishListAdapter(WishListActivity.this,R.layout.layout_item_wishlist,listFilm);
+                    wishList.setAdapter(adapter);
+                    TextView noti = findViewById(R.id.notify);
+                    noti.setText("Danh sách trống.");
+                }
+            }
+        });
         new Thread(){
             @Override
             public void run() {
@@ -47,7 +65,8 @@ public class WishListActivity extends AppCompatActivity {
                         }
                         if(listFilm.size() > 0) {
                         WishListAdapter adapter=new WishListAdapter(WishListActivity.this,R.layout.layout_item_wishlist,listFilm);
-                        wishList.setAdapter(adapter);}
+                        wishList.setAdapter(adapter);
+                        }
 
                         else{
                             TextView noti = findViewById(R.id.notify);
@@ -62,8 +81,6 @@ public class WishListActivity extends AppCompatActivity {
                 });
             }
         }.start();
-
-
-
     }
+
 }

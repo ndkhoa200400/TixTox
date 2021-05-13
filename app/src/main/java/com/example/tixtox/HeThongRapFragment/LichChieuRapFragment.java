@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.example.tixtox.FilmDetailsFragment.ListNgayChieuAdapter;
 import com.example.tixtox.FilmDetailsFragment.ModelNgay;
 import com.example.tixtox.R;
 
@@ -24,22 +23,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LichChieuRapFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+// Fragment hiện các suất chiếu của một rạp detail
 public class LichChieuRapFragment extends Fragment {
     private ArrayList<ModelNgay> listNgay = new ArrayList<>();
+    String maRapDetail, maCumRap;
 
     public LichChieuRapFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static LichChieuRapFragment newInstance() {
+    public static LichChieuRapFragment newInstance(String maRapDetail, String maCumRap) {
         LichChieuRapFragment fragment = new LichChieuRapFragment();
-
+        fragment.maCumRap = maCumRap;
+        fragment.maRapDetail = maRapDetail;
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -52,28 +50,29 @@ public class LichChieuRapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.activity_lich_chieu_phim, container, false);
+        View view = inflater.inflate(R.layout.fragment_lich_chieu_rap, container, false);
         ProgressBar progressBar = view.findViewById(R.id.progressBar6);
 
         createDateData(); //khoi tao data listNgay
-        LinearLayout linear = view.findViewById(R.id.layoutChonNgay);
+        LinearLayout linear = view.findViewById(R.id.layoutChonNgayRap);
         LinearLayoutManager layoutManager = new LinearLayoutManager(linear.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView recyclerView = view.findViewById(R.id.listViewChonNgay);
+        RecyclerView recyclerView = view.findViewById(R.id.listViewChonNgayRap);
         recyclerView.setLayoutManager(layoutManager);
-        ListNgayChieuAdapter adapter = null;
+
+        LichChieuRapAdapter adapter = null;
         try {
-            adapter = new ListNgayChieuAdapter(getActivity(), listNgay, null);
+            adapter = new LichChieuRapAdapter(getActivity(), listNgay, maRapDetail, maCumRap);
+            recyclerView.setAdapter(adapter);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        recyclerView.setAdapter(adapter);
+
         progressBar.setVisibility(View.GONE);
         return view;
     }
 
-    public void createDateData(){
+    public void createDateData() {
 
         //ngay thang nam hien tai
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -81,41 +80,43 @@ public class LichChieuRapFragment extends Fragment {
 
         listNgay.add(getDateFromPattern(currentDateandTime));
 
-        for(int i = 0; i < 15; i++){
+        for (int i = 0; i < 15; i++) {
             String date = increaseDate(currentDateandTime, i + 1);
             listNgay.add(getDateFromPattern(date));
         }
     }
+
     //Tang ngay len 1
-    public String increaseDate(String date, int unit){
+    public String increaseDate(String date, int unit) {
         String dt = "";
-        try{
+        try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             Calendar c = Calendar.getInstance();
             c.setTime(sdf.parse(date));
             c.add(Calendar.DATE, unit);  // number of days to add
             dt = sdf.format(c.getTime());  // dt is now the new date
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return dt;
     }
+
     //get thu, ngay, thang tu dd-MM-yyy
-    public ModelNgay getDateFromPattern(String date){
+    public ModelNgay getDateFromPattern(String date) {
         ModelNgay ngay = new ModelNgay();
-        String []t = date.split("-");
+        String[] t = date.split("-");
 
         ngay.setNgay(t[0]);
         ngay.setThang(t[1]);
         ngay.setNam(t[2]);
-        SimpleDateFormat format1=new SimpleDateFormat("dd-MM-yyyy");
-        Date dt1= null;
+        SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+        Date dt1 = null;
         try {
             dt1 = format1.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        DateFormat format2=new SimpleDateFormat("EE");
+        DateFormat format2 = new SimpleDateFormat("EE");
         ngay.setThu(format2.format(dt1));
 
         return ngay;

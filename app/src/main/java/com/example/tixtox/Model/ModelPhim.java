@@ -212,4 +212,18 @@ public class ModelPhim {
     public void setPhimSapChieu(ArrayList<Phim> phimSapChieu) {
         this.phimSapChieu = phimSapChieu;
     }
+
+
+    public Phim timPhimTheoTen(String tenPhim)
+    {
+        for (Phim p: this.phimDangChieu) {
+            if (p.getTenPhim().equals(tenPhim))
+                 return p;
+        }
+        for (Phim p: this.phimSapChieu) {
+            if (p.getTenPhim().equals(tenPhim))
+                return p;
+        }
+        return null;
+    }
 }
