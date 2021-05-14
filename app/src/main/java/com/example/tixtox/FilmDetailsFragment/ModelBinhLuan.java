@@ -7,7 +7,7 @@ public class ModelBinhLuan {
     private String username;
     private long cmtTime;
     private String cmtContnt;
-    private float ratingScore;
+    private float ratingScore ;
 
     public ModelBinhLuan() {
     }
