@@ -1,15 +1,20 @@
 package com.example.tixtox.FilmDetailsFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tixtox.Model.Phim;
 import com.example.tixtox.R;
@@ -17,12 +22,21 @@ import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Map;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class BinhLuanFragment extends Fragment {
     TextView txtRating, txtNosRating;
-    EditText edtComment;
-    FloatingActionButton btnSend;
+    Float ratingScore;
+
+    RatingBar stars;
+    Button btnnhapbinhluan;
     ListView listComments;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
@@ -51,38 +65,56 @@ public class BinhLuanFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_binh_luan, container, false);
         txtRating = view.findViewById(R.id.txtRating);
         txtNosRating = view.findViewById(R.id.txtNosRating);
+
+
         listComments = view.findViewById(R.id.listComemts);
-        edtComment = view.findViewById(R.id.edtComment);
-        btnSend = view.findViewById(R.id.btnSend);
-        btnSend.setOnClickListener(new View.OnClickListener() {
+
+        btnnhapbinhluan = view.findViewById(R.id.nhapbinhluan);
+        btnnhapbinhluan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String cmt = edtComment.getText().toString();
-                edtComment.setText("");
-//                btnSend.setEnabled(false);
+                Intent intent = new Intent(view.getContext(), BinhluandanhgiaActivity.class);
+                intent.putExtra("maphim", phim.getMaPhim());
+                startActivity(intent);
 
-
-
-                FirebaseUser user = FirebaseAuth.getInstance()
-                        .getCurrentUser();
-
-                FirebaseDatabase.getInstance()
-                        .getReference("Comment")
-
-                        .child(phim.getMaPhim()).push().setValue(new ModelBinhLuan(user.getUid().toString(), user.getDisplayName(), cmt));
-                displayComment();
             }
         });
         displayComment();
+
         return view;
     }
     private void displayComment() {
-
         adapter = new ListCommentAdapter(getActivity(), ModelBinhLuan.class,
                 R.layout.comment_layout, FirebaseDatabase.getInstance().getReference("Comment").child(phim.getMaPhim())
         );
         listComments.setAdapter(adapter);
+        FirebaseDatabase.getInstance().getReference("Comment").child(phim.getMaPhim()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Map<String, Map<String,String>> values = (Map<String, Map<String,String>>) snapshot.getValue();
+                if (values != null) {
+                    txtNosRating.setText(values.size() + " số người bình luận");
+                }
+                else{
+                    txtNosRating.setText( "0 người bình luận");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        displayComment();
+      
+    }
+
     public void setPhim(Phim p)
     {
         this.phim = p;

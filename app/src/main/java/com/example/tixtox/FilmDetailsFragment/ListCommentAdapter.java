@@ -42,6 +42,8 @@ public class ListCommentAdapter extends FirebaseListAdapter<ModelBinhLuan> {
         return 2;
     }
 
+
+
     @Override
     public int getItemViewType(int position) {
         // return a value between 0 and (getViewTypeCount - 1)

@@ -37,6 +37,11 @@ public class AdminFragment extends Fragment {
 
     ListView listView;
     ProgressBar progressBar;
+    AdminFragment()
+    {
+
+    }
+
     public static AdminFragment newInstance() {
         AdminFragment fragment = new AdminFragment();
 
@@ -98,7 +103,7 @@ public class AdminFragment extends Fragment {
             public void onClick(View v) {
 
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
                 firebaseAuth.signOut();
 
 

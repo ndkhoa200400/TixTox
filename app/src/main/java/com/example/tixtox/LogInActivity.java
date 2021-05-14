@@ -44,6 +44,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.google.firebase.auth.FirebaseUser;
 
@@ -165,13 +166,16 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private void updateUI(FirebaseUser user) {
         if (user != null) {
             // Kiểm tra xem ID có trên database chưa
+
+
             FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                     if (!snapshot.exists()) {
 
-                        User user1 = new User();
-                        user1.set(user.getDisplayName(), user.getEmail());
+                        User user1 = new User(user.getDisplayName(), user.getEmail());
+
                         FirebaseDatabase.getInstance().getReference("Users")
                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                 .setValue(user1).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -184,6 +188,18 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                 }
                             }
                         });
+
+                    } else {
+                        Map<String, Object> values = (Map<String, Object>) snapshot.getValue();
+                        System.out.println(values);
+                        if (values.get("point") == null) {
+
+                            values.put("point", 0.0);
+                            FirebaseDatabase.getInstance().getReference("Users")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .updateChildren(values);
+
+                        }
                     }
                 }
 
@@ -254,6 +270,28 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 if (task.isSuccessful()) {
                     // redirect to user profile
                     progressBar.setVisibility(View.GONE);
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            Map<String, Object> values = (Map<String, Object>) snapshot.getValue();
+                            if (values.get("point") == null) {
+
+                                values.put("point", 0.0);
+                                FirebaseDatabase.getInstance().getReference("Users")
+                                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .updateChildren(values);
+
+                            }
+                        }
+
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                     finish();
 
                 } else {

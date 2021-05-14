@@ -69,6 +69,10 @@ public class ChinhSuaTaiKhoanActivity extends AppCompatActivity {
                     if (values.get("fullname") != null) {
                         editName.setText(values.get("fullname"));
                     }
+                    if (values.get("point")!=null)
+                    {
+
+                    }
                 }
 
             }

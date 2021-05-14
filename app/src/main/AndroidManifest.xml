@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.tixtox">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,11 +17,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TixTox"
         android:usesCleartextTraffic="true">
+
+
+        <!--
+               Set to true if your app is Standalone, that is, it does not require the handheld
+               app to run.
+        -->
+
+
         <activity
-            android:name=".HeThongRapFragment.BangGiaVeActivity"
-            android:label="@string/title_activity_bang_gia_ve">
+            android:name=".FilmDetailsFragment.BinhluandanhgiaActivity"
+            android:label="@string/title_activity_binhluandanhgia">
 
         </activity>
+        <activity
+            android:name=".HeThongRapFragment.BangGiaVeActivity"
+            android:label="@string/title_activity_bang_gia_ve"></activity>
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
@@ -43,6 +60,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".ThongTinPhimActivity" />
         <activity android:name=".WishList.WishListActivity" />
         <activity android:name=".Welcomactivity" />
@@ -66,22 +84,12 @@
             </intent-filter>
         </activity>
 
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
-
     </application>
-
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>
