@@ -93,7 +93,7 @@ public class BinhLuanFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Map<String, Map<String,String>> values = (Map<String, Map<String,String>>) snapshot.getValue();
                 if (values != null) {
-                    txtNosRating.setText(values.size() + " số người bình luận");
+                    txtNosRating.setText(values.size() + " người bình luận");
                 }
                 else{
                     txtNosRating.setText( "0 người bình luận");
