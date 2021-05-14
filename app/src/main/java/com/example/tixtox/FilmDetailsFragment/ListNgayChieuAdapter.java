@@ -108,7 +108,8 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                                 for (Date time : times) {
 
                                     if (format.format(time).equals(format.format(selectedDate))) {
-                                        validDates.add(time);
+                                        if (!validDates.contains(time))
+                                            validDates.add(time);
 
                                     }
                                 }

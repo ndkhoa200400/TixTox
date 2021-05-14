@@ -8,6 +8,7 @@ public class User {
         this.fullname = fullname;
         this.email = email;
         this.point=0.0;
+
     }
     public User(String fullname, String email, String phone, String dob, double point) {
         this.fullname = fullname;
@@ -15,10 +16,12 @@ public class User {
         this.phone = phone;
         this.dob = dob;
         this.point = point;
+
     }
 
     public User(){
         this.point=0.0;
+
     }
     public String getFullname() {
         return fullname;
@@ -65,4 +68,5 @@ public class User {
     public void setDob(String dob) {
         this.dob = dob;
     }
+
 }

@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.bumptech.glide.request.target.Target;
 import com.example.tixtox.ChinhSuaTaiKhoanActivity;
 import com.example.tixtox.DatVe.DanhSachVe;
 import com.example.tixtox.HomeActivity;
+import com.example.tixtox.Model.Membership;
 import com.example.tixtox.R;
 import com.example.tixtox.WishList.WishListActivity;
 import com.facebook.login.LoginManager;
@@ -41,13 +43,12 @@ public class TaiKhoanFragment extends Fragment {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference databaseReference = firebaseDatabase.getReference();
     ImageView myPhoto;
     Button btnSignOut, btnEditAccount;
-    TextView txtDOB, txtName, txtEmail, txtPhone,txtVeDaMua, txtDSKhuyenMai;
+    TextView txtDOB, txtName, txtEmail, txtPhone,txtVeDaMua, txtDSKhuyenMai, txtThanhVien, txtTichDiem, txtCotMoc;
     CardView cardViewWishList;
     ProgressBar progressBar;
-
+    ProgressBar pbTichDiem;
     public TaiKhoanFragment() {
         // Required empty public constructor
     }
@@ -82,10 +83,13 @@ public class TaiKhoanFragment extends Fragment {
         txtPhone = view.findViewById(R.id.editPhone);
         txtVeDaMua = view.findViewById(R.id.txtVeDaMua);
         txtDSKhuyenMai = view.findViewById(R.id.txtDSKhuyenMai);
+        txtThanhVien = view.findViewById(R.id.txtMembership);
+        txtTichDiem = view.findViewById(R.id.txtTichDiem);
+        txtCotMoc = view.findViewById(R.id.txtCotMoc);
         myPhoto = view.findViewById(R.id.imgAvatar_EditAccount);
         btnSignOut = view.findViewById(R.id.btnSignOut_Account);
         btnEditAccount = view.findViewById(R.id.btnSubmit);
-
+        pbTichDiem = view.findViewById(R.id.pbTichDiem);
         String name = firebaseUser.getDisplayName();
         String email = firebaseUser.getEmail();
         String phone = firebaseUser.getPhoneNumber();
@@ -141,32 +145,7 @@ public class TaiKhoanFragment extends Fragment {
 
 
         // Láy thông tin trên firebase
-        FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Map<String, String> values = (Map<String, String>) snapshot.getValue();
-                if (values != null)
-                {
-                    if (values.get("dob") != null)
-                    {
-                        txtDOB.setText(values.get("dob"));
-                    }
-                    if (values.get("phone") != null)
-                    {
-                        txtPhone.setText(values.get("phone"));
-                    }
-                    if (values.get("fullname") != null)
-                        txtName.setText(values.get("fullname"));
-                }
-
-                progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        updateUI();
         txtVeDaMua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,7 +178,11 @@ public class TaiKhoanFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        progressBar.setVisibility(View.VISIBLE);
+         updateUI();
+    }
+
+    void updateUI()
+    {   progressBar.setVisibility(View.VISIBLE);
         FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -216,6 +199,25 @@ public class TaiKhoanFragment extends Fragment {
                     }
                     if (values.get("fullname") != null)
                         txtName.setText(values.get("fullname"));
+                    if (values.get("point") != null)
+                    {
+                        Integer point = Integer.parseInt(String.valueOf(values.get("point")));
+                        Membership membership = Membership.getInstace(point);
+                        txtThanhVien.setText(membership.getLoaiThanhVien());
+                        pbTichDiem.setMax(membership.getCotMocKeTiep());
+                        pbTichDiem.setProgress(point);
+
+                        float width = pbTichDiem.getWidth();
+                        txtTichDiem.setText(point.toString());
+                        txtCotMoc.setText(membership.getCotMocKeTiep()+"");
+                        if (membership.getCotMocKeTiep() > 0)
+                        {
+                            float x = (float) ((float) (width*((point*1.0)/membership.getCotMocKeTiep()))) - 25;
+                            txtTichDiem.setX(x);
+                        }
+
+
+                    }
                 }
 
                 progressBar.setVisibility(View.GONE);
@@ -226,5 +228,7 @@ public class TaiKhoanFragment extends Fragment {
 
             }
         });
+
     }
+
 }

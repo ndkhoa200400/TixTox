@@ -78,13 +78,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="10dp"
                 android:text="Thông Tin Cá Nhân"
                 android:textColor="#003D98"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView9" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
             <TextView
                 android:id="@+id/textView"
@@ -106,6 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +117,41 @@
                     android:layout_height="wrap_content"
                     android:text="Thành Viên"
                     android:textSize="18sp" />
+
             </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardView9">
+
+                <TextView
+                    android:id="@+id/txtTichDiem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Điểm" />
+
+                <ProgressBar
+                    android:id="@+id/pbTichDiem"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/txtCotMoc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="clip_horizontal"
+                    android:text="Cột Mốc"
+                    android:textAlignment="viewEnd" />
+            </LinearLayout>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView6"
