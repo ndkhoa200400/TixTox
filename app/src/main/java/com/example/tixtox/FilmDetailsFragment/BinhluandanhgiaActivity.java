@@ -23,7 +23,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class BinhluandanhgiaActivity extends AppCompatActivity {
     FloatingActionButton btnSubmit;
-    float ratingValue;
+    int ratingValue;
     EditText edtnhapbinhluan;
     TextView txtFeedback;
     RatingBar stars;
@@ -42,7 +42,8 @@ public class BinhluandanhgiaActivity extends AppCompatActivity {
         stars.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                switch ((int)ratingBar.getRating()){
+                ratingValue = (int)ratingBar.getRating();
+                switch (ratingValue){
                     case 1:
                         txtFeedback.setText("Tệ!");
                         break;
@@ -72,8 +73,6 @@ public class BinhluandanhgiaActivity extends AppCompatActivity {
                 }
                 else {
                     edtnhapbinhluan.setText("");
-//                btnSend.setEnabled(false);
-
                     FirebaseUser user = FirebaseAuth.getInstance()
                             .getCurrentUser();
 
