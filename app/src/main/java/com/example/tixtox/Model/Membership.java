@@ -2,7 +2,7 @@ package com.example.tixtox.Model;
 
 public class Membership {
     int cotMoc[] = {0, 20, 40, 70};
-    String loaiThanhVien[] = {"Thành viên K","Thành viên Cu", "Thành viên Ag", "Thành viên Au"};
+    String loaiThanhVien[] = {"Thành viên Thường","Thành viên Đồng", "Thành viên Bạc", "Thành viên Vàng"};
     int position = 0;
     static Membership instance;
     private Membership()
@@ -28,8 +28,8 @@ public class Membership {
     }
 
     public void capNhatDiem(int point){
-        if (position < cotMoc.length - 1)
-            if (point >= cotMoc[position+1]) {
+
+            while (position < cotMoc.length - 1 && point >= cotMoc[position+1]) {
                 if (position < cotMoc.length ) position ++;
             }
 
