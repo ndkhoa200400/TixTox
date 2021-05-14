@@ -22,6 +22,7 @@ public class BinhluandanhgiaActivity extends AppCompatActivity {
     FloatingActionButton btnSubmit;
     float ratingValue;
     EditText edtnhapbinhluan;
+    TextView txtFeedback;
     RatingBar stars;
     String maphim;
     @Override
@@ -29,6 +30,7 @@ public class BinhluandanhgiaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         maphim = intent.getStringExtra("maphim");
+        txtFeedback = findViewById(R.id.txtfeedback);
         setContentView(R.layout.binh_luan_danh_gia);
         btnSubmit = findViewById(R.id.btnSubmit);
         edtnhapbinhluan = findViewById(R.id.edtBinhLuan);
@@ -36,7 +38,26 @@ public class BinhluandanhgiaActivity extends AppCompatActivity {
         stars.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                ratingValue = (float) ratingBar.getRating();
+                txtFeedback.setText(String.valueOf(rating));
+                switch ((int)ratingBar.getRating()){
+                    case 1:
+                        txtFeedback.setText("Tệ!");
+                        break;
+                    case 2:
+                        txtFeedback.setText("Phim không hay lắm.");
+                        break;
+                    case 3:
+                        txtFeedback.setText("Phim khá hay");
+                        break;
+                    case 4:
+                        txtFeedback.setText("Phim hay");
+                        break;
+                    case 5:
+                        txtFeedback.setText("Phim rất hay, mọi người nên đi xem");
+                        break;
+                    default:
+                        txtFeedback.setText("");
+                }
             }
         });
         btnSubmit.setOnClickListener(new View.OnClickListener() {
