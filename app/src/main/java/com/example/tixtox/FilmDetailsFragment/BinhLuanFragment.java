@@ -25,8 +25,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -92,13 +95,20 @@ public class BinhLuanFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Map<String, Map<String,String>> values = (Map<String, Map<String,String>>) snapshot.getValue();
+                ArrayList<ModelBinhLuan> bl = new ArrayList<>();
                 if (values != null) {
                     txtNosRating.setText(values.size() + " người bình luận");
                 }
                 else{
                     txtNosRating.setText( "0 người bình luận");
                 }
-//                System.out.println(values.values());
+               
+               for (DataSnapshot dataSnapshot:snapshot.getChildren()){
+                   ModelBinhLuan modelBinhLuan=dataSnapshot.getValue(ModelBinhLuan.class);
+                   bl.add(modelBinhLuan);
+               }
+
+                System.out.println(bl.get(0).getUsername());
             }
 
             @Override
