@@ -37,6 +37,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class BinhLuanFragment extends Fragment {
     TextView txtRating, txtNosRating;
     float totalScore = 0;
+    float ratingScore;
     RatingBar stars;
     Button btnnhapbinhluan;
     ListView listComments;
@@ -110,9 +111,9 @@ public class BinhLuanFragment extends Fragment {
                for (ModelBinhLuan modelBinhLuan:bl){
                     totalScore += modelBinhLuan.getRatingScore();
                }
-                System.out.println("tong rating "+totalScore/bl.size());
-//               System.out.println("size " + bl.size());
+               ratingScore = (float)Math.round(totalScore / bl.size()*10)/10;
 
+                txtRating.setText(String.valueOf(ratingScore));
             }
 
             @Override
