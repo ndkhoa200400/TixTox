@@ -7,7 +7,7 @@ public class HoaDon {
     int SoGheDoi;
     int SoGheDon;
     String ThanhTien;
-
+    String Gia;
 
 
     Long Time;
@@ -15,12 +15,13 @@ public class HoaDon {
     public HoaDon(){
         super();
     }
-    public HoaDon(int soGheDoi, int soGheDon, String thanhTien, String ID_Account) {
+    public HoaDon(int soGheDoi, int soGheDon, String thanhTien, String ID_Account,String Gia) {
         SoGheDoi = soGheDoi;
         SoGheDon = soGheDon;
         ThanhTien = thanhTien;
         Time = new Date().getTime();
         this.ID_Account = ID_Account;
+        this.Gia = Gia;
     }
 
 
@@ -53,6 +54,9 @@ public class HoaDon {
     }
 
 
+    public String getGia() {
+        return Gia;
+    }
 
     public String getID_Account() {
         return ID_Account;

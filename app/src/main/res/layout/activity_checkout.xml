@@ -226,10 +226,20 @@
         <ImageView
             android:id="@+id/imgQR_code"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="170dp"
 
 
-             />
+            />
+
+        <TextView
+            android:id="@+id/txtXemHoaDon_checkout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Xem hóa đơn"
+            android:textColor="@color/com_facebook_blue"
+            android:gravity="center"
+            android:textSize="16dp"
+            />
 
 
     </LinearLayout>

@@ -19,13 +19,16 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tixtox.LogInActivity;
 import com.example.tixtox.Model.KhuyenMai;
+import com.example.tixtox.Model.Membership;
 import com.example.tixtox.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,6 +40,7 @@ import java.util.ArrayList;
 
 
 import java.util.List;
+import java.util.Map;
 
 public class  MuaVeActivity extends AppCompatActivity {
     GridView gridview, gridviewGheDoi;
@@ -45,6 +49,7 @@ public class  MuaVeActivity extends AppCompatActivity {
     ArrayList<KhuyenMai> MaKMAD = new ArrayList<>();
     TextView txtSoGhe, txtTongTien, txtPhong, txtRap, txtSuatChieu, txtNgayChieu, txtTenPhim;
     Button btnNext,btnNhapKM;
+    ProgressBar progressBar;
     Dialog dialog;
     DatabaseReference dtb;
     String V = "";
@@ -101,9 +106,9 @@ public class  MuaVeActivity extends AppCompatActivity {
     Integer[] imageDoi = {R.drawable.icon_ghedoi, R.drawable.icon_ghedoi,
             R.drawable.icon_ghedoi, R.drawable.icon_ghedoi,
             R.drawable.icon_ghedoi};
-    int gia = 70000;
-    int Cost = 0;
-
+    int gia;
+    int Cost  =0;
+    Integer point;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -111,6 +116,11 @@ public class  MuaVeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_muave);
 
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser;
+        gia = 70000;
+        progressBar = (ProgressBar)findViewById(R.id.progressBar_vexemphim);
+        progressBar.setVisibility(View.VISIBLE);
         btnNhapKM = (Button) findViewById(R.id.btn_NhapMa);
         dialog = new Dialog(MuaVeActivity.this);
         gridviewGheDoi = (GridView) findViewById(R.id.gridviewGheDoi);
@@ -130,16 +140,37 @@ public class  MuaVeActivity extends AppCompatActivity {
         txtNgayChieu.setText(intent.getStringExtra("Phim_NgayChieu"));
         txtRap.setText(intent.getStringExtra("Phim_Rap"));
         txtSuatChieu.setText(intent.getStringExtra("Phim_ThoiGian"));
+        firebaseUser = firebaseAuth.getCurrentUser();
+
         SuatChieu suatchieu = new SuatChieu(intent.getStringExtra("Phim_ID")
                 ,intent.getStringExtra("Phim_NgayChieu")
                 ,intent.getStringExtra("Phim_ThoiGian"),intent.getStringExtra("Phim_Rap"));
         String hinhanh = intent.getStringExtra("Phim_Hinh_Anh");
+
+
+        FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Map<String, String> values = (Map<String, String>) snapshot.getValue();
+                point = Integer.parseInt(String.valueOf(values.get("point")));
+                Membership membership = Membership.getInstace(point);
+                if (membership.getViTriHienTai() == 1) gia = 65000;
+                if (membership.getViTriHienTai() == 2) gia = 60000;
+                if (membership.getViTriHienTai() == 3) gia = 55000;
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 //        Toast.makeText(getApplicationContext(), suatchieu.getGhe(), Toast.LENGTH_SHORT).show();
         String[] id_S = suatchieu.getId().split("/");
-        Toast.makeText(getApplicationContext(), id_S[0] +"---" + id_S[1]+"---" + id_S[2], Toast.LENGTH_SHORT).show();
+       //T//oast.makeText(getApplicationContext(), id_S[0] +"---" + id_S[1]+"---" + id_S[2], Toast.LENGTH_SHORT).show();
         new Thread(){
             @Override
             public void run() {
+                progressBar.setVisibility(View.VISIBLE);
                 dtb.child("VeXemPhim").addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -152,7 +183,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                                 temp.getRapphim().equals(txtRap.getText())) {
                             ChangeGhe = ConverStringtoGhe(temp.getGhe());
 
-                            Toast.makeText(getApplicationContext(), temp.getSuatChieu()+" " + txtSuatChieu.getText().toString(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), temp.getSuatChieu()+" " + txtSuatChieu.getText().toString(), Toast.LENGTH_SHORT).show();
                             for (int j = 0; j < ChangeGhe.size(); j++) {
                                 int km = ChangeGhe.get(j);
 
@@ -165,7 +196,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                         }
 
 
-
+                        progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -188,7 +219,6 @@ public class  MuaVeActivity extends AppCompatActivity {
 
                     }
                 });
-
 
             }
         }.start();
@@ -383,13 +413,15 @@ public class  MuaVeActivity extends AppCompatActivity {
                             String MaHoaDon = dtb.child("HoaDon").push().getKey();
                             String Key = dtb.child("VeXemPhim").push().getKey();
                             Integer tiengiam  =(int)Float.parseFloat(txtTongTien.getText().toString());
+                            Integer toPoint = (int) tiengiam/10000;
                             txtTongTien.setText(tiengiam.toString());
-                            HoaDon bill = new HoaDon(SoGheDoi, SoGheDon, txtTongTien.getText().toString(), "123");
+                            Integer hang = gia;
+                            HoaDon bill = new HoaDon(SoGheDoi, SoGheDon, txtTongTien.getText().toString(), "123",hang.toString());
                             VeXemPhim vexem = new VeXemPhim(V, txtTongTien.getText().toString(),
                                     txtNgayChieu.getText().toString(), txtSuatChieu.getText().toString(),
                                     txtTenPhim.getText().toString(),
                                     txtRap.getText().toString(), txtPhong.getText().toString(), MaHoaDon,FirebaseAuth.getInstance()
-                                    .getCurrentUser().getUid(),"Đã thanh toán",Key,hinhanh);
+                                    .getCurrentUser().getUid(),"Đã thanh toán",Key,hinhanh,  hang.toString());
 
                             dtb.child("VeXemPhim").child(Key).setValue(vexem);
 
@@ -400,8 +432,11 @@ public class  MuaVeActivity extends AppCompatActivity {
                             dtb.child("VeXemPhim").child(Key).child("TrangThai").setValue(vexem.getTrangThai());
                             dtb.child("VeXemPhim").child(Key).child("MaVe").setValue(vexem.getMaVe());
                             dtb.child("VeXemPhim").child(Key).child("HinhAnh").setValue(vexem.getHinhAnh());
+                            dtb.child("VeXemPhim").child(Key).child("Gia").setValue(hang.toString());
                             dtb.child("HoaDon").child(MaHoaDon).setValue(bill);
                             dtb.child("HoaDon").child(MaHoaDon).child("Time").setValue(bill.getTime());
+                            dtb.child("HoaDon").child(MaHoaDon).child("Gia").setValue(hang.toString());
+                            dtb.child("Users").child(firebaseUser.getUid()).child("point").setValue(point+toPoint);
                             //Toast.makeText(getApplicationContext(), vexem.hoaDon, Toast.LENGTH_SHORT).show();
                             intent.putExtra("Key", Key);
                             //intent.putExtra("Phim_Hinh_Anh", hinhanh);
@@ -424,8 +459,6 @@ public class  MuaVeActivity extends AppCompatActivity {
 
 
         gridview = (GridView) findViewById(R.id.gridviewGhe);
-
-
         gridview.setAdapter(new ImageAdapterGridView(this, image, 100, 80));
         gridviewGheDoi.setAdapter(new ImageAdapterGridView(this, imageDoi, 100, 200));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -656,6 +689,7 @@ public class  MuaVeActivity extends AppCompatActivity {
                 }
 
 
+
             }
 
             @Override
@@ -678,7 +712,6 @@ public class  MuaVeActivity extends AppCompatActivity {
 
             }
         });
-
 
 
 

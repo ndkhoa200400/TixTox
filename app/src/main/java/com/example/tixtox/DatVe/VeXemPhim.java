@@ -18,7 +18,7 @@ public class VeXemPhim {
     String PhongChieu;
     String hoaDon;
     String HinhAnh;
-
+    String Gia;
 
     String MaVe;
     String TrangThai;
@@ -38,7 +38,7 @@ public class VeXemPhim {
         TrangThai = trangThai;
     }
     public VeXemPhim(String ghe, String giaTien, String thoiGian, String suatChieu, String phim, String rapphim,
-                     String phongChieu, String hoaDon,String mId, String mTrangThai,String mMave,String hinhAnh) {
+                     String phongChieu, String hoaDon,String mId, String mTrangThai,String mMave,String hinhAnh, String Gia) {
         Ghe = ghe;
         GiaTien = giaTien;
         ThoiGian = thoiGian;
@@ -51,6 +51,7 @@ public class VeXemPhim {
         TrangThai = mTrangThai;
         MaVe = mMave;
         this.HinhAnh = hinhAnh;
+        this.Gia = Gia;
     }
 
     public String getMaVe() {
@@ -69,6 +70,9 @@ public class VeXemPhim {
         this.id = id;
     }
 
+    public String getHoaDon() {
+        return hoaDon;
+    }
 
     public VeXemPhim(){
         super();

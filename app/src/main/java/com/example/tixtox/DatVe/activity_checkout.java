@@ -28,11 +28,12 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class activity_checkout extends AppCompatActivity {
     ImageView imgQR_code,imgTenphim;
-    TextView  txtTenPhim,txtTenRap,txtMaDon,txtNgayChieu,txtPhongChieu,txtSoGhe,txtSuatChieu;
+    TextView  txtTenPhim,txtTenRap,txtMaDon,txtNgayChieu,txtPhongChieu,txtSoGhe,txtSuatChieu,txtXemBill;
     Button btnHome,btnHuyVe;
     VeXemPhim vexemphim = new VeXemPhim();
     String trangthai;
     DatabaseReference dtb;
+    String MaHoaDon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +47,7 @@ public class activity_checkout extends AppCompatActivity {
         txtTenRap = (TextView) findViewById(R.id.txtTenRap_checkout) ;
         txtSuatChieu = (TextView) findViewById(R.id.txtSuatChieu_checkout) ;
         btnHuyVe = (Button) findViewById(R.id.btnHuy);
+        txtXemBill = (TextView) findViewById(R.id.txtXemHoaDon_checkout);
         dtb = FirebaseDatabase.getInstance().getReference();
         imgQR_code=(ImageView) findViewById(R.id.imgQR_code);
 
@@ -66,6 +68,15 @@ public class activity_checkout extends AppCompatActivity {
         } catch (WriterException e) {
             e.printStackTrace();
         }
+        txtXemBill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity_checkout.this, activity_bill.class);
+                intent.putExtra("Key", txtMaDon.getText().toString());
+                intent.putExtra("MaHoaDon", MaHoaDon);
+                startActivity(intent);
+            }
+        });
         btnHome = (Button) findViewById(R.id.btn_ManHinhHome);
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +108,7 @@ public class activity_checkout extends AppCompatActivity {
                 txtTenPhim.setText(ve.getPhim());
                 txtTenRap.setText(ve.getRapphim());
                 txtPhongChieu.setText(ve.getPhongChieu());
+                MaHoaDon = ve.getHoaDon();
                 txtSoGhe.setText(ve.getGhe());
                 Glide.with(activity_checkout.this).load(ve.HinhAnh)
                         .into(imgTenphim);
