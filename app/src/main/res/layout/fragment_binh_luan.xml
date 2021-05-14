@@ -52,9 +52,11 @@
         </androidx.cardview.widget.CardView>
 
         <ListView
-            android:id="@+id/listComemts"
+            android:id="@+id/listbinhluan"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:transcriptMode="alwaysScroll"
+            android:stackFromBottom="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"

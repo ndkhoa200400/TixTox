@@ -34,7 +34,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class BinhLuanFragment extends Fragment {
     TextView txtRating, txtNosRating;
     Float ratingScore;
-
+    Float totalScore;
     RatingBar stars;
     Button btnnhapbinhluan;
     ListView listComments;
@@ -67,7 +67,7 @@ public class BinhLuanFragment extends Fragment {
         txtNosRating = view.findViewById(R.id.txtNosRating);
 
 
-        listComments = view.findViewById(R.id.listComemts);
+        listComments = view.findViewById(R.id.listbinhluan);
 
         btnnhapbinhluan = view.findViewById(R.id.nhapbinhluan);
         btnnhapbinhluan.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +98,7 @@ public class BinhLuanFragment extends Fragment {
                 else{
                     txtNosRating.setText( "0 người bình luận");
                 }
+//                System.out.println(values.values());
             }
 
             @Override
