@@ -72,11 +72,13 @@ public class WishListAdapter extends BaseAdapter {
                 String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 database.child("WishList").child(currentUserId).child(listFilm.get(position).getFilmName()).removeValue();
                 listFilm.remove(position);
-                notifyDataSetChanged();
+                System.out.println(listFilm);
+
             }
         });
         return convertView;
     }
+
 }
 class ItemWishList {
     private String imageFilm;
