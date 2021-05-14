@@ -115,11 +115,12 @@ public class HomeActivity extends AppCompatActivity {
         {
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();;
-            if (mUser.getDisplayName().equals("admin")){
-                AdminFragment adminFragment = AdminFragment.newInstance();
-                ft.replace(R.id.fragment_home, adminFragment);
-                ft.commit();
-            }
+
+                if (mUser.getDisplayName() != null && mUser.getDisplayName().equals("admin")){
+                    AdminFragment adminFragment = AdminFragment.newInstance();
+                    ft.replace(R.id.fragment_home, adminFragment);
+                    ft.commit();
+                }
             else{
                 TaiKhoanFragment taiKhoanFragment = TaiKhoanFragment.newInstance();
 
