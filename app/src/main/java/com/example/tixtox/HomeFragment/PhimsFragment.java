@@ -3,6 +3,7 @@ package com.example.tixtox.HomeFragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -21,6 +22,12 @@ import com.example.tixtox.Model.Phim;
 import com.example.tixtox.R;
 import com.example.tixtox.ThongTinPhimActivity;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -41,7 +48,7 @@ public class PhimsFragment extends Fragment {
     private ModelPhim modelPhim;
     private SearchView searchViewFilm;
     private CardView searchBarContainer;
-    private ArrayList<String> posters, filmNames, ratings;
+    private ArrayList<String> posters, filmNames, ratings, wishList = new ArrayList<>();
     private int tabPosition = 0;
     private Thread loadingPhimThread;
     public PhimsFragment() {
@@ -79,6 +86,27 @@ public class PhimsFragment extends Fragment {
         };
 
         loadingPhimThread.start();
+
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        new Thread(){
+            @Override
+            public void run() {
+                database.child("WishList").child(currentUserId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot s:snapshot.getChildren()){
+                            wishList.add(s.getKey());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        }.start();
 
     }
 
@@ -170,7 +198,7 @@ public class PhimsFragment extends Fragment {
     private void loadPhim(ArrayList<String> posters, ArrayList<String> filmNames, ArrayList<String> ratings){
 
 
-        ImageAdapter adapter= new ImageAdapter(getContext(), posters, filmNames, ratings);
+        ImageAdapter adapter= new ImageAdapter(getContext(), posters, filmNames, ratings, wishList);
         gridView.setAdapter(adapter);
         //item click listener
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
