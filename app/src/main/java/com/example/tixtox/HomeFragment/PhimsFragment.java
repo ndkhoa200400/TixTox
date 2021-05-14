@@ -99,7 +99,10 @@ public class PhimsFragment extends Fragment {
                     for (DataSnapshot s : snapshot.getChildren()) {
                         wishList.add(s.getKey());
                     }
-                    loadingPhimThread.start();
+
+
+                    if (loadingPhimThread != null)
+                        loadingPhimThread.start();
                 }
 
                 @Override
@@ -244,6 +247,8 @@ public class PhimsFragment extends Fragment {
                         progressBar.setVisibility(View.GONE);
                         try {
                             loadPhim(posters, filmNames, ratings);
+
+                            loadingPhimThread = null;
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -260,8 +265,7 @@ public class PhimsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (this.loadingPhimThread.isInterrupted())
-            loadingPhimThread.start();
+        
     }
 
     @Override
