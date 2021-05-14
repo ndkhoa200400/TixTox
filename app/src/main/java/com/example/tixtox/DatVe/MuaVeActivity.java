@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tixtox.LogInActivity;
 import com.example.tixtox.Model.KhuyenMai;
 import com.example.tixtox.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -144,9 +145,14 @@ public class  MuaVeActivity extends AppCompatActivity {
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                         VeXemPhim temp = snapshot.getValue(VeXemPhim.class);
                         vexm.add(temp);
-                        if(temp.getTrangThai().equals("Đã thanh toán")) {
+                        if(temp.getTrangThai().equals("Đã thanh toán") &&
+                                temp.getPhim().equals(txtTenPhim.getText()) &&
+                                //temp.getSuatChieu().equals(txtSuatChieu.getText().toString()) &&
+                                temp.getThoiGian().equals(txtNgayChieu.getText().toString()) &&
+                                temp.getRapphim().equals(txtRap.getText())) {
                             ChangeGhe = ConverStringtoGhe(temp.getGhe());
-                            //Toast.makeText(getApplicationContext(), ChangeGhe.toString(), Toast.LENGTH_SHORT).show();
+
+                            Toast.makeText(getApplicationContext(), temp.getSuatChieu()+" " + txtSuatChieu.getText().toString(), Toast.LENGTH_SHORT).show();
                             for (int j = 0; j < ChangeGhe.size(); j++) {
                                 int km = ChangeGhe.get(j);
 
@@ -332,9 +338,34 @@ public class  MuaVeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (FirebaseAuth.getInstance()
-                        .getCurrentUser() == null)
-                    //
-                    Toast.makeText(getApplicationContext(), "ChuaDangNhap", Toast.LENGTH_SHORT).show();
+                        .getCurrentUser() == null) {
+                    dialog.setContentView(R.layout.custom_dialog);
+                    dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.background_dialog));
+                    dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    dialog.setCancelable(false);
+                    Button oke = dialog.findViewById(R.id.btn_Xacnhan_dialog);
+                    Button tuchoi = dialog.findViewById(R.id.btn_Huy_dialog);
+                    TextView txtS = dialog.findViewById(R.id.gioBD);
+                    txtS.setText("Bạn cần đăng nhập");
+                    oke.setText("Đăng nhập");
+                    tuchoi.setText("Hủy");
+                    oke.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(MuaVeActivity.this, LogInActivity.class);
+                            //Toast.makeText(getApplicationContext(), "ChuaDangNhap", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            startActivity(intent);
+                        }
+                    });
+                    tuchoi.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }
                 else {
                     dialog.setContentView(R.layout.custom_dialog);
                     dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.background_dialog));
