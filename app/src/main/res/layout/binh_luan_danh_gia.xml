@@ -60,14 +60,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <EditText
                 android:id="@+id/edtBinhLuan"
                 android:layout_width="359dp"
                 android:layout_height="40dp"
                 android:background="@drawable/edttext_round"
-                android:ems="10"
+
                 android:hint="Nhập bình luận"
                 android:inputType="textNoSuggestions"
                 android:paddingLeft="10dp"
@@ -76,11 +77,11 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btnSubmit"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginRight="10dp"
-                android:layout_weight="1"
+
                 android:clickable="true"
                 android:foregroundGravity="center"
                 app:backgroundTint="#80D8FF"
