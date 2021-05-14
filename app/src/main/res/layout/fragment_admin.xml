@@ -44,7 +44,7 @@
             app:layout_constraintTop_toBottomOf="@+id/listviewKhuyenMai" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView10"
+            android:id="@+id/cv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +93,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView10"></ListView>
+            app:layout_constraintTop_toBottomOf="@+id/cv"></ListView>
 
         <TextView
             android:id="@+id/textView31"

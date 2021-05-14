@@ -7,15 +7,17 @@ public class ModelBinhLuan {
     private String username;
     private long cmtTime;
     private String cmtContnt;
+    private float ratingScore;
 
     public ModelBinhLuan() {
     }
 
-    public ModelBinhLuan(String userID, String username, String cmtContnt) {
+    public ModelBinhLuan(String userID, String username, String cmtContnt, float ratingScore) {
         this.userID = userID;
         this.username = username;
         this.cmtTime = new Date().getTime();
         this.cmtContnt = cmtContnt;
+        this.ratingScore = ratingScore;
     }
 
     public String getUserID() {
@@ -38,4 +40,11 @@ public class ModelBinhLuan {
         this.userID = userID;
     }
 
+    public void setRatingScore(float ratingScore) {
+        this.ratingScore = ratingScore;
+    }
+
+    public float getRatingScore() {
+        return ratingScore;
+    }
 }

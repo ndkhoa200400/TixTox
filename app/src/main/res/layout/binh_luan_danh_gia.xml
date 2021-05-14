@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/binhluandanhgia"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/vietbinhluan"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textSize="20dp"
+
+                android:text="Viết bình luận" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnSubmit"
+                android:layout_width="34dp"
+                android:layout_height="37dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+
+                android:clickable="true"
+                android:foregroundGravity="center"
+                app:backgroundTint="#80D8FF"
+                app:fabSize="mini"
+                app:srcCompat="@android:drawable/ic_menu_send" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="match_parent"
+            android:layout_height="214dp"
+            app:srcCompat="@drawable/ticket" />
+
+        <TextView
+            android:id="@+id/textView48"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đánh giá phim này"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="18dp"
+            />
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+            <EditText
+                android:id="@+id/edtBinhLuan"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@drawable/edttext_round"
+                android:ems="10"
+                android:hint="Nhập bình luận"
+                android:inputType="textNoSuggestions"
+                android:paddingLeft="10dp"
+                android:paddingBottom="2dp"
+                android:textColorHint="#6A090808" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
