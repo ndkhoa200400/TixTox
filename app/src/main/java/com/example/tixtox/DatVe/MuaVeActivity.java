@@ -119,8 +119,6 @@ public class  MuaVeActivity extends AppCompatActivity {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser;
         gia = 70000;
-        progressBar = (ProgressBar)findViewById(R.id.progressBar_vexemphim);
-        progressBar.setVisibility(View.VISIBLE);
         btnNhapKM = (Button) findViewById(R.id.btn_NhapMa);
         dialog = new Dialog(MuaVeActivity.this);
         gridviewGheDoi = (GridView) findViewById(R.id.gridviewGheDoi);
@@ -170,11 +168,12 @@ public class  MuaVeActivity extends AppCompatActivity {
         new Thread(){
             @Override
             public void run() {
-                progressBar.setVisibility(View.VISIBLE);
+
                 dtb.child("VeXemPhim").addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                         VeXemPhim temp = snapshot.getValue(VeXemPhim.class);
+
                         vexm.add(temp);
                         if(temp.getTrangThai().equals("Đã thanh toán") &&
                                 temp.getPhim().equals(txtTenPhim.getText()) &&
@@ -195,8 +194,6 @@ public class  MuaVeActivity extends AppCompatActivity {
                             gridviewGheDoi.setAdapter(new ImageAdapterGridView(MuaVeActivity.this, imageDoi, 100, 200));
                         }
 
-
-                        progressBar.setVisibility(View.GONE);
                     }
 
                     @Override

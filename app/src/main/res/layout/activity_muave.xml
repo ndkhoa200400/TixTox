@@ -7,16 +7,6 @@
     android:background="@color/black"
     tools:context=".DatVe.MuaVeActivity">
 
-    <ProgressBar
-        android:id="@+id/progressBar_vexemphim"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="174dp"
-        android:layout_height="207dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout3"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
