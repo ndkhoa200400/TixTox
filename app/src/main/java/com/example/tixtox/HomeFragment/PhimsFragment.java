@@ -23,6 +23,7 @@ import com.example.tixtox.R;
 import com.example.tixtox.ThongTinPhimActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,6 +52,7 @@ public class PhimsFragment extends Fragment {
     private ArrayList<String> posters, filmNames, ratings, wishList = new ArrayList<>();
     private int tabPosition = 0;
     private Thread loadingPhimThread;
+
     public PhimsFragment() {
         // Required empty public constructor
     }
@@ -69,8 +71,7 @@ public class PhimsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        loadingPhimThread = new Thread(){
+        loadingPhimThread = new Thread() {
             @Override
             public void run() {
                 try {
@@ -85,36 +86,43 @@ public class PhimsFragment extends Fragment {
             }
         };
 
-        loadingPhimThread.start();
+
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        new Thread(){
-            @Override
-            public void run() {
-                database.child("WishList").child(currentUserId).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for(DataSnapshot s:snapshot.getChildren()){
-                            wishList.add(s.getKey());
-                        }
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null)
+        {
+            String currentUserId = user.getUid();
+            database.child("WishList").child(currentUserId).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot s : snapshot.getChildren()) {
+                        wishList.add(s.getKey());
                     }
+                    loadingPhimThread.start();
+                }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
-            }
-        }.start();
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+
+            });
+        }
+        else {
+            loadingPhimThread.start();
+        }
+
+
 
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view =  inflater.inflate(R.layout.fragment_phims, container, false);
+        View view = inflater.inflate(R.layout.fragment_phims, container, false);
 
         progressBar = view.findViewById(R.id.processbar_phims);
         progressBar.setVisibility(View.VISIBLE);
@@ -122,7 +130,7 @@ public class PhimsFragment extends Fragment {
         searchViewFilm = view.findViewById(R.id.searchViewFilm);
         searchViewFilm.setSubmitButtonEnabled(true);
         searchBarContainer = view.findViewById(R.id.searchBarContainer);
-        
+
         tabLayout = view.findViewById(R.id.tabPhims);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -130,14 +138,13 @@ public class PhimsFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 progressBar.setVisibility(View.VISIBLE);
                 tabPosition = tab.getPosition();
-                if (tabPosition == 0){
+                if (tabPosition == 0) {
                     try {
                         getPhims(modelPhim.getPhimDangChieu());
                     } catch (IOException | ParseException e) {
                         e.printStackTrace();
                     }
-                }
-                else{
+                } else {
 
                     try {
                         getPhims(modelPhim.getPhimSapChieu());
@@ -158,13 +165,13 @@ public class PhimsFragment extends Fragment {
             }
         });
 
-        searchViewFilm.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+        searchViewFilm.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchViewFilm.clearFocus();
                 ArrayList<String> filmsSearchList = new ArrayList<>(), postersSearchList = new ArrayList<>(), ratingsSearchList = new ArrayList<>();
-                for(int i = 0; i < filmNames.size(); i++){
-                    if(filmNames.get(i).toLowerCase().contains(query.toLowerCase())){
+                for (int i = 0; i < filmNames.size(); i++) {
+                    if (filmNames.get(i).toLowerCase().contains(query.toLowerCase())) {
                         filmsSearchList.add(filmNames.get(i));
                         postersSearchList.add(posters.get(i));
                         ratingsSearchList.add(ratings.get(i));
@@ -177,7 +184,7 @@ public class PhimsFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(newText == null || newText.isEmpty()){
+                if (newText == null || newText.isEmpty()) {
                     loadPhim(posters, filmNames, ratings);
                 }
                 return false;
@@ -194,10 +201,10 @@ public class PhimsFragment extends Fragment {
     }
 
 
-    private void loadPhim(ArrayList<String> posters, ArrayList<String> filmNames, ArrayList<String> ratings){
+    private void loadPhim(ArrayList<String> posters, ArrayList<String> filmNames, ArrayList<String> ratings) {
 
 
-        ImageAdapter adapter= new ImageAdapter(getContext(), posters, filmNames, ratings, wishList);
+        ImageAdapter adapter = new ImageAdapter(getContext(), posters, filmNames, ratings, wishList);
         gridView.setAdapter(adapter);
         //item click listener
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -205,8 +212,8 @@ public class PhimsFragment extends Fragment {
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ThongTinPhimActivity.class);
                 int pos = 0;
-                for(int i = 0; i < phims.size(); i++){
-                    if(phims.get(i).getTenPhim().equals(filmNames.get(position))){
+                for (int i = 0; i < phims.size(); i++) {
+                    if (phims.get(i).getTenPhim().equals(filmNames.get(position))) {
                         pos = i;
                         break;
                     }
@@ -220,28 +227,24 @@ public class PhimsFragment extends Fragment {
 
     private void getPhims(ArrayList<Phim> phims) throws IOException {
 
-        if (phims!= null)
-        {
+        if (phims != null) {
             posters = new ArrayList<>();
             filmNames = new ArrayList<>();
             ratings = new ArrayList<>();
-            for(Phim p: phims)
-            {
+            for (Phim p : phims) {
                 filmNames.add(p.getTenPhim());
                 posters.add(p.getHinhAnh());
                 ratings.add(p.getDanhGia());
             }
             this.phims = phims;
-            if (getActivity() != null)
-            {
+            if (getActivity() != null) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.GONE);
                         try {
                             loadPhim(posters, filmNames, ratings);
-                        }catch(Exception e)
-                        {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
 
