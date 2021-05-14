@@ -36,22 +36,9 @@ public class WishListActivity extends AppCompatActivity {
 
         setContentView(R.layout.layout_wishlist);
         ListView wishList = findViewById(R.id.wishList);
-        Button deleteAll = findViewById(R.id.delete_all);
-        deleteAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!listFilm.isEmpty()){
-                    listFilm.clear();
-                    DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-                    String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    database.child("WishList").child(currentUserId).removeValue();
-                    WishListAdapter adapter=new WishListAdapter(WishListActivity.this,R.layout.layout_item_wishlist,listFilm);
-                    wishList.setAdapter(adapter);
-                    TextView noti = findViewById(R.id.notify);
-                    noti.setText("Danh sách trống.");
-                }
-            }
-        });
+
+        WishListAdapter adapter = new WishListAdapter(WishListActivity.this,R.layout.layout_item_wishlist,listFilm);
+        wishList.setAdapter(adapter);
         new Thread(){
             @Override
             public void run() {
@@ -64,10 +51,8 @@ public class WishListActivity extends AppCompatActivity {
                             listFilm.add(temp);
                         }
                         if(listFilm.size() > 0) {
-                        WishListAdapter adapter=new WishListAdapter(WishListActivity.this,R.layout.layout_item_wishlist,listFilm);
-                        wishList.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
                         }
-
                         else{
                             TextView noti = findViewById(R.id.notify);
                             noti.setText("Danh sách trống.");
@@ -81,6 +66,21 @@ public class WishListActivity extends AppCompatActivity {
                 });
             }
         }.start();
+        Button deleteAll = findViewById(R.id.delete_all);
+        deleteAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!listFilm.isEmpty()){
+                    listFilm.clear();
+                    DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+                    String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    database.child("WishList").child(currentUserId).removeValue();
+                    adapter.notifyDataSetChanged();
+                    TextView noti = findViewById(R.id.notify);
+                    noti.setText("Danh sách trống.");
+                }
+            }
+        });
     }
 
 }

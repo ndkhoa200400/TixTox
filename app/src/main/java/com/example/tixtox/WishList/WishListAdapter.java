@@ -36,7 +36,6 @@ public class WishListAdapter extends BaseAdapter {
         this.listFilm = listFilm;
     }
 
-
     @Override
     public int getCount() {
 
