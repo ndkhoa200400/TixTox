@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 
 // Class xử lý khi người dùng chọn vào 1 ngày để hiện thông tin chiếu của một phim
@@ -108,16 +110,7 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                                 for (Date time : times) {
 
                                     if (format.format(time).equals(format.format(selectedDate))) {
-                                        boolean check = true;
-                                        for (Date d : validDates) {
-                                            if (time.getTime() == d.getTime()) {
-                                                check = false;
-                                                break;
-                                            }
-                                        }
-                                        if (check)
-                                            validDates.add(time);
-
+                                        validDates.add(time);
                                     }
                                 }
                                 if (!validDates.isEmpty()) {
@@ -126,6 +119,11 @@ public class ListNgayChieuAdapter extends RecyclerView.Adapter<ListNgayChieuAdap
                                         validDates.addAll(temp);
                                         Collections.sort(validDates);
                                     }
+                                    Set<Date> set = new LinkedHashSet<Date>();
+                                    set.addAll(validDates);
+                                    validDates.clear();
+                                    validDates.addAll(set);
+
                                     thongTinChieuCuaMotRap.put(tenRapDetail, validDates);
                                 }
 
