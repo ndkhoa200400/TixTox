@@ -40,49 +40,50 @@ public class WishListActivity extends AppCompatActivity {
         WishListAdapter adapter = new WishListAdapter(WishListActivity.this, R.layout.layout_item_wishlist, listFilm);
         wishList.setAdapter(adapter);
 
+        if(currentUserId != null ) {
+            database.child("WishList").child(currentUserId).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    listFilm = new ArrayList<>();
+                    for (DataSnapshot s : snapshot.getChildren()) {
+                        ItemWishList temp = new ItemWishList((String) s.getValue(), s.getKey());
+                        if (!listFilm.contains(temp))
+                            listFilm.add(temp);
 
-        database.child("WishList").child(currentUserId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listFilm = new ArrayList<>();
-                for (DataSnapshot s : snapshot.getChildren()) {
-                    ItemWishList temp = new ItemWishList((String) s.getValue(), s.getKey());
-                    if (!listFilm.contains(temp ))
-                        listFilm.add(temp);
+                    }
+                    if (listFilm.size() > 0) {
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        TextView noti = findViewById(R.id.notify);
+                        noti.setText("Danh sách trống.");
+                    }
+                    WishListAdapter adapter = new WishListAdapter(WishListActivity.this, R.layout.layout_item_wishlist, listFilm);
+                    wishList.setAdapter(adapter);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
                 }
-                if (listFilm.size() > 0) {
-                    adapter.notifyDataSetChanged();
-                } else {
-                    TextView noti = findViewById(R.id.notify);
-                    noti.setText("Danh sách trống.");
+            });
+
+
+            Button deleteAll = findViewById(R.id.delete_all);
+            deleteAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!listFilm.isEmpty()) {
+                        listFilm.clear();
+                        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+                        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        database.child("WishList").child(currentUserId).removeValue();
+                        adapter.notifyDataSetChanged();
+                        TextView noti = findViewById(R.id.notify);
+                        noti.setText("Danh sách trống.");
+                    }
                 }
-                WishListAdapter adapter = new WishListAdapter(WishListActivity.this, R.layout.layout_item_wishlist, listFilm);
-                wishList.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-        Button deleteAll = findViewById(R.id.delete_all);
-        deleteAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!listFilm.isEmpty()) {
-                    listFilm.clear();
-                    DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-                    String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    database.child("WishList").child(currentUserId).removeValue();
-                    adapter.notifyDataSetChanged();
-                    TextView noti = findViewById(R.id.notify);
-                    noti.setText("Danh sách trống.");
-                }
-            }
-        });
+            });
+        }
     }
 
 }

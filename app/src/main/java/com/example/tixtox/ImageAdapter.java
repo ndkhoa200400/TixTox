@@ -59,12 +59,8 @@ public class ImageAdapter extends ArrayAdapter<String> {
     }
 
     public boolean isFavour(String filmname, ArrayList<String> data){
-        for (String t:data) {
-            if(filmname.equals(t)) {
-                System.out.println(t);
-                return true;
-            }
-        }
+        if(data.contains(filmname))
+            return  true;
         return false;
     }
 
@@ -110,9 +106,11 @@ public class ImageAdapter extends ArrayAdapter<String> {
                 public void onClick(View v) {
                     //push data to database, wishlistactivity will get this data from database
                     String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    database.child("WishList").child(currentUserID).push();
-                    database.child("WishList").child(currentUserID).child(filmNames.get(position)).setValue(posters.get(position));
-                    btn_favour.setImageResource(R.drawable.icon_favourite_fill);
+                    if(currentUserID != null) {
+                        database.child("WishList").child(currentUserID).push();
+                        database.child("WishList").child(currentUserID).child(filmNames.get(position)).setValue(posters.get(position));
+                        btn_favour.setImageResource(R.drawable.icon_favourite_fill);
+                    }
                 }
             });
 

@@ -5,7 +5,7 @@
     android:id="@+id/txtKhongCoVe_Ve"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_home"
+    android:background="#fffff6"
     tools:context=".DatVe.DanhSachVe">
 
     <TextView
@@ -41,8 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="40dp"
-        android:textSize="20dp"
         android:text="Không có vé!!!"
+        android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView40" />
 
