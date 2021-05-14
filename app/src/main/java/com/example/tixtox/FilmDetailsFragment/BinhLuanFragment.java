@@ -128,7 +128,6 @@ public class BinhLuanFragment extends Fragment {
     public void onResume() {
         super.onResume();
         displayComment();
-      
     }
 
     public void setPhim(Phim p)

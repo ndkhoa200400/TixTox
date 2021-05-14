@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +18,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class BinhluandanhgiaActivity extends AppCompatActivity {
     FloatingActionButton btnSubmit;
@@ -30,15 +33,15 @@ public class BinhluandanhgiaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         maphim = intent.getStringExtra("maphim");
-        txtFeedback = findViewById(R.id.txtfeedback);
+
         setContentView(R.layout.binh_luan_danh_gia);
+        txtFeedback = findViewById(R.id.txtfeedback);
         btnSubmit = findViewById(R.id.btnSubmit);
         edtnhapbinhluan = findViewById(R.id.edtBinhLuan);
         stars = findViewById(R.id.ratingBar);
         stars.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                txtFeedback.setText(String.valueOf(rating));
                 switch ((int)ratingBar.getRating()){
                     case 1:
                         txtFeedback.setText("Tệ!");
@@ -64,16 +67,21 @@ public class BinhluandanhgiaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String cmt = edtnhapbinhluan.getText().toString();
-                edtnhapbinhluan.setText("");
+                if (cmt.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Mời bạn nhập bình luận", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    edtnhapbinhluan.setText("");
 //                btnSend.setEnabled(false);
 
-                FirebaseUser user = FirebaseAuth.getInstance()
-                        .getCurrentUser();
+                    FirebaseUser user = FirebaseAuth.getInstance()
+                            .getCurrentUser();
 
-                FirebaseDatabase.getInstance()
-                        .getReference("Comment")
-                        .child(maphim).push().setValue(new ModelBinhLuan(user.getUid().toString(), user.getDisplayName(), cmt, ratingValue));
-                finish();
+                    FirebaseDatabase.getInstance()
+                            .getReference("Comment")
+                            .child(maphim).push().setValue(new ModelBinhLuan(user.getUid().toString(), user.getDisplayName(), cmt, ratingValue));
+                    finish();
+                }
             }
         });
     }
