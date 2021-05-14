@@ -61,6 +61,8 @@ public class WishListAdapter extends BaseAdapter {
         ImageView imageFilm = convertView.findViewById(R.id.imageFilm);
         filmName.setText(listFilm.get(position).getFilmName());
         Glide.with(imageFilm.getContext())
+
+                
                 .load(listFilm.get(position).getImageFilm())
                 .error(R.drawable.icon_home)
                 .into((ImageView) imageFilm);
