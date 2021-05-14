@@ -19,55 +19,53 @@
 
             <TextView
                 android:id="@+id/vietbinhluan"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:textAlignment="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:textSize="20dp"
-
+                android:textSize="25dp"
+                android:textColor="#0b032d"
+                android:textStyle="bold"
                 android:text="Viết bình luận" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnSubmit"
-                android:layout_width="34dp"
-                android:layout_height="37dp"
-                android:layout_gravity="center"
-                android:layout_marginRight="10dp"
 
-                android:clickable="true"
-                android:foregroundGravity="center"
-                app:backgroundTint="#80D8FF"
-                app:fabSize="mini"
-                app:srcCompat="@android:drawable/ic_menu_send" />
         </LinearLayout>
 
         <ImageView
             android:id="@+id/imageView5"
-            android:layout_width="match_parent"
-            android:layout_height="214dp"
-            app:srcCompat="@drawable/ticket" />
+            android:layout_width="349dp"
+            android:layout_height="161dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            app:srcCompat="@drawable/rating" />
 
         <TextView
             android:id="@+id/textView48"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
             android:text="Đánh giá phim này"
             android:textAlignment="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:textSize="18dp"
-            />
+            android:textColor="@color/black"
+            android:textSize="18dp" />
+
         <RatingBar
             android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/edtBinhLuan"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_width="359dp"
+                android:layout_height="40dp"
                 android:background="@drawable/edttext_round"
                 android:ems="10"
                 android:hint="Nhập bình luận"
@@ -75,6 +73,20 @@
                 android:paddingLeft="10dp"
                 android:paddingBottom="2dp"
                 android:textColorHint="#6A090808" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnSubmit"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:foregroundGravity="center"
+                app:backgroundTint="#80D8FF"
+                app:fabSize="mini"
+                app:srcCompat="@android:drawable/ic_menu_send" />
+        </LinearLayout>
 
     </LinearLayout>
 
